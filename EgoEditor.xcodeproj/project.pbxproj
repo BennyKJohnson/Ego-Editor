@@ -54,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		A335C17C1BC2A13F009AB7A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A33D70D21BC4754300B2A482 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
+		A33D70D31BC4754300B2A482 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		A36962D91BBD19CB00F9F4EC /* EgoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EgoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A36962DE1BBD19CB00F9F4EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +118,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A33D70D11BC4754300B2A482 /* zlib */ = {
+			isa = PBXGroup;
+			children = (
+				A33D70D21BC4754300B2A482 /* include.h */,
+				A33D70D31BC4754300B2A482 /* module.modulemap */,
+			);
+			path = zlib;
+			sourceTree = SOURCE_ROOT;
+		};
 		A36962D01BBD19CB00F9F4EC = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +150,7 @@
 		A36962DB1BBD19CB00F9F4EC /* EgoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				A33D70D11BC4754300B2A482 /* zlib */,
 				A36979C01BBE562400420595 /* Lilliput */,
 				A388D4AB1BBD69AA005B5934 /* FileHandle.swift */,
 				A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */,
