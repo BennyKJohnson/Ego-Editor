@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A30CD95D1BC47ABE002536EE /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30CD95C1BC47ABE002536EE /* SceneKit.framework */; };
 		A335C17D1BC2A13F009AB7A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A335C17C1BC2A13F009AB7A3 /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
 		A36962DD1BBD19CB00F9F4EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */; };
 		A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DE1BBD19CB00F9F4EC /* ViewController.swift */; };
@@ -35,7 +36,6 @@
 		A392078B1BC3A404008C3613 /* DDSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392078A1BC3A404008C3613 /* DDSFile.swift */; settings = {ASSET_TAGS = (); }; };
 		A3954EBF1BBFA69B0069FB28 /* MainEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3954EBE1BBFA69B0069FB28 /* MainEditorViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A3AB4C021BC3616A0080BD3F /* TextureSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB4C011BC3616A0080BD3F /* TextureSource.swift */; settings = {ASSET_TAGS = (); }; };
-		A3AB4D301BBDE4A8007EF4CF /* Collada.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB4D2F1BBDE4A8007EF4CF /* Collada.swift */; settings = {ASSET_TAGS = (); }; };
 		A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C552E91BC26D9900087340 /* NSData+GZIP.swift */; settings = {ASSET_TAGS = (); }; };
 		A3C552EC1BC2711000087340 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C552EB1BC2711000087340 /* libz.tbd */; };
 		A3C552EE1BC274FB00087340 /* ByteBuffer+FileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */; settings = {ASSET_TAGS = (); }; };
@@ -53,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A30CD95C1BC47ABE002536EE /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		A335C17C1BC2A13F009AB7A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A33D70D21BC4754300B2A482 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
 		A33D70D31BC4754300B2A482 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		A3954EBE1BBFA69B0069FB28 /* MainEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainEditorViewController.swift; sourceTree = "<group>"; };
 		A3AB4C011BC3616A0080BD3F /* TextureSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureSource.swift; sourceTree = "<group>"; };
 		A3AB4C031BC3725C0080BD3F /* EgoEditor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EgoEditor-Bridging-Header.h"; sourceTree = "<group>"; };
-		A3AB4D2F1BBDE4A8007EF4CF /* Collada.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collada.swift; sourceTree = "<group>"; };
 		A3C552E91BC26D9900087340 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		A3C552EB1BC2711000087340 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ByteBuffer+FileHandle.swift"; sourceTree = "<group>"; };
@@ -104,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A30CD95D1BC47ABE002536EE /* SceneKit.framework in Frameworks */,
 				A3C552EC1BC2711000087340 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,6 +131,7 @@
 		A36962D01BBD19CB00F9F4EC = {
 			isa = PBXGroup;
 			children = (
+				A30CD95C1BC47ABE002536EE /* SceneKit.framework */,
 				A3C552EB1BC2711000087340 /* libz.tbd */,
 				A36962DB1BBD19CB00F9F4EC /* EgoEditor */,
 				A36962EF1BBD19CB00F9F4EC /* EgoEditorTests */,
@@ -165,7 +167,6 @@
 				A388D4B11BBD70D5005B5934 /* schema.xml */,
 				A36962E71BBD19CB00F9F4EC /* Info.plist */,
 				A388D4B31BBD739F005B5934 /* EEWindowController.swift */,
-				A3AB4D2F1BBDE4A8007EF4CF /* Collada.swift */,
 				A36979B61BBE1B4200420595 /* NSData+Extensions.swift */,
 				A36979B81BBE253F00420595 /* SceneEditorViewController.swift */,
 				A36979BA1BBE2DF600420595 /* SceneEditorView.swift */,
@@ -322,7 +323,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A36979BB1BBE2DF600420595 /* SceneEditorView.swift in Sources */,
-				A3AB4D301BBDE4A8007EF4CF /* Collada.swift in Sources */,
 				A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */,
 				A36979CB1BBE562400420595 /* IntegerString.swift in Sources */,
 				A391E4B11BC393AC00D3943F /* dds.m in Sources */,
