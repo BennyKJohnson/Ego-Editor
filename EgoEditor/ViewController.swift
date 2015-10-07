@@ -63,6 +63,27 @@ class PSSGDataViewController: NSViewController, NSMenuDelegate {
        
     }
     
+    @IBAction func exportTextures(sender: AnyObject) {
+        
+        let clickedRow = outlineView.clickedRow
+        if let selectedNode = outlineView.itemAtRow(clickedRow) as? PSSGNode  {
+            let textureNodes = selectedNode.nodesWithName("TEXTURE")
+            if textureNodes.count > 0 {
+                // Show Directory Panel
+                let directoryPanel = NSOpenPanel()
+                directoryPanel.canChooseFiles = false
+                directoryPanel.canChooseDirectories = true
+                directoryPanel.canCreateDirectories = true
+                directoryPanel.prompt = "Export"
+                directoryPanel.beginWithCompletionHandler({ (result) -> Void in
+                    if result == NSFileHandlingPanelOKButton {
+                        self.document?.writeTextureNodesToURL(directoryPanel.URL!, textureNodes: textureNodes)
+                    }
+                })
+            }
+        }
+    }
+    
     @IBAction func exportDataForSelectedNode(sender: AnyObject) {
         let clickedRow = outlineView.clickedRow
         if let selectedNode = outlineView.itemAtRow(clickedRow) as? PSSGNode where selectedNode.isDataNode {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8187.4"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="8187.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="8191"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -663,40 +663,10 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <toolbar key="toolbar" implicitIdentifier="653C0FD5-8F29-44C5-AC52-3B07E265500A" autosavesConfiguration="NO" displayMode="iconOnly" sizeMode="regular" id="68P-hr-yKI">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="67AC786C-3FE2-4E4D-BE62-AF85F5C0F124" explicitItemIdentifier="ShowHideRight" label="Toggle Right Sidebar" paletteLabel="Toggle Right Sidebar" image="ShowHideViewOnRight" selectable="YES" id="jjs-iY-mR3">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="38" height="20"/>
-                                    <size key="maxSize" width="38" height="28"/>
-                                    <button key="view" verticalHuggingPriority="750" id="f8V-O6-fP9">
-                                        <rect key="frame" x="40" y="14" width="38" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <animations/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ShowHideViewOnRight" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dSA-Mq-QxC">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="PMA-eA-pqb"/>
-                                <toolbarItem implicitItemIdentifier="850A07C1-F4A3-479C-834D-672644245A06" label="" paletteLabel="Custom View" image="ShowHideViewOnLeft" id="cOh-5v-Te2">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="2" height="25"/>
-                                    <size key="maxSize" width="127" height="25"/>
-                                    <button key="view" verticalHuggingPriority="750" id="olZ-cE-eY0">
-                                        <rect key="frame" x="15" y="14" width="48" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <animations/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ShowHideViewOnLeft" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yM6-UA-cRr">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="PMA-eA-pqb"/>
-                                <toolbarItem reference="cOh-5v-Te2"/>
-                                <toolbarItem reference="jjs-iY-mR3"/>
                             </defaultToolbarItems>
                         </toolbar>
                     </window>
@@ -707,7 +677,7 @@
                 </windowController>
                 <customObject id="6f7-a7-6o1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28.5" y="405.5"/>
+            <point key="canvasLocation" x="20.5" y="693.5"/>
         </scene>
         <!--Scene Editor View Controller-->
         <scene sceneID="hTE-Jt-dzG">
@@ -717,7 +687,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="573" height="392"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <sceneView translatesAutoresizingMaskIntoConstraints="NO" id="wDV-AM-cQz" customClass="SceneEditorView" customModule="EgoEditor" customModuleProvider="target">
+                            <sceneView preferredRenderingAPI="0" translatesAutoresizingMaskIntoConstraints="NO" id="wDV-AM-cQz" customClass="SceneEditorView" customModule="EgoEditor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="573" height="392"/>
                                 <animations/>
                             </sceneView>
@@ -736,18 +706,18 @@
                 </viewController>
                 <customObject id="2bO-5m-MqE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-79.5" y="1320"/>
+            <point key="canvasLocation" x="44.5" y="1980"/>
         </scene>
         <!--Main Editor View Controller-->
         <scene sceneID="VZO-c1-y3p">
             <objects>
                 <splitViewController id="Vde-Kd-ZkX" customClass="MainEditorViewController" customModule="EgoEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <splitViewItems>
-                        <splitViewItem canCollapse="YES" id="tMU-Wb-NA9"/>
-                        <splitViewItem canCollapse="YES" id="6xW-gQ-aOk"/>
+                        <splitViewItem holdingPriority="251" id="tMU-Wb-NA9"/>
+                        <splitViewItem id="6xW-gQ-aOk"/>
                     </splitViewItems>
                     <splitView key="splitView" dividerStyle="thin" vertical="YES" id="hAQ-Hd-Ppu">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="-257" y="0.0" width="905" height="416"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </splitView>
@@ -758,7 +728,7 @@
                 </splitViewController>
                 <customObject id="oJx-2i-oQq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="309" y="916"/>
+            <point key="canvasLocation" x="44.5" y="1390"/>
         </scene>
         <!--Data View Controller-->
         <scene sceneID="Ojl-jA-4ms">
@@ -892,7 +862,7 @@
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
                                                 <animations/>
-                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="WhP-s7-Vwv">
+                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="WhP-s7-Vwv">
                                                     <rect key="frame" x="1" y="374" width="625" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
@@ -957,7 +927,13 @@
                         <menuItem title="Export Data" id="8jL-yo-Zfx">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="exportDataForSelectedNode:" target="thO-zh-n3u" id="Rqk-hU-xMK"/>
+                                <action selector="exportDataForSelectedNode:" target="thO-zh-n3u" id="v4a-Wt-DzQ"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Export Textures" id="Myx-EI-eSi">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="exportTextures:" target="thO-zh-n3u" id="DCi-O8-PfN"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -966,11 +942,7 @@
                     </connections>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="978.5" y="1320.5"/>
+            <point key="canvasLocation" x="1098.5" y="1389.5"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="ShowHideViewOnLeft" width="15" height="15"/>
-        <image name="ShowHideViewOnRight" width="15" height="15"/>
-    </resources>
 </document>

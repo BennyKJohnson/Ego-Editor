@@ -64,6 +64,26 @@ class PSSGDocument: NSDocument {
 
   
     }
+    
+    func writeTextureNodeToURL(url: NSURL, textureNode: PSSGNode) {
+        // Create DDS File
+        if let ddsFile = DDSFile(node: textureNode) {
+            // Write DDS File
+            let ddsFileData = ddsFile.dataForFile()
+            ddsFileData.writeToURL(url, atomically: false)
+        }
+    }
+    
+    func writeTextureNodesToURL(url: NSURL, textureNodes: [PSSGNode]) {
+        // Loop Through texture nodes
+        for textureNode in textureNodes {
+            // Get filepath
+            let filename = textureNode.attributesDictionary["id"]?.value as! String
+            let filepath = url.URLByAppendingPathComponent("\(filename).dds")
+            writeTextureNodeToURL(filepath, textureNode: textureNode)
+        }
+    }
+
     /*
     override func dataOfType(typeName: String) throws -> NSData {
         print(typeName)

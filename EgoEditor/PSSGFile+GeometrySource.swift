@@ -247,28 +247,28 @@ extension PSSGFile {
                         newMaterial.name = materialName
                         switch(materialName) {
                         case "Lights Glass", "Window Glass":
-                            let textureImage = NSImage(named: "6r4_glass")!
+                            let textureImage = NSImage(named: "6r4_glass")
                            newMaterial.diffuse.contents = textureImage
                         case "Matt","Car Body Paint","Shiny Metal":
-                            let textureImage = NSImage(named: "6r4_main")!
+                            let textureImage = NSImage(named: "6r4_main")
                             newMaterial.diffuse.contents = textureImage
                         case "Discs":
-                            let textureImage = NSImage(named: "6r4_lights")!
+                            let textureImage = NSImage(named: "6r4_lights")
                             newMaterial.diffuse.contents = textureImage
                         case "Lights Pod":
-                            let textureImage = NSImage(named: "6r4_lights")!
+                            let textureImage = NSImage(named: "6r4_lights")
                             newMaterial.diffuse.contents = textureImage
                         case "Tarmac Tyre Tread":
-                            let textureImage = NSImage(named: "tread")!
+                            let textureImage = NSImage(named: "tread")
                             newMaterial.diffuse.contents = textureImage
                         case "Grills":
-                            let textureImage = NSImage(named: "grills")!
+                            let textureImage = NSImage(named: "grills")
                             newMaterial.diffuse.contents = textureImage
                         case "Cabin":
-                            let textureImage = NSImage(named: "6r4_cabin")!
+                            let textureImage = NSImage(named: "6r4_cabin")
                             newMaterial.diffuse.contents = textureImage
                         case "Tarmac Wheel":
-                            let textureImage = NSImage(named: "6r4_wheel")!
+                            let textureImage = NSImage(named: "6r4_wheel")
                             newMaterial.diffuse.contents = textureImage
 
                             
