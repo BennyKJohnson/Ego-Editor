@@ -290,9 +290,7 @@ class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
                 print("Invalid Node")
                 return
             }
-            if name == "MATRIXPALETTEBUNDLENODE" {
-                print("Found node")
-            }
+    
          
             let node = PSSGNodeSchema(name: name)
             node.elementsPerRow = -1

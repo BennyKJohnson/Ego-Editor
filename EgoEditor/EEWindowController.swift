@@ -8,18 +8,33 @@
 
 import Cocoa
 
+
+
+
 class EEWindowController: NSWindowController, NSToolbarDelegate {
-    @IBOutlet weak var toolbar: NSToolbar!
+    @IBOutlet weak var windowToolbar: NSToolbar!
     
     @IBOutlet weak var statusBar: NSButton!
+    override func awakeFromNib() {
+        
+        
+       // self.windowToolbar.delegate = self
+    }
+    
     // MARK: Overrides
     override func windowDidLoad() {
         super.windowDidLoad()
-        toolbar.delegate = self
+        
+
         self.window?.titleVisibility = NSWindowTitleVisibility.Hidden; // or .Hidden in Swift
     }
     
+  
     
+    func toolbarSelectableItemIdentifiers(toolbar: NSToolbar) -> [String] {
+        
+        return []
+    }
     
     override var document: AnyObject? {
         didSet {
@@ -30,8 +45,5 @@ class EEWindowController: NSWindowController, NSToolbarDelegate {
             }
         }
     }
-    
-    func toolbarSelectableItemIdentifiers(toolbar: NSToolbar) -> [String] {
-        return ["ShowHideLeft","ShowHideRight"]
-    }
+
 }

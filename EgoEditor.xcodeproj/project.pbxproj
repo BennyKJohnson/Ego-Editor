@@ -26,6 +26,8 @@
 		A36979CA1BBE562400420595 /* Info_OSX.plist in Resources */ = {isa = PBXBuildFile; fileRef = A36979C41BBE562400420595 /* Info_OSX.plist */; settings = {ASSET_TAGS = (); }; };
 		A36979CB1BBE562400420595 /* IntegerString.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36979C51BBE562400420595 /* IntegerString.swift */; settings = {ASSET_TAGS = (); }; };
 		A37BB2FF1BC741C800A81D98 /* pssg.xsd in Resources */ = {isa = PBXBuildFile; fileRef = A37BB2FE1BC741C800A81D98 /* pssg.xsd */; settings = {ASSET_TAGS = (); }; };
+		A37BB3071BC7626600A81D98 /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A37BB3041BC7626600A81D98 /* TAAdaptiveSpaceItem.m */; settings = {ASSET_TAGS = (); }; };
+		A37BB3081BC7626600A81D98 /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37BB3061BC7626600A81D98 /* TAAdaptiveSpaceItemView.m */; settings = {ASSET_TAGS = (); }; };
 		A38468481BC31D740001B3CA /* HalfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38468471BC31D740001B3CA /* HalfTests.swift */; settings = {ASSET_TAGS = (); }; };
 		A3853EFE1BC0C36F00781C83 /* 6r4_highlod.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3853EFD1BC0C36F00781C83 /* 6r4_highlod.dae */; settings = {ASSET_TAGS = (); }; };
 		A388D4AC1BBD69AA005B5934 /* FileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A388D4AB1BBD69AA005B5934 /* FileHandle.swift */; settings = {ASSET_TAGS = (); }; };
@@ -82,6 +84,10 @@
 		A36979C51BBE562400420595 /* IntegerString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerString.swift; sourceTree = "<group>"; };
 		A36979C61BBE562400420595 /* Lilliput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lilliput.h; sourceTree = "<group>"; };
 		A37BB2FE1BC741C800A81D98 /* pssg.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = pssg.xsd; path = Lilliput/pssg.xsd; sourceTree = "<group>"; };
+		A37BB3031BC7626600A81D98 /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
+		A37BB3041BC7626600A81D98 /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
+		A37BB3051BC7626600A81D98 /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
+		A37BB3061BC7626600A81D98 /* TAAdaptiveSpaceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItemView.m; sourceTree = "<group>"; };
 		A38468471BC31D740001B3CA /* HalfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfTests.swift; sourceTree = "<group>"; };
 		A3853EFD1BC0C36F00781C83 /* 6r4_highlod.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = 6r4_highlod.dae; sourceTree = "<group>"; };
 		A388D4AB1BBD69AA005B5934 /* FileHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHandle.swift; sourceTree = "<group>"; };
@@ -154,13 +160,12 @@
 		A36962DB1BBD19CB00F9F4EC /* EgoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				A37BB3091BC768B100A81D98 /* Model */,
+				A37BB3021BC7626600A81D98 /* TAAdaptiveSpaceItem */,
 				A33D70D11BC4754300B2A482 /* zlib */,
 				A36979C01BBE562400420595 /* Lilliput */,
 				A388D4AB1BBD69AA005B5934 /* FileHandle.swift */,
 				A37BB2FE1BC741C800A81D98 /* pssg.xsd */,
-				A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */,
-				A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */,
-				A3C552E91BC26D9900087340 /* NSData+GZIP.swift */,
 				A3F127951BBF6A3B00105254 /* scene3.dae */,
 				A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */,
 				A36962DE1BBD19CB00F9F4EC /* ViewController.swift */,
@@ -176,7 +181,6 @@
 				A36979BE1BBE354000420595 /* PSSGFile+GeometrySource.swift */,
 				A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */,
 				A3954EBE1BBFA69B0069FB28 /* MainEditorViewController.swift */,
-				A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */,
 				A335C17C1BC2A13F009AB7A3 /* Extensions.swift */,
 				A3AB4C011BC3616A0080BD3F /* TextureSource.swift */,
 				A3AB4C031BC3725C0080BD3F /* EgoEditor-Bridging-Header.h */,
@@ -218,6 +222,28 @@
 				A36979C61BBE562400420595 /* Lilliput.h */,
 			);
 			path = Lilliput;
+			sourceTree = "<group>";
+		};
+		A37BB3021BC7626600A81D98 /* TAAdaptiveSpaceItem */ = {
+			isa = PBXGroup;
+			children = (
+				A37BB3031BC7626600A81D98 /* TAAdaptiveSpaceItem.h */,
+				A37BB3041BC7626600A81D98 /* TAAdaptiveSpaceItem.m */,
+				A37BB3051BC7626600A81D98 /* TAAdaptiveSpaceItemView.h */,
+				A37BB3061BC7626600A81D98 /* TAAdaptiveSpaceItemView.m */,
+			);
+			path = TAAdaptiveSpaceItem;
+			sourceTree = "<group>";
+		};
+		A37BB3091BC768B100A81D98 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A3C552E91BC26D9900087340 /* NSData+GZIP.swift */,
+				A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */,
+				A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */,
+				A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +355,7 @@
 				A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */,
 				A36979CB1BBE562400420595 /* IntegerString.swift in Sources */,
 				A391E4B11BC393AC00D3943F /* dds.m in Sources */,
+				A37BB3081BC7626600A81D98 /* TAAdaptiveSpaceItemView.m in Sources */,
 				A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */,
 				A3AB4C021BC3616A0080BD3F /* TextureSource.swift in Sources */,
 				A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */,
@@ -339,6 +366,7 @@
 				A36962DD1BBD19CB00F9F4EC /* AppDelegate.swift in Sources */,
 				A36962E11BBD19CB00F9F4EC /* PSSGDocument.swift in Sources */,
 				A388D4AE1BBD69B9005B5934 /* PSSGFile.swift in Sources */,
+				A37BB3071BC7626600A81D98 /* TAAdaptiveSpaceItem.m in Sources */,
 				A36979C71BBE562400420595 /* ByteBuffer.swift in Sources */,
 				A36979B91BBE253F00420595 /* SceneEditorViewController.swift in Sources */,
 				A335C17D1BC2A13F009AB7A3 /* Extensions.swift in Sources */,

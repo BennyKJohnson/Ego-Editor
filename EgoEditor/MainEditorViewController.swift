@@ -8,17 +8,35 @@
 
 import Cocoa
 
-class MainEditorViewController: NSSplitViewController {
+
+enum MainEditorType: Int {
+    case basicEditor
+    case assistEditor
+}
+
+class MainEditorViewController: NSSplitViewController, NSToolbarDelegate {
     
+
+    
+    @IBOutlet var basicEditor: NSSplitViewItem!
+    @IBOutlet var assistEditor: NSSplitViewItem!
+    
+    var sceneEditorViewController: SceneEditorViewController!
+    var pssgDataViewController: PSSGDataViewController!
+    
+    override func awakeFromNib() {
+         basicEditor = splitViewItems.first!
+         assistEditor = splitViewItems.last!
+        sceneEditorViewController = self.childViewControllers.first as! SceneEditorViewController
+        pssgDataViewController = self.childViewControllers.last as! PSSGDataViewController
+    }
     
     weak var document: PSSGDocument? {
         didSet {
           //  if document == nil { return }
             
-            
-            let sceneEditorViewController = self.childViewControllers.first as! SceneEditorViewController
+          
             sceneEditorViewController.document = document
-            let pssgDataViewController = self.childViewControllers.last as! PSSGDataViewController
             pssgDataViewController.document = document
             
             
@@ -26,6 +44,22 @@ class MainEditorViewController: NSSplitViewController {
         }
     }
     
+    @IBAction func editorTypeChanged(sender: NSSegmentedControl) {
+        print("Segment Changed")
+        let editorType = MainEditorType(rawValue: sender.selectedSegment)!
+        switch(editorType) {
+        case .basicEditor:
+            if self.splitViewItems.contains(assistEditor) {
+                self.removeSplitViewItem(assistEditor)
+
+            }
+        case .assistEditor:
+                self.addSplitViewItem(assistEditor)
+
+            
+        }
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
