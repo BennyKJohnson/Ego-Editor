@@ -65,12 +65,18 @@ struct GeometryDataSource {
     }
     
     static func getSTData(dataBlock: PSSGNode, renderDataSourceInfo: RenderDataSourceInfo) -> [STCoordinate] {
-        let stride = 24
+        let dataBlockStreams = dataBlock.nodesWithName("DATABLOCKSTREAM")
+        let firstStream = dataBlockStreams.first!
+        
+        // Get stride
+        let stride = firstStream.attributesDictionary["stride"]?.formattedValue as! Int
+        
         let startOffset = renderDataSourceInfo.streamOffset * stride
         let length = stride * renderDataSourceInfo.elementCountFromOffset
         
         // Prepare data
         let rawData = dataBlock.nodeWithName("DATABLOCKDATA")!.data as! NSData
+        
         let data = rawData.subdataWithRange(NSMakeRange(startOffset, length));
         let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
         
@@ -99,6 +105,13 @@ struct GeometryDataSource {
             dataBuffer.getInt16()
             dataBuffer.getInt16()
             dataBuffer.getInt16()
+            
+            if stride == 28 {
+                // Additional ST, not sure what this is
+                dataBuffer.getInt16()
+                dataBuffer.getInt16()
+            }
+
         }
         return stCoordinates
     }
@@ -127,9 +140,9 @@ struct GeometryDataSource {
       //  var normals: [F;pat]
         for(var i = 0; i < renderDataSourceInfo.elementCountFromOffset;i++) {
             
-            let x = dataBuffer.getFloat32()// + Float(transform.m41)
-            let y = dataBuffer.getFloat32()// + Float(transform.m42)
-            let z = dataBuffer.getFloat32()// + Float(transform.m43)
+            let x = dataBuffer.getFloat32()
+            let y = dataBuffer.getFloat32()
+            let z = dataBuffer.getFloat32()
             
             let vertex = [x,y ,z]
             vertices.append(SCNVector3(x,y,z))
@@ -200,6 +213,7 @@ struct RenderDataSourceInfo {
     }
 }
 
+// YUCK CLEAN THIS SHIT UP!
 extension PSSGFile {
     func isGeometrySourceProvider() -> Bool {
         
@@ -245,36 +259,7 @@ extension PSSGFile {
                     } else {
                         let newMaterial = SCNMaterial()
                         newMaterial.name = materialName
-                        switch(materialName) {
-                        case "Lights Glass", "Window Glass":
-                            let textureImage = NSImage(named: "6r4_glass")
-                           newMaterial.diffuse.contents = textureImage
-                        case "Matt","Car Body Paint","Shiny Metal":
-                            let textureImage = NSImage(named: "6r4_main")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Discs":
-                            let textureImage = NSImage(named: "6r4_lights")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Lights Pod":
-                            let textureImage = NSImage(named: "6r4_lights")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Tarmac Tyre Tread":
-                            let textureImage = NSImage(named: "tread")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Grills":
-                            let textureImage = NSImage(named: "grills")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Cabin":
-                            let textureImage = NSImage(named: "6r4_cabin")
-                            newMaterial.diffuse.contents = textureImage
-                        case "Tarmac Wheel":
-                            let textureImage = NSImage(named: "6r4_wheel")
-                            newMaterial.diffuse.contents = textureImage
-
-                            
-                        default:
-                            break
-                        }
+                     
                         
                         print("Material: " + materialName)
                         materials[materialName] = newMaterial
@@ -385,10 +370,16 @@ extension PSSGFile {
     
 }
 
-extension NSData {
-    
-}
-
+// TODO: Move this information to xml document
+let textureToMaterial: [String: [String]] = [
+    "glass": ["Lights Glass", "Window Glass"],
+    "main": ["Matt", "Car Body Paint", "Shiny Metal"],
+    "lights": ["Discs", "Lights Pod"],
+    "tread": ["Tarmac Tyre Tread"],
+    "grills": ["Grills"],
+    "cabin": ["Cabin"],
+    "wheel": ["Tarmac Wheel"]
+]
 
 extension SCNMatrix4 {
     static func fromData(data: NSData) -> SCNMatrix4? {

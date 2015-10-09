@@ -12,6 +12,7 @@ import SceneKit
 enum PSSGSupportedExportTypes: String {
     case DAE = "org.khronos.collada.digital-asset-exchange"
     case XML = "public.xml"
+    case XSD = "public.xsd"
 }
 
 class PSSGDocument: NSDocument {
@@ -39,7 +40,7 @@ class PSSGDocument: NSDocument {
         let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! EEWindowController
         self.addWindowController(windowController)
     }
-
+    
     override func writeToURL(url: NSURL, ofType typeName: String, forSaveOperation saveOperation: NSSaveOperationType, originalContentsURL absoluteOriginalContentsURL: NSURL?) throws {
         
         print(typeName)
@@ -56,7 +57,11 @@ class PSSGDocument: NSDocument {
                     xmlDocument.XMLDataWithOptions(NSXMLNodePrettyPrint | NSXMLNodeCompactEmptyElement).writeToURL(url, atomically: false)
                     return
                 }
-
+            case .XSD:
+                if let xmlDocument = pssgFile.schema.generateXMLDocument() {
+                    xmlDocument.XMLDataWithOptions(NSXMLNodePrettyPrint | NSXMLNodeCompactEmptyElement).writeToURL(url, atomically: false)
+                    return
+                }
             }
         }
         
@@ -67,6 +72,8 @@ class PSSGDocument: NSDocument {
     
     func writeTextureNodeToURL(url: NSURL, textureNode: PSSGNode) {
         // Create DDS File
+        print("Writing \(url.absoluteURL)")
+
         if let ddsFile = DDSFile(node: textureNode) {
             // Write DDS File
             let ddsFileData = ddsFile.dataForFile()
@@ -110,7 +117,7 @@ class PSSGDocument: NSDocument {
         
         do {
             let fileHandle = try NSFileHandle(forReadingFromURL: url)
-            let schema = NSBundle.mainBundle().URLForResource("schema", withExtension: ".xml")!
+            let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
             
             pssgFile = try PSSGFile(file: fileHandle,schemaURL: schema)
             

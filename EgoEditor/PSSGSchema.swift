@@ -8,16 +8,16 @@
 
 import Foundation
 
-enum PSSGValueType {
-    case Int
-    case Int16
-    case StringValue
-    case Float // Single, Float
-    case UInt16
-    case UInt32
-    case ByteArray
-    case FloatArray
-    case Unknown
+enum PSSGValueType: String {
+    case Int = "int"
+    case Int16 = "short"
+    case StringValue = "string"
+    case Float = "float"// Single, Float
+    case UInt16 = "unsignedShort"
+    case UInt32 = "unsignedInt"
+    case ByteArray = "byteArray"
+    case FloatArray = "floatArray"
+    case Unknown = "anyType"
     
     static func fromTypeString(type:String) -> PSSGValueType
     {
@@ -41,7 +41,7 @@ enum PSSGValueType {
 
 
 
-class PSSGAttributeSchema: Equatable {
+class PSSGAttributeSchema: Equatable, XMLSerialization {
     var id: Int?
     
     var name: String
@@ -52,13 +52,34 @@ class PSSGAttributeSchema: Equatable {
         
         self.name = name
     }
+ 
+    func xmlElement() -> NSXMLElement? {
+        let attributeSchema = NSXMLElement(name: "xs:attribute")
+        attributeSchema.addAttribute("name", stringValue: self.name)
+        attributeSchema.addAttribute("type", stringValue: "xs::\(self.dataType.rawValue)")
+        
+        return attributeSchema
+    }
 }
 
 func ==(lhs: PSSGAttributeSchema, rhs: PSSGAttributeSchema) -> Bool {
     return lhs.name == rhs.name
 }
 
-class PSSGNodeSchema {
+extension XMLSerialization {
+    func generateXMLDocument() -> NSXMLDocument? {
+        return nil
+    }
+}
+
+extension NSXMLElement {
+    func addAttribute(name: String, stringValue:String) {
+        self.addAttribute(NSXMLNode.attributeWithName(name, stringValue: stringValue) as! NSXMLNode)
+    }
+}
+
+
+class PSSGNodeSchema: XMLSerialization {
     var referenceID: Int? // Identifier used to reference this node in the file
     
     var name: String
@@ -93,13 +114,26 @@ class PSSGNodeSchema {
         
         attributes.append(newAttribute)
     }
+    
+    func xmlElement() -> NSXMLElement? {
+        // Create Element for node
+        let nodeElement = NSXMLElement(name: "xs:element")
+        nodeElement.addAttribute("name", stringValue: self.name)
+        for attribute in attributes {
+            if let attributeSchema = attribute.xmlElement() {
+                nodeElement.addChild(attributeSchema)
+            }
+        }
+        
+        return nodeElement
+    }
 }
 
 enum PSSGSchemaReadError: ErrorType {
     case FileNotFound
 }
 
-class PSSGSchema: NSObject {
+class PSSGSchema: NSObject, XMLSerialization {
     var entries: [String: PSSGNodeSchema] = [:]
     
     init(pssgFile: FileHandle, schemaURL: NSURL?) {
@@ -198,6 +232,38 @@ class PSSGSchema: NSObject {
         return nil
     }
     
+    func xmlElement() -> NSXMLElement? {
+        // Create root schema element
+        let rootSchema = NSXMLElement(name: "xs:schema")
+        
+        rootSchema.addAttribute("targetNamespace", stringValue: "EgoEditor")
+        rootSchema.addAttribute("elementFormDefault", stringValue: "qualified")
+        rootSchema.addAttribute("xmlns", stringValue: "EgoEditor")
+        rootSchema.addAttribute("xmlns:xs", stringValue: "http://www.w3.org/2001/XMLSchema")
+
+        
+        for (_, nodeSchema) in entries {
+            if let nodeSchemaXML = nodeSchema.xmlElement() {
+                rootSchema.addChild(nodeSchemaXML)
+            }
+        }
+        
+        return rootSchema
+    }
+    
+    func generateXMLDocument() -> NSXMLDocument? {
+
+        guard let rootNode = self.xmlElement() else {
+            return nil
+        }
+        
+        let xmlSchemaDoc = NSXMLDocument(rootElement: rootNode)
+        xmlSchemaDoc.version = "1.0"
+        xmlSchemaDoc.characterEncoding = "UTF-8"
+        
+        return xmlSchemaDoc
+    }
+    
 }
 
 class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
@@ -218,26 +284,31 @@ class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
     }
     
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        if elementName == "node" {
+        if elementName == "xs:element" {
             isInNode = true
-            guard let name = attributeDict["name"], dataType = attributeDict["dataType"] else {
+            guard let name = attributeDict["name"] else {
                 print("Invalid Node")
                 return
             }
-            let elementsPerRow = attributeDict["elementsPerRow"] as? Int
-            let linkAttributeName = attributeDict["linkAttributeName"]
+            if name == "MATRIXPALETTEBUNDLENODE" {
+                print("Found node")
+            }
+         
             let node = PSSGNodeSchema(name: name)
-            node.elementsPerRow = elementsPerRow
-            node.linkAttributeName = linkAttributeName
-            node.valueType = PSSGValueType.fromTypeString(dataType)
+            node.elementsPerRow = -1
+            node.linkAttributeName = ""
+            node.valueType = PSSGValueType.fromTypeString("")
             
             currentNode = node
             
-        } else if elementName == "attribute" {
-            guard let attributeName = attributeDict["name"], dataType = attributeDict["dataType"] else {
+        } else if elementName == "xs:attribute" {
+            guard let attributeName = attributeDict["name"], dataType = attributeDict["type"]?.componentsSeparatedByString("::").last! else {
                 return
             }
-            let pssgValueType = PSSGValueType.fromTypeString(dataType)
+            
+            print(dataType)
+            
+            let pssgValueType = PSSGValueType(rawValue: dataType)!
             currentNode?.addAttribute(attributeName, dataType: pssgValueType)
 
             
@@ -249,7 +320,7 @@ class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
     }
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if let node = currentNode where elementName == "node" {
+        if let node = currentNode where elementName == "xs:element" {
             // Add node to system
             nodesDictionary[node.name] = node
         }

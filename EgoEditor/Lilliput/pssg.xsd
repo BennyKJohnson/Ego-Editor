@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema targetNamespace="EgoEditor" elementFormDefault="qualified" xmlns="EgoEditor" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="SHADERPROGRAMCODE">
+        <xs:attribute name="codeSize" type="xs::anyType"/>
+        <xs:attribute name="codeType" type="xs::anyType"/>
+        <xs:attribute name="profileType" type="xs::anyType"/>
+        <xs:attribute name="profile" type="xs::anyType"/>
+        <xs:attribute name="codeEntry" type="xs::anyType"/>
+        <xs:attribute name="parameterCount" type="xs::anyType"/>
+        <xs:attribute name="streamCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="SHADERGROUPPASS">
+        <xs:attribute name="vertexProgram" type="xs::anyType"/>
+        <xs:attribute name="fragmentProgram" type="xs::anyType"/>
+        <xs:attribute name="hullProgram" type="xs::anyType"/>
+        <xs:attribute name="domainProgram" type="xs::anyType"/>
+        <xs:attribute name="blendEnable" type="xs::anyType"/>
+        <xs:attribute name="blendSource" type="xs::anyType"/>
+        <xs:attribute name="blendDest" type="xs::anyType"/>
+        <xs:attribute name="blendOp" type="xs::anyType"/>
+        <xs:attribute name="separateAlphaBlendEnable" type="xs::anyType"/>
+        <xs:attribute name="blendSourceAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendDestAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendOpAlpha" type="xs::anyType"/>
+        <xs:attribute name="alphaTestEnable" type="xs::anyType"/>
+        <xs:attribute name="alphaTestFunc" type="xs::anyType"/>
+        <xs:attribute name="alphaTestRef" type="xs::anyType"/>
+        <xs:attribute name="alphaToCoverageEnable" type="xs::anyType"/>
+        <xs:attribute name="alphaToCoverageLevel" type="xs::anyType"/>
+        <xs:attribute name="depthTestEnable" type="xs::anyType"/>
+        <xs:attribute name="depthTestFunc" type="xs::anyType"/>
+        <xs:attribute name="depthMaskEnable" type="xs::anyType"/>
+        <xs:attribute name="cullFaceType" type="xs::anyType"/>
+        <xs:attribute name="polyFillType" type="xs::anyType"/>
+        <xs:attribute name="polyOffsetEnable" type="xs::anyType"/>
+        <xs:attribute name="polyOffsetFactor" type="xs::anyType"/>
+        <xs:attribute name="polyOffsetUnits" type="xs::anyType"/>
+        <xs:attribute name="colorMaskRed" type="xs::anyType"/>
+        <xs:attribute name="colorMaskGreen" type="xs::anyType"/>
+        <xs:attribute name="colorMaskBlue" type="xs::anyType"/>
+        <xs:attribute name="colorMaskAlpha" type="xs::anyType"/>
+        <xs:attribute name="stencilMode" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontFunc" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontRef" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontMask" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontFailOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontZFailOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontZPassOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilFrontStencilMask" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackFunc" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackRef" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackMask" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackFailOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackZFailOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackZPassOp" type="xs::anyType"/>
+        <xs:attribute name="2SidedStencilBackStencilMask" type="xs::anyType"/>
+        <xs:attribute name="normalizeEnable" type="xs::anyType"/>
+        <xs:attribute name="passConfigMask" type="xs::anyType"/>
+        <xs:attribute name="polySmoothEnable" type="xs::anyType"/>
+        <xs:attribute name="coupleVertexAndPixelProgram" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEPACKETSIZESOURCES"/>
+    <xs:element name="SHADERINPUTDEFINITION">
+        <xs:attribute name="name" type="xs::string"/>
+        <xs:attribute name="type" type="xs::string"/>
+        <xs:attribute name="format" type="xs::string"/>
+    </xs:element>
+    <xs:element name="FETEXTLAYOUT">
+        <xs:attribute name="height" type="xs::float"/>
+        <xs:attribute name="depth" type="xs::float"/>
+        <xs:attribute name="tracking" type="xs::float"/>
+    </xs:element>
+    <xs:element name="/"/>
+    <xs:element name="SHADERINSTANCE">
+        <xs:attribute name="shaderGroup" type="xs::string"/>
+        <xs:attribute name="parameterCount" type="xs::unsignedInt"/>
+        <xs:attribute name="parameterSavedCount" type="xs::unsignedInt"/>
+        <xs:attribute name="renderSortPriority" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="TEXTURE">
+        <xs:attribute name="width" type="xs::anyType"/>
+        <xs:attribute name="height" type="xs::anyType"/>
+        <xs:attribute name="depth" type="xs::anyType"/>
+        <xs:attribute name="texelFormat" type="xs::string"/>
+        <xs:attribute name="transient" type="xs::anyType"/>
+        <xs:attribute name="wrapS" type="xs::anyType"/>
+        <xs:attribute name="wrapT" type="xs::anyType"/>
+        <xs:attribute name="wrapR" type="xs::anyType"/>
+        <xs:attribute name="minFilter" type="xs::anyType"/>
+        <xs:attribute name="magFilter" type="xs::anyType"/>
+        <xs:attribute name="automipmap" type="xs::anyType"/>
+        <xs:attribute name="numberMipMapLevels" type="xs::anyType"/>
+        <xs:attribute name="msaaType" type="xs::anyType"/>
+        <xs:attribute name="gammaRemapR" type="xs::anyType"/>
+        <xs:attribute name="gammaRemapG" type="xs::anyType"/>
+        <xs:attribute name="gammaRemapB" type="xs::anyType"/>
+        <xs:attribute name="gammaRemapA" type="xs::anyType"/>
+        <xs:attribute name="enableCompare" type="xs::anyType"/>
+        <xs:attribute name="maxAnisotropy" type="xs::anyType"/>
+        <xs:attribute name="lodBias" type="xs::anyType"/>
+        <xs:attribute name="enableVertexTexture" type="xs::anyType"/>
+        <xs:attribute name="borderColor" type="xs::anyType"/>
+        <xs:attribute name="imageBlockCount" type="xs::anyType"/>
+        <xs:attribute name="mipZeroAbsent" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="PNTEXTURESETTINGS">
+        <xs:attribute name="realwidth" type="xs::anyType"/>
+        <xs:attribute name="realheight" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DATABLOCK">
+        <xs:attribute name="streamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="size" type="xs::unsignedInt"/>
+        <xs:attribute name="elementCount" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="RENDERSTREAMINSTANCE">
+        <xs:attribute name="sourceCount" type="xs::unsignedInt"/>
+        <xs:attribute name="indices" type="xs::string"/>
+    </xs:element>
+    <xs:element name="FEATLASINFODATA">
+        <xs:attribute name="u0" type="xs::float"/>
+        <xs:attribute name="v0" type="xs::float"/>
+        <xs:attribute name="u1" type="xs::float"/>
+        <xs:attribute name="v1" type="xs::float"/>
+    </xs:element>
+    <xs:element name="LIBRARY">
+        <xs:attribute name="type" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEPACKETSIZEIDS"/>
+    <xs:element name="RENDERSTREAMMULTIINSTANCE">
+        <xs:attribute name="instanceCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DYNAMICSTREAM"/>
+    <xs:element name="RENDERINDEXSOURCE">
+        <xs:attribute name="primitive" type="xs::string"/>
+        <xs:attribute name="minimumIndex" type="xs::anyType"/>
+        <xs:attribute name="maximumIndex" type="xs::unsignedInt"/>
+        <xs:attribute name="primitiveRestart" type="xs::anyType"/>
+        <xs:attribute name="format" type="xs::string"/>
+        <xs:attribute name="count" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="RENDERDATAPACKETSOURCE">
+        <xs:attribute name="packetSource" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="PNSTRING">
+        <xs:attribute name="data" type="xs::anyType"/>
+        <xs:attribute name="size" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="RENDERINSTANCESOURCE">
+        <xs:attribute name="source" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKENTRY">
+        <xs:attribute name="name" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DATABLOCKDATA"/>
+    <xs:element name="SHADER">
+        <xs:attribute name="streamCount" type="xs::anyType"/>
+        <xs:attribute name="parameterCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="SHADERINPUT">
+        <xs:attribute name="parameterID" type="xs::unsignedInt"/>
+        <xs:attribute name="type" type="xs::string"/>
+        <xs:attribute name="format" type="xs::string"/>
+        <xs:attribute name="custom" type="xs::anyType"/>
+        <xs:attribute name="texture" type="xs::anyType"/>
+        <xs:attribute name="light" type="xs::anyType"/>
+        <xs:attribute name="object" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MATRIXPALETTERENDERINSTANCE">
+        <xs:attribute name="jointCount" type="xs::unsignedInt"/>
+        <xs:attribute name="sourceCount" type="xs::unsignedInt"/>
+        <xs:attribute name="indices" type="xs::string"/>
+        <xs:attribute name="streamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="shader" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="SHADERSTREAMDEFINITION">
+        <xs:attribute name="renderTypeName" type="xs::anyType"/>
+        <xs:attribute name="name" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCESTATEBLOCKOFFSET"/>
+    <xs:element name="RENDERNODE"/>
+    <xs:element name="RENDERINSTANCE">
+        <xs:attribute name="streamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="shader" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEMODIFIERINPUT">
+        <xs:attribute name="source" type="xs::anyType"/>
+        <xs:attribute name="stream" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="INVERSEBINDMATRIX"/>
+    <xs:element name="LODVISIBLERENDERNODE"/>
+    <xs:element name="MODIFIERNETWORKINSTANCEPACKET">
+        <xs:attribute name="packetInputSource" type="xs::anyType"/>
+        <xs:attribute name="packetInputList" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DATA"/>
+    <xs:element name="LODNODE"/>
+    <xs:element name="MATRIXPALETTEJOINTNODE">
+        <xs:attribute name="matrixPalette" type="xs::string"/>
+        <xs:attribute name="stopTraversal" type="xs::unsignedInt"/>
+        <xs:attribute name="nickname" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="ROOTNODE">
+        <xs:attribute name="stopTraversal" type="xs::unsignedInt"/>
+        <xs:attribute name="nickname" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEINPUTREALIGNFLAGS"/>
+    <xs:element name="RENDERINTERFACEBOUNDBUFFERED">
+        <xs:attribute name="singleBuffered" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DX11SHADER">
+        <xs:attribute name="passCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MATRIXPALETTENODE">
+        <xs:attribute name="stopTraversal" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKMULTIINSTANCE">
+        <xs:attribute name="instanceCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCECOMPILE">
+        <xs:attribute name="uniqueInputCount" type="xs::anyType"/>
+        <xs:attribute name="packetCount" type="xs::anyType"/>
+        <xs:attribute name="maxElementCount" type="xs::anyType"/>
+        <xs:attribute name="memorySizeForProcess" type="xs::anyType"/>
+        <xs:attribute name="maxPacketOutputSize" type="xs::anyType"/>
+        <xs:attribute name="maxTemporaryBufferSize" type="xs::anyType"/>
+        <xs:attribute name="stateBlockBufferSize" type="xs::anyType"/>
+        <xs:attribute name="totalInputPacketSize" type="xs::anyType"/>
+        <xs:attribute name="packetSizeCount" type="xs::anyType"/>
+        <xs:attribute name="packetModifierInputCount" type="xs::anyType"/>
+        <xs:attribute name="infoPacketSize" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEUNIQUEINPUT">
+        <xs:attribute name="uniqueInputSource" type="xs::anyType"/>
+        <xs:attribute name="uniqueInputStream" type="xs::anyType"/>
+        <xs:attribute name="uniqueInputElementSize" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="PNLOOKAT">
+        <xs:attribute name="roll" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="LODRENDERNODE"/>
+    <xs:element name="RENDERDATASOURCE">
+        <xs:attribute name="streamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="packetCount" type="xs::anyType"/>
+        <xs:attribute name="packetListCount" type="xs::anyType"/>
+        <xs:attribute name="primitive" type="xs::anyType"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="VISIBLERENDERNODE"/>
+    <xs:element name="SHADERGROUP">
+        <xs:attribute name="parameterCount" type="xs::unsignedInt"/>
+        <xs:attribute name="parameterSavedCount" type="xs::unsignedInt"/>
+        <xs:attribute name="parameterStreamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="instancesRequireSorting" type="xs::unsignedInt"/>
+        <xs:attribute name="defaultRenderSortPriority" type="xs::anyType"/>
+        <xs:attribute name="passCount" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="TEXTUREIMAGE"/>
+    <xs:element name="LODRENDERINSTANCES">
+        <xs:attribute name="lodCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEUNIQUEMODIFIERINPUT"/>
+    <xs:element name="NEGLYPHMETRICS">
+        <xs:attribute name="advanceWidth" type="xs::float"/>
+        <xs:attribute name="horizontalBearing" type="xs::float"/>
+        <xs:attribute name="verticalBearing" type="xs::float"/>
+        <xs:attribute name="physicalWidth" type="xs::float"/>
+        <xs:attribute name="physicalHeight" type="xs::float"/>
+    </xs:element>
+    <xs:element name="SHADERPROGRAMCODEBLOCK"/>
+    <xs:element name="SHADERPROGRAM">
+        <xs:attribute name="codeCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DX11STATE">
+        <xs:attribute name="blendEnabled" type="xs::anyType"/>
+        <xs:attribute name="blendSource" type="xs::anyType"/>
+        <xs:attribute name="blendDestination" type="xs::anyType"/>
+        <xs:attribute name="blendOperation" type="xs::anyType"/>
+        <xs:attribute name="alphaTestRef" type="xs::anyType"/>
+        <xs:attribute name="separateAlphaBlendEnabled" type="xs::anyType"/>
+        <xs:attribute name="blendSourceAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendDestinationAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendOperationAlpha" type="xs::anyType"/>
+        <xs:attribute name="alphaToCoverageEnabled" type="xs::anyType"/>
+        <xs:attribute name="depthTestEnabled" type="xs::anyType"/>
+        <xs:attribute name="depthTestFunc" type="xs::anyType"/>
+        <xs:attribute name="depthMaskEnabled" type="xs::anyType"/>
+        <xs:attribute name="cullMode" type="xs::anyType"/>
+        <xs:attribute name="stencilEnabled" type="xs::anyType"/>
+        <xs:attribute name="stencilTwoSidedEnabled" type="xs::anyType"/>
+        <xs:attribute name="stencilFunc" type="xs::anyType"/>
+        <xs:attribute name="stencilFuncRef" type="xs::anyType"/>
+        <xs:attribute name="stencilFuncMask" type="xs::anyType"/>
+        <xs:attribute name="stencilOpFail" type="xs::anyType"/>
+        <xs:attribute name="stencilOpZFail" type="xs::anyType"/>
+        <xs:attribute name="stencilOpZPass" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFunc" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFuncRef" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFuncMask" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpFail" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpZFail" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpZPass" type="xs::anyType"/>
+        <xs:attribute name="stencilMask" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetEnabled" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetFactor" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetUnits" type="xs::anyType"/>
+        <xs:attribute name="colorMaskR" type="xs::anyType"/>
+        <xs:attribute name="colorMaskG" type="xs::anyType"/>
+        <xs:attribute name="colorMaskB" type="xs::anyType"/>
+        <xs:attribute name="colorMaskA" type="xs::anyType"/>
+        <xs:attribute name="fillMode" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="LAYER">
+        <xs:attribute name="name" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="RENDERINDEXSOURCEBUFFERED"/>
+    <xs:element name="INDEXSOURCEDATA"/>
+    <xs:element name="PSSGFILE">
+        <xs:attribute name="version" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEINPUTELEMENTSIZES"/>
+    <xs:element name="RENDERSTREAM">
+        <xs:attribute name="dataBlock" type="xs::string"/>
+        <xs:attribute name="subStream" type="xs::unsignedInt"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="DATABLOCKBUFFERED"/>
+    <xs:element name="RENDERDATASOURCEPACKETS">
+        <xs:attribute name="maxElementCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="PNVECTOR4">
+        <xs:attribute name="data" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MATRIXPALETTESKINJOINT">
+        <xs:attribute name="joint" type="xs::string"/>
+    </xs:element>
+    <xs:element name="PSSGDATABASE"/>
+    <xs:element name="SKINNODE">
+        <xs:attribute name="jointCount" type="xs::anyType"/>
+        <xs:attribute name="skeleton" type="xs::anyType"/>
+        <xs:attribute name="updateBounds" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="TRANSFORM"/>
+    <xs:element name="BOUNDINGBOX"/>
+    <xs:element name="RENDERINSTANCESTREAM">
+        <xs:attribute name="sourceID" type="xs::anyType"/>
+        <xs:attribute name="streamID" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DXPASS">
+        <xs:attribute name="rtmask" type="xs::anyType"/>
+        <xs:attribute name="clear" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORK">
+        <xs:attribute name="modifierCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="JOINTNODE"/>
+    <xs:element name="SKELETON">
+        <xs:attribute name="matrixCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCE">
+        <xs:attribute name="dynamicStreamCount" type="xs::anyType"/>
+        <xs:attribute name="modifierInputCount" type="xs::anyType"/>
+        <xs:attribute name="parameterCount" type="xs::anyType"/>
+        <xs:attribute name="modifierCount" type="xs::anyType"/>
+        <xs:attribute name="packetModifierCount" type="xs::anyType"/>
+        <xs:attribute name="network" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DATABLOCKSTREAM">
+        <xs:attribute name="dataType" type="xs::string"/>
+        <xs:attribute name="renderType" type="xs::string"/>
+        <xs:attribute name="stride" type="xs::unsignedInt"/>
+        <xs:attribute name="offset" type="xs::unsignedInt"/>
+    </xs:element>
+    <xs:element name="LODSKINNODE"/>
+    <xs:element name="BUNDLENODE"/>
+    <xs:element name="CUBEMAPTEXTURE"/>
+    <xs:element name="LODRENDERINSTANCELIST">
+        <xs:attribute name="lod" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEDYNAMICSTREAMTYPE">
+        <xs:attribute name="type" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DXSTATE">
+        <xs:attribute name="blendEnabled" type="xs::anyType"/>
+        <xs:attribute name="blendSource" type="xs::anyType"/>
+        <xs:attribute name="blendDestination" type="xs::anyType"/>
+        <xs:attribute name="blendOperation" type="xs::anyType"/>
+        <xs:attribute name="separateAlphaBlendEnabled" type="xs::anyType"/>
+        <xs:attribute name="blendSourceAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendDestinationAlpha" type="xs::anyType"/>
+        <xs:attribute name="blendOperationAlpha" type="xs::anyType"/>
+        <xs:attribute name="alphaTestEnabled" type="xs::anyType"/>
+        <xs:attribute name="alphaFuncFunc" type="xs::anyType"/>
+        <xs:attribute name="alphaFuncRefValue" type="xs::anyType"/>
+        <xs:attribute name="alphaToCoverageEnabled" type="xs::anyType"/>
+        <xs:attribute name="alphaToCoverageLevel" type="xs::anyType"/>
+        <xs:attribute name="depthTestEnabled" type="xs::anyType"/>
+        <xs:attribute name="depthTestFunc" type="xs::anyType"/>
+        <xs:attribute name="depthMaskEnabled" type="xs::anyType"/>
+        <xs:attribute name="cullMode" type="xs::anyType"/>
+        <xs:attribute name="stencilEnabled" type="xs::anyType"/>
+        <xs:attribute name="stencilTwoSidedEnabled" type="xs::anyType"/>
+        <xs:attribute name="stencilFunc" type="xs::anyType"/>
+        <xs:attribute name="stencilFuncRef" type="xs::anyType"/>
+        <xs:attribute name="stencilFuncMask" type="xs::anyType"/>
+        <xs:attribute name="stencilOpFail" type="xs::anyType"/>
+        <xs:attribute name="stencilOpZFail" type="xs::anyType"/>
+        <xs:attribute name="stencilOpZPass" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFunc" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFuncRef" type="xs::anyType"/>
+        <xs:attribute name="stencilBackFuncMask" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpFail" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpZFail" type="xs::anyType"/>
+        <xs:attribute name="stencilBackOpZPass" type="xs::anyType"/>
+        <xs:attribute name="stencilMask" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetEnabled" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetFactor" type="xs::anyType"/>
+        <xs:attribute name="polygonOffsetUnits" type="xs::anyType"/>
+        <xs:attribute name="colorMaskR" type="xs::anyType"/>
+        <xs:attribute name="colorMaskG" type="xs::anyType"/>
+        <xs:attribute name="colorMaskB" type="xs::anyType"/>
+        <xs:attribute name="colorMaskA" type="xs::anyType"/>
+        <xs:attribute name="fillMode" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="TEXTUREIMAGEBLOCKDATA"/>
+    <xs:element name="CAMERANODE">
+        <xs:attribute name="isPerspective" type="xs::anyType"/>
+        <xs:attribute name="nearPlane" type="xs::anyType"/>
+        <xs:attribute name="farPlane" type="xs::anyType"/>
+        <xs:attribute name="top" type="xs::anyType"/>
+        <xs:attribute name="bottom" type="xs::anyType"/>
+        <xs:attribute name="left" type="xs::anyType"/>
+        <xs:attribute name="right" type="xs::anyType"/>
+        <xs:attribute name="aspect" type="xs::anyType"/>
+        <xs:attribute name="FOV" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MATRIXPALETTEJOINTRENDERINSTANCE">
+        <xs:attribute name="streamOffset" type="xs::unsignedInt"/>
+        <xs:attribute name="elementCountFromOffset" type="xs::unsignedInt"/>
+        <xs:attribute name="indexOffset" type="xs::unsignedInt"/>
+        <xs:attribute name="indicesCountFromOffset" type="xs::unsignedInt"/>
+        <xs:attribute name="jointID" type="xs::unsignedInt"/>
+        <xs:attribute name="sourceCount" type="xs::unsignedInt"/>
+        <xs:attribute name="indices" type="xs::string"/>
+        <xs:attribute name="streamCount" type="xs::unsignedInt"/>
+        <xs:attribute name="shader" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="SEGMENTSET">
+        <xs:attribute name="segmentCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DX11PASS">
+        <xs:attribute name="rtmask" type="xs::anyType"/>
+        <xs:attribute name="clear" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="SKINJOINT">
+        <xs:attribute name="joint" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="BINARYOBJECT">
+        <xs:attribute name="binaryDataSize" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="TEXTUREMIPMAP"/>
+    <xs:element name="NODE">
+        <xs:attribute name="stopTraversal" type="xs::unsignedInt"/>
+        <xs:attribute name="nickname" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKINSTANCEDYNAMICSTREAM">
+        <xs:attribute name="id" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="BINARYDATA"/>
+    <xs:element name="TEXTUREIMAGEBLOCK">
+        <xs:attribute name="typename" type="xs::anyType"/>
+        <xs:attribute name="size" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="DXSHADER">
+        <xs:attribute name="passCount" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MODIFIERNETWORKCONNECTION">
+        <xs:attribute name="modifier" type="xs::anyType"/>
+        <xs:attribute name="stream" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="MATRIXPALETTEBUNDLENODE">
+        <xs:attribute name="stopTraversal" type="xs::unsignedInt"/>
+        <xs:attribute name="nickname" type="xs::string"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="USERDATA">
+        <xs:attribute name="object" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="PNTEXTURESCALING">
+        <xs:attribute name="scale" type="xs::anyType"/>
+        <xs:attribute name="min" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="CGSTREAM">
+        <xs:attribute name="cgStreamName" type="xs::anyType"/>
+        <xs:attribute name="cgStreamDataType" type="xs::anyType"/>
+        <xs:attribute name="cgStreamRenderType" type="xs::anyType"/>
+    </xs:element>
+    <xs:element name="XXX">
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    <xs:element name="RENDERINTERFACEBOUND">
+        <xs:attribute name="localData" type="xs::anyType"/>
+        <xs:attribute name="isRenderTarget" type="xs::anyType"/>
+        <xs:attribute name="allocateSystem" type="xs::anyType"/>
+        <xs:attribute name="prioritizeRead" type="xs::anyType"/>
+        <xs:attribute name="automaticBind" type="xs::anyType"/>
+        <xs:attribute name="discardLocalAfterBind" type="xs::anyType"/>
+    </xs:element>
+</xs:schema>

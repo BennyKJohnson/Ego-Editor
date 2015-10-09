@@ -28,8 +28,8 @@ struct DDSHeader {
    
     init(textureNode: PSSGNode) {
         
-        height = UInt32(textureNode.attributesDictionary["height"]?.value as! Int)
-        width = UInt32(textureNode.attributesDictionary["width"]?.value as! Int)
+        height = UInt32(textureNode.attributesDictionary["height"]?.formattedValue as! Int)
+        width = UInt32(textureNode.attributesDictionary["width"]?.formattedValue as! Int)
     }
     
     
@@ -38,6 +38,7 @@ struct DDSHeader {
     }
     func data() -> NSData {
         let headerData = NSMutableData(capacity: Int(size))!
+        
         headerData.appendBytes([size], length: sizeof(UInt32))
         headerData.appendBytes([flags.rawValue], length: sizeof(UInt32))
         headerData.appendBytes([height], length: sizeof(UInt32))
@@ -113,7 +114,7 @@ struct DDSCaps2: OptionSetType {
 struct DDSPixelFormat {
     let size: UInt32 = 32
     var flag: Flags = []
-    let fourCC: UInt32
+    let texelFormat: DDSTexelFormat?
     var rGBBitCount: UInt32 = 0
     
     var rBitMask: UInt32 = 0
@@ -133,9 +134,9 @@ struct DDSPixelFormat {
         
     }
     
-    init(flags: Flags, fourCC: UInt32) {
+    init(flags: Flags, fourCC: DDSTexelFormat?) {
         self.flag = flags
-        self.fourCC = fourCC
+        self.texelFormat = fourCC
     }
     
     func data() -> NSData {
@@ -143,7 +144,14 @@ struct DDSPixelFormat {
         
         formatData.appendBytes([size], length: sizeof(UInt32))
         formatData.appendBytes([flag.rawValue], length: sizeof(UInt32))
-        formatData.appendBytes([[fourCC]], length: sizeof(UInt32))
+        
+        if let texelFormat = texelFormat {
+            formatData.appendData(texelFormat.fourCC)
+        } else {
+            formatData.appendBytes([0], length: sizeof(UInt32))
+        }
+        //formatData.appendBytes([[fourCC]], length: sizeof(UInt32))
+     //   formatData.appendBytes(["DXT1"], length: sizeof(UInt32))
         formatData.appendBytes([rGBBitCount], length: sizeof(UInt32))
         
         // Write RGBA bit masks
@@ -167,11 +175,9 @@ enum DDSTexelFormat: String {
     case ui8x4 = "ui8x4"
     case u8 = "u8"
     
-    var fourCC: UInt32 {
-        let fourCCString = self.rawValue.componentsSeparatedByString("_").first!
-        let byteString = [UInt8](fourCCString.uppercaseString.utf8)
-        let fourCC = UnsafePointer<UInt32>(byteString).memory
-        return fourCC
+    var fourCC: NSData {
+        let fourCCString = self.rawValue.componentsSeparatedByString("_").first!.uppercaseString
+        return fourCCString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }
 
@@ -197,23 +203,23 @@ struct DDSFile {
                 
             header.flags.insert(.DDSD_LINEARSIZE)
             header.pitchOrLinearSize = (header.width * header.height) / 2
-            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: fourCC)
+            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: texelFormat)
             
         case .dxt1srgb:
                 
             header.flags.insert(.DDSD_LINEARSIZE)
             header.pitchOrLinearSize = (header.width * header.height) / 2
-            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: fourCC)
+            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: texelFormat)
 
         case .dxt2, .dxt3, .dxt4, .dxt5, .dxt5srgb:
                 
             header.flags.insert(.DDSD_LINEARSIZE)
             header.pitchOrLinearSize = (header.width * header.height)
-            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: fourCC)
+            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_FOURCC], fourCC: texelFormat)
         case .ui8x4:
             header.flags.insert(.DDSD_LINEARSIZE)
             header.pitchOrLinearSize = header.height * header.width // Ryder doesn't seem confident in this line
-            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_ALPHAPIXELS, .DDPF_RGB], fourCC: 0)
+            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_ALPHAPIXELS, .DDPF_RGB], fourCC: nil)
             header.pixelFormat.rGBBitCount = 32
             // Setup RGBA Masks
             header.pixelFormat.rBitMask = 0xFF0000
@@ -223,13 +229,13 @@ struct DDSFile {
             
         case .u8:
             header.flags.insert(.DDSD_LINEARSIZE)
-            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_LUMINANCE], fourCC: 0)
+            header.pixelFormat = DDSPixelFormat(flags: [.DDPF_LUMINANCE], fourCC: nil)
             header.pixelFormat.rGBBitCount = 9
             header.pixelFormat.rBitMask = 0xFF
         }
         
         // Add Auto Mip Map
-        if let _ = node.attributesDictionary["automipmap"]?.value as? Int, numberOfMipMapLevels = node.attributesDictionary["numberMipMapLevels"]?.value as? Int {
+        if let _ = node.attributesDictionary["automipmap"], numberOfMipMapLevels = node.attributesDictionary["numberMipMapLevels"]?.formattedValue as? Int {
             if numberOfMipMapLevels > 0 {
                 
                 header.flags.insert(.DDSD_MIPMAPCOUNT)
@@ -241,6 +247,7 @@ struct DDSFile {
         }
         
         let textureImageBlocks = node.nodesWithName("TEXTUREIMAGEBLOCK")
+        /*
         if textureImageBlocks.count > 1 {
             for textureImageBlock in textureImageBlocks {
                 let typeName = textureImageBlock.attributesDictionary["typename"]?.value as! String
@@ -271,7 +278,7 @@ struct DDSFile {
                     break
                 }
             }
-        } else if let textureImageBlockData = textureImageBlocks.first?.nodeWithName("TEXTUREIMAGEBLOCKDATA") {
+        } else*/ if let textureImageBlockData = textureImageBlocks.first?.nodeWithName("TEXTUREIMAGEBLOCKDATA") {
             binaryData = (textureImageBlockData.data as! NSData)
         } else {
             return nil // No image block data!
@@ -283,7 +290,8 @@ struct DDSFile {
         let fileData = NSMutableData()
         fileData.appendBytes([magic], length: sizeof(UInt32))
         fileData.appendData(header.data())
-        
+        fileData.appendData(binaryData)
+/*
         if binaryData2.count > 0 {
             for var i = 0; i < binaryData2.count; i++ {
                 if let data = binaryData2[i] {
@@ -293,7 +301,7 @@ struct DDSFile {
         } else {
             fileData.appendData(binaryData)
         }
-    
+    */
         return fileData
     }
   

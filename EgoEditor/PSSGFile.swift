@@ -34,6 +34,7 @@ enum PSSGType {
 class PSSGFile {
     var rootNode: PSSGNode!
     var pssgType: PSSGType = PSSGType.Data
+    var schema: PSSGSchema!
     
     convenience init(file: FileHandle, schemaURL: NSURL) throws {
         guard let fileType = PSSGFile.PSSGFileTypeForFile(file) else {
@@ -68,7 +69,10 @@ class PSSGFile {
     
     init(pssgFile: FileHandle, schemaURL: NSURL) throws {
         let size = pssgFile.readInt32()!
-        let schema = PSSGSchema(pssgFile: pssgFile, schemaURL: schemaURL)
+        schema = PSSGSchema(pssgFile: pssgFile, schemaURL: schemaURL)
+     
+  
+        
         let positionForData = pssgFile.offsetInFile
         let readAttributes = PSSGReadAttributes(shouldUseExplictedNameCheckForDataNode: true)
         
@@ -79,10 +83,6 @@ class PSSGFile {
             rootNode = try PSSGNode(file: pssgFile, schema: schema, parentNode: nil, readAttributes: PSSGReadAttributes(shouldUseExplictedNameCheckForDataNode: false))
             pssgType = getPSSGType()
         }
-    }
-    
-    init(compressedFile: FileHandle) throws {
-        
     }
     
     init(xmlFile: FileHandle) throws {
@@ -405,8 +405,17 @@ class PSSGAttribute {
             let dataPointer = UnsafeMutablePointer<UInt8>(valueData.bytes);
             let byteBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: valueData.length, freeOnDeinit: false)
             
+            if size > 4 {
+                
+                let stringLength = Int(byteBuffer.getInt32())
+                if size - 4 == stringLength {
+                    // Must be a PSSG String
+                    return byteBuffer.readString(stringLength)
+                } else {
+                    byteBuffer.position -= 4
+                }
             // Assume the value is an int
-            if byteBuffer.capacity == 4 {
+            } else if byteBuffer.capacity == 4 {
                 return Int(byteBuffer.getInt32())
             }
         }

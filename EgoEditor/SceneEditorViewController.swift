@@ -14,12 +14,35 @@ struct Model {
     let geometry: SCNGeometry
 }
 
+struct TextureComponents {
+    var modelName: String?
+    let title: String
+    var type: String? = nil
+    
+    init?(textureFilename: String) {
+        let components = textureFilename.componentsSeparatedByString("_")
+        if components.count == 1 {
+            title = components.first!
+        } else if components.count > 1 {
+            modelName = components.first!
+            title = components[1]
+            if components.count == 3 {
+                type = components.last!
+            }
+        } else {
+            return nil
+        }
+    }
+}
 
-class SceneEditorViewController: NSViewController {
+
+
+class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
     
     @IBOutlet weak var sceneView: SceneEditorView!
     var pssgFile: PSSGFile?
-
+    var sharedMaterials: [String:SCNMaterial] = [:]
+    
     weak var document: PSSGDocument? {
         didSet {
             if document == nil { return }
@@ -31,15 +54,24 @@ class SceneEditorViewController: NSViewController {
         }
     }
     
+    func appendMaterials(materials: [SCNMaterial]) {
+        for material in materials {
+            sharedMaterials[material.name!] = material
+        }
+    }
+    
     func loadScene() {
         if let pssgFile = pssgFile where pssgFile.isGeometrySourceProvider() {
             let pssgGeometries = pssgFile.geometryForObject()
             let scene = sceneView.scene!
-        //    SCNMaterialProperty
+            //    SCNMaterialProperty
             for model in pssgGeometries ?? [] {
                 
                 let geometryNode = SCNNode(geometry: model.geometry)
                 geometryNode.name = model.geometry.name
+                
+                // Add materials for reference later
+                appendMaterials(geometryNode.geometry?.materials ?? [])
                 
                 //    geometryNode.
                 //   geometryNode.
@@ -51,16 +83,16 @@ class SceneEditorViewController: NSViewController {
             }
             document?.scene = scene
         }
-       
-        // Write Scene
-     //    saveScene()
         
-       // scene.rootNode.transform =
-
+        // Write Scene
+        //    saveScene()
+        
+        // scene.rootNode.transform =
+        
     }
     
     func saveScene() {
-            // Show save panel
+        // Show save panel
         let saveDialog = NSSavePanel()
         saveDialog.beginWithCompletionHandler({ (result) -> Void in
             if result == NSFileHandlingPanelOKButton {
@@ -85,11 +117,92 @@ class SceneEditorViewController: NSViewController {
         sceneView.scene = scene
         sceneView.allowsCameraControl = true
         sceneView.autoenablesDefaultLighting = true
+        sceneView.editorDelegate = self
         
         sceneView.backgroundColor = NSColor.lightGrayColor()
         sceneView.showsStatistics = true
-       
-      
+        
+        
+    }
+    
+    
+    func dragOperationForURL(url: NSURL) -> NSDragOperation {
+        if let pathExtension = url.pathExtension where pathExtension == "pssg" {
+            return NSDragOperation.Copy
+        }
+        return NSDragOperation.None
+    }
+    
+    func loadImageAssetsWithURLs(imageAssetURLs: [NSURL]) {
+        for ddsURL in imageAssetURLs {
+            // Get filename, confirm that it belongs to material
+            let textureFilename = ddsURL.lastPathComponent!.componentsSeparatedByString(".").first!
+            print(textureFilename)
+            
+            // Map to material
+            if let textureComponents = TextureComponents(textureFilename: textureFilename), materials = textureToMaterial[textureComponents.title] where textureComponents.type == nil {
+                
+                // Load DDS Image
+                if let dds = DDS(URL: ddsURL) {
+                    let imageRef = dds.CreateImage
+                    
+                    // Finally load into materials
+                    for material in materials {
+                        sharedMaterials[material]?.diffuse.contents = imageRef().takeUnretainedValue()
+                        //sharedMaterials[material]
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    
+    func performDragOperationForURL(url: NSURL) -> Bool {
+        print("Dragged file \(url.absoluteString)")
+        if let pathExtension = url.pathExtension where pathExtension == "pssg" {
+            // Load PSSGFile
+            do {
+                let fileHandle = try NSFileHandle(forReadingFromURL: url)
+                let schema = NSBundle.mainBundle().URLForResource("schema", withExtension: ".xml")!
+                
+                let draggedPSSGFile = try PSSGFile(file: fileHandle,schemaURL: schema)
+                
+                // Contains Image Assets, load textures onto current model
+                guard  draggedPSSGFile.containsImageAssets() else {
+                    return false
+                }
+                
+                
+                // Get URL to temporary directory
+                let temporaryDirectory = NSURL.fileURLWithPath(NSTemporaryDirectory())
+                
+                // Create Folder for image assets
+                let imageAssetDirectoryURL = temporaryDirectory.URLByAppendingPathComponent("EgoEditor")
+                // Remove existing folder
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(imageAssetDirectoryURL)
+                } catch {}
+                
+                // Create directory
+                try NSFileManager.defaultManager().createDirectoryAtURL(imageAssetDirectoryURL, withIntermediateDirectories: true, attributes: nil)
+                
+                // Export Textures into temporary directory for loading
+                draggedPSSGFile.writeImageAssetsToURL(imageAssetDirectoryURL)
+                
+                // Load DDS Files
+                let ddsURLs = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(imageAssetDirectoryURL, includingPropertiesForKeys: nil, options: [])
+                loadImageAssetsWithURLs(ddsURLs)
+               
+            } catch {
+                print("Error occured loading file")
+            }
+            
+            
+            
+        }
+        
+        return true
     }
     
     

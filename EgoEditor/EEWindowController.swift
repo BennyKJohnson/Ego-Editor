@@ -11,6 +11,7 @@ import Cocoa
 class EEWindowController: NSWindowController, NSToolbarDelegate {
     @IBOutlet weak var toolbar: NSToolbar!
     
+    @IBOutlet weak var statusBar: NSButton!
     // MARK: Overrides
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -22,9 +23,11 @@ class EEWindowController: NSWindowController, NSToolbarDelegate {
     
     override var document: AnyObject? {
         didSet {
-            
             let listViewController = window!.contentViewController as! MainEditorViewController
-            listViewController.document = document as? PSSGDocument
+            if let pssgDocument = document as? PSSGDocument {
+                listViewController.document = pssgDocument
+                statusBar.title = pssgDocument.displayName
+            }
         }
     }
     

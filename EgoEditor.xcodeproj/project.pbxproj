@@ -25,12 +25,12 @@
 		A36979C91BBE562400420595 /* Info_iOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = A36979C31BBE562400420595 /* Info_iOS.plist */; settings = {ASSET_TAGS = (); }; };
 		A36979CA1BBE562400420595 /* Info_OSX.plist in Resources */ = {isa = PBXBuildFile; fileRef = A36979C41BBE562400420595 /* Info_OSX.plist */; settings = {ASSET_TAGS = (); }; };
 		A36979CB1BBE562400420595 /* IntegerString.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36979C51BBE562400420595 /* IntegerString.swift */; settings = {ASSET_TAGS = (); }; };
+		A37BB2FF1BC741C800A81D98 /* pssg.xsd in Resources */ = {isa = PBXBuildFile; fileRef = A37BB2FE1BC741C800A81D98 /* pssg.xsd */; settings = {ASSET_TAGS = (); }; };
 		A38468481BC31D740001B3CA /* HalfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38468471BC31D740001B3CA /* HalfTests.swift */; settings = {ASSET_TAGS = (); }; };
 		A3853EFE1BC0C36F00781C83 /* 6r4_highlod.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3853EFD1BC0C36F00781C83 /* 6r4_highlod.dae */; settings = {ASSET_TAGS = (); }; };
 		A388D4AC1BBD69AA005B5934 /* FileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A388D4AB1BBD69AA005B5934 /* FileHandle.swift */; settings = {ASSET_TAGS = (); }; };
 		A388D4AE1BBD69B9005B5934 /* PSSGFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */; settings = {ASSET_TAGS = (); }; };
 		A388D4B01BBD69C0005B5934 /* PSSGSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */; settings = {ASSET_TAGS = (); }; };
-		A388D4B21BBD70D5005B5934 /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = A388D4B11BBD70D5005B5934 /* schema.xml */; settings = {ASSET_TAGS = (); }; };
 		A388D4B41BBD739F005B5934 /* EEWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A388D4B31BBD739F005B5934 /* EEWindowController.swift */; settings = {ASSET_TAGS = (); }; };
 		A391E4B11BC393AC00D3943F /* dds.m in Sources */ = {isa = PBXBuildFile; fileRef = A391E4B01BC393AC00D3943F /* dds.m */; settings = {ASSET_TAGS = (); }; };
 		A392078B1BC3A404008C3613 /* DDSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392078A1BC3A404008C3613 /* DDSFile.swift */; settings = {ASSET_TAGS = (); }; };
@@ -39,6 +39,7 @@
 		A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C552E91BC26D9900087340 /* NSData+GZIP.swift */; settings = {ASSET_TAGS = (); }; };
 		A3C552EC1BC2711000087340 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C552EB1BC2711000087340 /* libz.tbd */; };
 		A3C552EE1BC274FB00087340 /* ByteBuffer+FileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */; settings = {ASSET_TAGS = (); }; };
+		A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F127961BBF6A3B00105254 /* scene3.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3F127951BBF6A3B00105254 /* scene3.dae */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -80,12 +81,12 @@
 		A36979C41BBE562400420595 /* Info_OSX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info_OSX.plist; sourceTree = "<group>"; };
 		A36979C51BBE562400420595 /* IntegerString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerString.swift; sourceTree = "<group>"; };
 		A36979C61BBE562400420595 /* Lilliput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lilliput.h; sourceTree = "<group>"; };
+		A37BB2FE1BC741C800A81D98 /* pssg.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = pssg.xsd; path = Lilliput/pssg.xsd; sourceTree = "<group>"; };
 		A38468471BC31D740001B3CA /* HalfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfTests.swift; sourceTree = "<group>"; };
 		A3853EFD1BC0C36F00781C83 /* 6r4_highlod.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = 6r4_highlod.dae; sourceTree = "<group>"; };
 		A388D4AB1BBD69AA005B5934 /* FileHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHandle.swift; sourceTree = "<group>"; };
 		A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSGFile.swift; sourceTree = "<group>"; };
 		A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSGSchema.swift; sourceTree = "<group>"; };
-		A388D4B11BBD70D5005B5934 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
 		A388D4B31BBD739F005B5934 /* EEWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEWindowController.swift; sourceTree = "<group>"; };
 		A391E4AF1BC393AC00D3943F /* dds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dds.h; sourceTree = "<group>"; };
 		A391E4B01BC393AC00D3943F /* dds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dds.m; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 		A3C552E91BC26D9900087340 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		A3C552EB1BC2711000087340 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ByteBuffer+FileHandle.swift"; sourceTree = "<group>"; };
+		A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PSSGFile+ImageAssetSource.swift"; sourceTree = "<group>"; };
 		A3F127951BBF6A3B00105254 /* scene3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = scene3.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 				A33D70D11BC4754300B2A482 /* zlib */,
 				A36979C01BBE562400420595 /* Lilliput */,
 				A388D4AB1BBD69AA005B5934 /* FileHandle.swift */,
+				A37BB2FE1BC741C800A81D98 /* pssg.xsd */,
 				A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */,
 				A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */,
 				A3C552E91BC26D9900087340 /* NSData+GZIP.swift */,
@@ -164,7 +167,6 @@
 				A36962E01BBD19CB00F9F4EC /* PSSGDocument.swift */,
 				A36962E21BBD19CB00F9F4EC /* Assets.xcassets */,
 				A36962E41BBD19CB00F9F4EC /* Main.storyboard */,
-				A388D4B11BBD70D5005B5934 /* schema.xml */,
 				A36962E71BBD19CB00F9F4EC /* Info.plist */,
 				A388D4B31BBD739F005B5934 /* EEWindowController.swift */,
 				A36979B61BBE1B4200420595 /* NSData+Extensions.swift */,
@@ -172,6 +174,7 @@
 				A36979BA1BBE2DF600420595 /* SceneEditorView.swift */,
 				A36979BC1BBE2F2100420595 /* PSSGErrorTypes.swift */,
 				A36979BE1BBE354000420595 /* PSSGFile+GeometrySource.swift */,
+				A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */,
 				A3954EBE1BBFA69B0069FB28 /* MainEditorViewController.swift */,
 				A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */,
 				A335C17C1BC2A13F009AB7A3 /* Extensions.swift */,
@@ -298,8 +301,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A388D4B21BBD70D5005B5934 /* schema.xml in Resources */,
 				A36962E31BBD19CB00F9F4EC /* Assets.xcassets in Resources */,
+				A37BB2FF1BC741C800A81D98 /* pssg.xsd in Resources */,
 				A36979CA1BBE562400420595 /* Info_OSX.plist in Resources */,
 				A36979C91BBE562400420595 /* Info_iOS.plist in Resources */,
 				A36962E61BBD19CB00F9F4EC /* Main.storyboard in Resources */,
@@ -326,6 +329,7 @@
 				A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */,
 				A36979CB1BBE562400420595 /* IntegerString.swift in Sources */,
 				A391E4B11BC393AC00D3943F /* dds.m in Sources */,
+				A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */,
 				A3AB4C021BC3616A0080BD3F /* TextureSource.swift in Sources */,
 				A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */,
 				A36979C81BBE562400420595 /* ByteOrder.swift in Sources */,

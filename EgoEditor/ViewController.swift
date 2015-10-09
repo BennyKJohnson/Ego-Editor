@@ -45,6 +45,7 @@ class PSSGDataViewController: NSViewController, NSMenuDelegate {
                 
         }
     }
+    
     func outlineViewSelectionDidChange(notification: NSNotification) {
         //print("selected \(sender.selectedRowIndexes)")
         if let selectedNode = outlineView.itemAtRow(outlineView.selectedRow) as? PSSGNode {
