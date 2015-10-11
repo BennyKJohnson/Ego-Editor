@@ -272,6 +272,7 @@ class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
     var nodesDictionary: [String: PSSGNodeSchema] = [:]
     func loadSchema(fileURL: NSURL) throws {
         if let parser = NSXMLParser(contentsOfURL: fileURL) {
+            
             parser.delegate = self
             parser.parse()
         } else {

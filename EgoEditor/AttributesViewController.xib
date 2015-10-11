@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="AttributesViewController" customModule="EgoEditor" customModuleProvider="target">
+            <connections>
+                <outlet property="stackView" destination="XPO-ql-3GT" id="T8B-wi-FbC"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="292" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <stackView orientation="vertical" alignment="leading" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XPO-ql-3GT">
+                    <rect key="frame" x="0.0" y="0.0" width="292" height="272"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="translatesAutoresizingMaskIntoConstraints" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="XPO-ql-3GT" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="27K-Vd-QOZ"/>
+                <constraint firstAttribute="bottom" secondItem="XPO-ql-3GT" secondAttribute="bottom" id="GlM-lS-YCZ"/>
+                <constraint firstItem="XPO-ql-3GT" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="gYe-4k-Ll0"/>
+                <constraint firstAttribute="trailing" secondItem="XPO-ql-3GT" secondAttribute="trailing" id="vhq-dW-RI8"/>
+            </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="translatesAutoresizingMaskIntoConstraints" value="NO"/>
+            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="50" y="302"/>
+        </customView>
+    </objects>
+</document>

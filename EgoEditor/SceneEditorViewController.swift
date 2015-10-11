@@ -35,13 +35,19 @@ struct TextureComponents {
     }
 }
 
-
+protocol SceneEditorViewControllerDelegate {
+    func sceneEditorViewController(didSelectObject object: AnyObject) -> Bool
+}
 
 class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
     
     @IBOutlet weak var sceneView: SceneEditorView!
     var pssgFile: PSSGFile?
     var sharedMaterials: [String:SCNMaterial] = [:]
+    var delegate: SceneEditorViewControllerDelegate?
+    
+    var selectableNodes:[String: AnyObject] = [:] // Not sure how you are meant to get the data model for a given model, more research needs to be done. Dictionary will work for now
+    
     
     weak var document: PSSGDocument? {
         didSet {
@@ -109,6 +115,13 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
         sceneView.scene?.rootNode.addChildNode(cameraNode)
     }
     
+    func sceneView(sceneView: SceneEditorView, didSelectNode node: SCNNode, geometryIndex: Int, event: NSEvent) {
+        if let nodeName = node.name , selectedObject = selectableNodes[nodeName]  {
+            print("Selected object \(node.name!)")
+            self.delegate?.sceneEditorViewController(didSelectObject: selectedObject)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -127,8 +140,11 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
     
     
     func dragOperationForURL(url: NSURL) -> NSDragOperation {
-        if let pathExtension = url.pathExtension where pathExtension == "pssg" {
-            return NSDragOperation.Copy
+        if let pathExtension = url.pathExtension  {
+            if( pathExtension == "pssg" || pathExtension == "xml") {
+                return NSDragOperation.Copy
+
+            }
         }
         return NSDragOperation.None
     }
@@ -157,52 +173,90 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
         }
     }
     
+    func loadPSSG(url: NSURL) -> Bool {
+        // Load PSSGFile
+        do {
+            let fileHandle = try NSFileHandle(forReadingFromURL: url)
+            let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
+            
+            let draggedPSSGFile = try PSSGFile(file: fileHandle,schemaURL: schema)
+            
+            // Contains Image Assets, load textures onto current model
+            guard  draggedPSSGFile.containsImageAssets() else {
+                return false
+            }
+            
+            // Get URL to temporary directory
+            let temporaryDirectory = NSURL.fileURLWithPath(NSTemporaryDirectory())
+            
+            // Create Folder for image assets
+            let imageAssetDirectoryURL = temporaryDirectory.URLByAppendingPathComponent("EgoEditor")
+            // Remove existing folder
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(imageAssetDirectoryURL)
+            } catch {}
+            
+            // Create directory
+            try NSFileManager.defaultManager().createDirectoryAtURL(imageAssetDirectoryURL, withIntermediateDirectories: true, attributes: nil)
+            
+            // Export Textures into temporary directory for loading
+            draggedPSSGFile.writeImageAssetsToURL(imageAssetDirectoryURL)
+            
+            // Load DDS Files
+            let ddsURLs = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(imageAssetDirectoryURL, includingPropertiesForKeys: nil, options: [])
+            loadImageAssetsWithURLs(ddsURLs)
+            return true
+            
+        } catch {
+            print("Error occured loading file")
+            return false
+        }
+        
+    }
+    
+    func addRenderable(object: SceneRenderable) {
+        let objectNode = object.sceneNodeForObject()
+        self.sceneView.scene?.rootNode.addChildNode(objectNode)
+    }
+    
+    func loadXML(url: NSURL) -> Bool {
+        let data = NSData(contentsOfURL: url)!
+        let xmlFile = XMLFile(data: data)
+        
+        let cameraXML = xmlFile.xmlDocument.XMLDataWithOptions(NSXMLNodePrettyPrint | NSXMLNodeCompactEmptyElement)
+        
+        let vehicleCameraParser = VehicleCameraXMLParser()
+        let xmlParser = NSXMLParser(data: cameraXML)
+        xmlParser.delegate = vehicleCameraParser
+        xmlParser.parse()
+        print(vehicleCameraParser.cameraViews.count)
+        
+        for cameraView in vehicleCameraParser.cameraViews {
+            self.selectableNodes[cameraView.name] = cameraView
+            addRenderable(cameraView)
+        }
+        
+        self.delegate?.sceneEditorViewController(didSelectObject: vehicleCameraParser.cameraViews[0])
+        
+        
+        
+        return true
+    }
     
     func performDragOperationForURL(url: NSURL) -> Bool {
         print("Dragged file \(url.absoluteString)")
-        if let pathExtension = url.pathExtension where pathExtension == "pssg" {
-            // Load PSSGFile
-            do {
-                let fileHandle = try NSFileHandle(forReadingFromURL: url)
-                let schema = NSBundle.mainBundle().URLForResource("schema", withExtension: ".xml")!
-                
-                let draggedPSSGFile = try PSSGFile(file: fileHandle,schemaURL: schema)
-                
-                // Contains Image Assets, load textures onto current model
-                guard  draggedPSSGFile.containsImageAssets() else {
-                    return false
-                }
-                
-                
-                // Get URL to temporary directory
-                let temporaryDirectory = NSURL.fileURLWithPath(NSTemporaryDirectory())
-                
-                // Create Folder for image assets
-                let imageAssetDirectoryURL = temporaryDirectory.URLByAppendingPathComponent("EgoEditor")
-                // Remove existing folder
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(imageAssetDirectoryURL)
-                } catch {}
-                
-                // Create directory
-                try NSFileManager.defaultManager().createDirectoryAtURL(imageAssetDirectoryURL, withIntermediateDirectories: true, attributes: nil)
-                
-                // Export Textures into temporary directory for loading
-                draggedPSSGFile.writeImageAssetsToURL(imageAssetDirectoryURL)
-                
-                // Load DDS Files
-                let ddsURLs = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(imageAssetDirectoryURL, includingPropertiesForKeys: nil, options: [])
-                loadImageAssetsWithURLs(ddsURLs)
-               
-            } catch {
-                print("Error occured loading file")
+        if let pathExtension = url.pathExtension  {
+            switch(pathExtension) {
+                case "pssg":
+                    return loadPSSG(url)
+                case "xml":
+                    return loadXML(url)
+            default:
+                return false
             }
-            
-            
-            
         }
         
-        return true
+        return false
     }
     
     

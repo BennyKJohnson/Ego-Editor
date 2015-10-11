@@ -38,7 +38,7 @@ class EEWindowController: NSWindowController, NSToolbarDelegate {
     
     override var document: AnyObject? {
         didSet {
-            let listViewController = window!.contentViewController as! MainEditorViewController
+            let listViewController = window!.contentViewController as! EESplitViewController
             if let pssgDocument = document as? PSSGDocument {
                 listViewController.document = pssgDocument
                 statusBar.title = pssgDocument.displayName

@@ -14,7 +14,11 @@ enum MainEditorType: Int {
     case assistEditor
 }
 
-class MainEditorViewController: NSSplitViewController, NSToolbarDelegate {
+protocol MainEditorDelegate {
+    func mainEditor(didSelectObject object: AnyObject)
+}
+
+class MainEditorViewController: NSSplitViewController, NSToolbarDelegate, SceneEditorViewControllerDelegate {
     
 
     
@@ -23,11 +27,14 @@ class MainEditorViewController: NSSplitViewController, NSToolbarDelegate {
     
     var sceneEditorViewController: SceneEditorViewController!
     var pssgDataViewController: PSSGDataViewController!
+    var delegate: MainEditorDelegate?
     
     override func awakeFromNib() {
          basicEditor = splitViewItems.first!
          assistEditor = splitViewItems.last!
         sceneEditorViewController = self.childViewControllers.first as! SceneEditorViewController
+        sceneEditorViewController.delegate = self
+
         pssgDataViewController = self.childViewControllers.last as! PSSGDataViewController
     }
     
@@ -43,6 +50,12 @@ class MainEditorViewController: NSSplitViewController, NSToolbarDelegate {
             
         }
     }
+    
+    func sceneEditorViewController(didSelectObject object: AnyObject) -> Bool {
+        delegate?.mainEditor(didSelectObject: object)
+        return true
+    }
+
     
     @IBAction func editorTypeChanged(sender: NSSegmentedControl) {
         print("Segment Changed")

@@ -20,6 +20,8 @@ protocol FileHandle {
     
     func readString() -> String? // Read length then read string of length provided
     
+    func readCString() -> String? // Read Null terminated string
+    
     var offsetInFile: UInt64 { get }
     
     func seekToFileOffset(offset: UInt64)
@@ -47,6 +49,20 @@ extension FileHandle {
         return nil
     }
     
+    func readCString() -> String? {
+        var stringBytes: [UInt8] = []
+        repeat {
+          //  let char = readBytes(1)!.first!
+            stringBytes.append(readBytes(1)!.first!)
+        } while(stringBytes.last! != 0)
+        stringBytes.removeLast()
+        
+        // Convert to UTF8 String
+        if let str = NSString(bytes: stringBytes, length: stringBytes.count, encoding: NSUTF8StringEncoding) as? String {
+            return str
+        }
+        return nil
+    }
     
     func readString(length: Int) -> String? {
         if let vals = readBytes(length) {
