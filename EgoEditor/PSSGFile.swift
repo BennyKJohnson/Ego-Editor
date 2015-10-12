@@ -232,6 +232,10 @@ class PSSGNode {
             throw PSSGReadError.InvalidNode(readError: PSSGNodeReadError.NoSchema)
         }
         
+        if nodeSchema.name == "SHADERINPUT" {
+            print("Found shader input");
+        }
+        
         id = identifier
         self.nodeSchema = nodeSchema
         self.size = file.readInt32()!
@@ -246,6 +250,7 @@ class PSSGNode {
         while(Int(file.offsetInFile) < attributeEnd) {
             do {
                 let attribute = try PSSGAttribute(file: file, schema: schema)
+                attribute.node = self
                 attributes.append(attribute)
                 attributesDictionary[attribute.key] = attribute
             } catch {
@@ -385,6 +390,18 @@ extension PSSGNode {
     }
 }
 
+extension PSSGNode {
+    // Method to extract the shaderinputdefinition, maybe useful for other nodes
+    func subNodeForNodeWithIdentifier(id: String, parameterID: Int) -> PSSGNode? {
+        // Get node with id
+        if let node = self.nodeWithID(id) where node.childNodes.count > parameterID {
+            // Get subnodes
+            let subNodes = node.childNodes;
+            return subNodes[parameterID]
+        }
+        return nil
+    }
+}
 
 
 class PSSGAttribute {
@@ -392,6 +409,8 @@ class PSSGAttribute {
     var value: AnyObject?
     var valueType: PSSGValueType!
     var size: Int!
+    weak var node: PSSGNode? // Weak reference for owner node
+    
     var isReferenceID: Bool {
         if let stringValue = value as? String where stringValue.firstCharacter == "#" {
             
@@ -400,6 +419,7 @@ class PSSGAttribute {
         return false
     }
 
+    
     var formattedValue: AnyObject? {
         if let valueData =  value as? NSData where valueType == .Unknown {
             let dataPointer = UnsafeMutablePointer<UInt8>(valueData.bytes);

@@ -203,10 +203,16 @@ extension PSSGDataViewController: NSOutlineViewDataSource, NSOutlineViewDelegate
     
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if let selectedNode = selectedPSSGNode where outlineView == dataOutlineView {
+            if index < selectedNode.attributes.count {
+                return selectedNode.attributes[index]
+
+            } else {
+                return selectedNode
+
+            }
             if selectedNode.isDataNode {
                 return selectedNode
             }
-            return selectedNode.attributes[index]
             
         } else if let node = item as? PSSGNode {
             return node.childNodes[index]
@@ -225,6 +231,18 @@ extension PSSGDataViewController: NSOutlineViewDataSource, NSOutlineViewDelegate
                     return currentAttribute.key
                 } else {
                     if let data = currentAttribute.formattedValue {
+                        // Special case for showing parameter name, would like to make this logic generic, define rules in XML Schema, though it seems it would be complex using combined IDs
+                        if currentAttribute.key == "parameterID" {
+                            if let parameterID = currentAttribute.formattedValue as? Int,shaderGroupReference = currentAttribute.node?.parentNode?.attributesDictionary["shaderGroup"]?.formattedValue as? String  {
+                                let shaderGroupID = String(shaderGroupReference.characters.dropFirst())
+                                if let shaderInputDefinition = pssgFile!.rootNode.subNodeForNodeWithIdentifier(shaderGroupID, parameterID: parameterID) {
+                                    let shaderName = shaderInputDefinition.attributesDictionary["name"]!.formattedValue as! String
+                                    return "\(data) (\(shaderName))"
+                                }
+                            }
+                        }
+                        
+
                         return "\(data)"
                     } else {
                         return "nil (no data)"

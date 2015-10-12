@@ -52,7 +52,6 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
     weak var document: PSSGDocument? {
         didSet {
             if document == nil { return }
-            print("Got PSSG Document")
             pssgFile = document?.pssgFile
             if pssgFile != nil {
                 loadScene()

@@ -196,7 +196,7 @@ struct DDSFile {
             return nil    // Unknown format, exit
         }
         
-        let fourCC = texelFormat.fourCC
+     //   let fourCC = texelFormat.fourCC
 
         switch(texelFormat) {
         case .dxt1:

@@ -57,7 +57,7 @@ class XMLFile {
         }
         
         let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
-        var fileHandle = ByteBuffer(order: LittleEndian(), data: dataPointer, capacity: Int(data.length), freeOnDeinit: false)
+        let fileHandle = ByteBuffer(order: LittleEndian(), data: dataPointer, capacity: Int(data.length), freeOnDeinit: false)
         let type = fileHandle.readBytes(1)?.first!
         if(type == 0x00) {
             
