@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <render_materials>
+        <material_names>
+            <!-- Exterior materials -->
+            <material_name name="Car Body Paint"/>
+            <material_name name="Matt"/>
+            <material_name name="Lights Pod"/>
+            <material_name name="Lights Glass"/>
+            <material_name name="Lights Satin"/>
+            <material_name name="Shiny Metal"/>
+            <material_name name="Discs"/>
+            <material_name name="Suspension"/>
+            <material_name name="Aerials"/>
+            <material_name name="Window Glass"/>
+            <material_name name="Window Netting"/>
+            <material_name name="Cabin"/>
+            <material_name name="Grills"/>
+            <material_name name="Wheel"/>
+            <material_name name="Tyre Wall"/>
+            <material_name name="Tyre Tread"/>
+            <material_name name="Mud Flaps"/>
+            <material_name name="Spare Wheel"/>
+            <material_name name="Spare Tyre Wall"/>
+            <material_name name="Spare Tyre Tread"/>
+            <material_name name="Caliper"/>
+            <material_name name="Animated Lights"/>
+            <material_name name="Carbon Fiber"/>
+            <material_name name="Plastic"/>
+            <material_name name="Body Number Paint"/>
+            <material_name name="Body Number Carbon"/>
+            <material_name name="Body Number Plastic"/>
+
+            <!-- Interior materials -->
+            <material_name name="Chrome"/>
+            <material_name name="carbon fibre"/>
+            <material_name name="Leather"/>
+            <material_name name="Shiny Painted Metal"/>
+            <material_name name="shiny plastic"/>
+            <material_name name="dials matt"/>
+            <material_name name="dials shiny"/>
+            <material_name name="dials shiny low spec"/>
+            <material_name name="interior glass windows"/>
+            <material_name name="interior netting"/>
+            <material_name name="mirror"/>
+            <material_name name="bare metal"/>
+            <material_name name="suede"/>             
+            <material_name name="digital tachometer"/>
+            <material_name name="digital speedometer"/>
+            <material_name name="gear indicator"/>
+            <material_name name="shift light_01"/>
+            <material_name name="shift lights_02"/>
+            <material_name name="shift lights_03"/>
+            <material_name name="shift lights_04"/>
+            <material_name name="limit lights"/>
+            <material_name name="carbon kevlar"/>
+            <material_name name="digital revs"/>
+
+            <!-- NEW -->
+            <material_name name="paint"/>
+            <material_name name="glass"/>
+            <material_name name="screen"/>
+            <material_name name="details"/>
+            <material_name name="grills"/>
+            <material_name name="lights_glass"/>
+            <material_name name="lights_opaque"/>
+            <material_name name="suspension"/>
+            <material_name name="caliper_tm"/>
+            <material_name name="caliper_gr"/>
+            <material_name name="caliper_sn"/>
+            <material_name name="disc_tm"/>
+            <material_name name="disc_gr"/>
+            <material_name name="disc_sn"/>
+            <material_name name="wheel_gr"/>
+            <material_name name="tyre_gr"/>
+            <material_name name="tread_gr"/>
+            <material_name name="wheel_tm"/>
+            <material_name name="tyre_tm"/>
+            <material_name name="tread_tm"/>
+            <material_name name="wheel_sn"/>
+            <material_name name="tyre_sn"/>
+            <material_name name="tread_sn"/>
+            <material_name name="carbon"/>
+            <material_name name="interior_paint"/>
+            <material_name name="cabin"/>
+            <material_name name="dials_opaque"/>
+            <material_name name="dials_alpha"/>
+            <material_name name="int_glass"/>
+            <material_name name="int_screen"/>
+            <material_name name="steeringwheel"/>
+            <material_name name="seats"/>
+            <material_name name="seat_belts"/>
+            <material_name name="int_kevlar"/>
+            <material_name name="int_carbon"/>
+            <material_name name="mirrors"/>
+            <material_name name="intercom"/>
+            <material_name name="digi_tach_bars"/>
+            <material_name name="digi_speed"/>
+            <material_name name="digi_gear"/>
+            <material_name name="digi_rev"/>
+            <material_name name="shift_01"/>
+            <material_name name="shift_02"/>
+            <material_name name="shift_03"/>
+            <material_name name="shift_04"/>
+            <material_name name="limit_lights"/>
+            <material_name name="gps"/>
+            <material_name name="mud_flaps"/>
+            <material_name name="aerials"/>
+            <material_name name="pedals"/>
+            <material_name name="netting"/>
+            <material_name name="flock"/>
+            <material_name name="gopro"/>
+        </material_names>
+
+        <!-- List of replacement body textures -->
+        <replace_body_textures>
+            <!-- standard_replace goes through all the materials and uses the material's name to fill the pattern in texture ( e.g. For Paint, "%s_d." becomes "paint_d.") -->
+            <standard_replace texture="%s_d."   sampler= "TDiffuseAlphaMap" />
+            <standard_replace texture="%s_n."   sampler= "TNormalMap"       />
+            <standard_replace texture="%s_sfc." sampler= "TSurfaceMap"      />
+
+            <replace texture="dents_n."    sampler= "TNormalMap" material= "paint" />
+            <replace texture="details_d."  sampler= "TDiffuseAlphaMap" material= "grills" />
+            <replace texture="lights_d."   sampler= "TDiffuseAlphaMap" material= "lights_glass" />
+            <replace texture="lights_n."   sampler= "TNormalMap" material= "lights_glass" />
+            <replace texture="lights_sfc." sampler= "TSurfaceMap" material= "lights_glass" />
+            <replace texture="lights_d."   sampler= "TDiffuseAlphaMap" material= "lights_opaque" />
+            <replace texture="lights_n."   sampler= "TNormalMap" material= "lights_opaque" />
+            <replace texture="lights_sfc." sampler= "TSurfaceMap" material= "lights_opaque" />
+            <replace texture="paint_d."    sampler= "TDiffuseAlphaMap" material= "carbon" />
+            <replace texture="dents_n."    sampler= "TNormalMap" material= "carbon" />
+            <replace texture="paint_sfc."  sampler= "TSurfaceMap" material= "carbon" />
+            <replace texture="cabin_d."    sampler= "TDiffuseAlphaMap" material= "interior_paint" />
+            <replace texture="cabin_n."    sampler= "TNormalMap" material= "interior_paint" />
+            <replace texture="cabin_sfc."  sampler= "TSurfaceMap" material= "interior_paint" />
+            <replace texture="dials_d."    sampler= "TDiffuseAlphaMap" material= "dials_opaque" />
+            <replace texture="dents_n."    sampler= "TNormalMap" material= "dials_opaque" />
+            <replace texture="dials_sfc."  sampler= "TSurfaceMap" material= "dials_opaque" />
+            <replace texture="dials_d."    sampler= "TDiffuseAlphaMap" material= "dials_alpha" />
+            <replace texture="dents_n."    sampler= "TNormalMap" material= "dials_alpha" />
+            <replace texture="dials_sfc."  sampler= "TSurfaceMap" material= "dials_alpha" />
+            <replace texture="seats_d."    sampler= "TDiffuseAlphaMap" material= "seats_d" />
+            <replace texture="seats_n."    sampler= "TNormalMap" material= "seats_d" />
+            <replace texture="seats_sfc."  sampler= "TSurfaceMap" material= "seats_d" />
+            <replace texture="carbon_kev_d." sampler= "TDiffuseAlphaMap" material= "int_kevlar" />
+            <replace texture="carbon_d."     sampler= "TDiffuseAlphaMap" material= "int_carbon" />
+            <replace texture="indicator_d."  sampler= "TDiffuseAlphaMap" material= "shift_01" />
+            <replace texture="indicator_d."  sampler= "TDiffuseAlphaMap" material= "shift_02" />
+            <replace texture="indicator_d."  sampler= "TDiffuseAlphaMap" material= "shift_03" />
+            <replace texture="indicator_d."  sampler= "TDiffuseAlphaMap" material= "shift_04" />
+            <replace texture="indicator_d."  sampler= "TDiffuseAlphaMap" material= "limit_lights" />
+            <replace texture="details_d."    sampler= "TDiffuseAlphaMap" material= "mud_flaps" />
+            <replace texture="details_n."    sampler= "TNormalMap" material= "mud_flaps" />
+            <replace texture="details_sfc."  sampler= "TSurfaceMap" material= "mud_flaps" />
+            <replace texture="details_d."    sampler= "TDiffuseAlphaMap" material= "aerials" />
+            <replace texture="details_n."    sampler= "TNormalMap" material= "aerials" />
+            <replace texture="details_sfc."  sampler= "TSurfaceMap" material= "aerials" />
+            <replace texture="glass_d."    sampler= "TDiffuseAlphaMap" material= "netting" />
+            <replace texture="glass_sfc."  sampler= "TSurfaceMap" material= "netting" />
+            <replace texture="cabin_d."    sampler= "TDiffuseAlphaMap" material= "flock" />
+            <replace texture="cabin_n."    sampler= "TNormalMap" material= "flock" />
+            <replace texture="cabin_sfc."  sampler= "TSurfaceMap" material= "flock" />
+
+
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Car Body Paint" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Body Number Paint" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Body Number Carbon" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Body Number Plastic" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Matt" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Shiny Metal" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Aerials" /> 
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Mud Flaps" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Carbon Fiber" />
+            <replace texture="_main." sampler= "TDiffuseAlphaMap" material= "Plastic" />
+            <replace texture="_glass." sampler= "TDiffuseAlphaMap" material= "Window Glass" />
+            <replace texture="_glass." sampler= "TDiffuseAlphaMap" material= "Window Netting" />
+            <replace texture="_cabin." sampler= "TDiffuseAlphaMap" material= "Cabin" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Car Body Paint" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Body Number Paint" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Body Number Carbon" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Body Number Plastic" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Matt" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Shiny Metal" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Aerials" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Mud Flaps" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Carbon Fiber" />
+            <replace texture="_main_nm." sampler= "TNormalMap" material= "Plastic" />
+            <replace texture="_lights." sampler= "TDiffuseAlphaMap" material= "Lights Pod" />
+            <replace texture="_lights." sampler= "TDiffuseAlphaMap" material= "Lights Satin" />
+            <replace texture="_lights." sampler= "TDiffuseAlphaMap" material= "Lights Glass" />
+            <replace texture="_lights." sampler= "TDiffuseAlphaMap" material= "Animated Lights" />
+            <replace texture="_lights_nm" sampler= "TNormalMap" material= "Lights Pod" />
+            <replace texture="_lights_nm" sampler= "TNormalMap" material= "Lights Satin" />
+            <replace texture="_lights_nm" sampler= "TNormalMap" material= "Lights Glass" />
+            <replace texture="_lights_nm" sampler= "TNormalMap" material= "Animated Lights" />
+            <replace texture="_lights_on." sampler= "TEmissiveMap" material= "Lights Pod" />
+            <replace texture="_lights_on." sampler= "TEmissiveMap" material= "Lights Satin" />
+            <replace texture="_lights_on." sampler= "TEmissiveMap" material= "Lights Glass" />
+            <replace texture="_lights_on." sampler= "TEmissiveMap" material= "Animated Lights" />
+            <replace texture="_lights_dm." sampler= "TDiffuseCrackMap" material= "Lights Glass" />
+            <replace texture="_wheel." sampler= "TDiffuseAlphaMap" material= "Wheel" />
+            <replace texture="_wheel." sampler= "TDiffuseAlphaMap" material= "Tyre Wall" />
+            <replace texture="_wheel." sampler= "TDiffuseAlphaMap" material= "Spare Wheel" />
+            <replace texture="_wheel." sampler= "TDiffuseAlphaMap" material= "Spare Tyre Wall" />
+            <replace texture="_wheel_nm." sampler= "TNormalMap" material= "Wheel" />
+            <replace texture="_wheel_nm." sampler= "TNormalMap" material= "Tyre Wall" />
+            <replace texture="_wheel_nm." sampler= "TNormalMap" material= "Spare Wheel" />
+            <replace texture="_wheel_nm." sampler= "TNormalMap" material= "Spare Tyre Wall" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Car Body Paint" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Body Number Paint" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Body Number Carbon" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Body Number Plastic" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Matt" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Shiny Metal" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Aerials" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Mud Flaps" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Carbon Fiber" />
+            <replace texture="_specocc." sampler= "TOcclusionMap" material= "Plastic" />
+            <replace texture="_lights_spec_occ" sampler= "TOcclusionMap" material= "Lights Pod" />
+            <replace texture="_lights_spec_occ" sampler= "TOcclusionMap" material= "Lights Satin" />
+            <replace texture="_lights_spec_occ" sampler= "TOcclusionMap" material= "Lights Glass" />
+            <replace texture="_lights_spec_occ" sampler= "TOcclusionMap" material= "Animated Lights" />
+            <replace texture="disc." sampler="TDiffuseAlphaMap" material="Discs"/>
+            <replace texture="disc_nm." sampler="TNormalMap" material="Discs"/>
+            <replace texture="caliper." sampler="TDiffuseAlphaMap" material="Caliper"/>
+            <replace texture="caliper_nm." sampler="TNormalMap" material="Caliper"/>
+        </replace_body_textures>
+
+      <!-- List of replacement livery textures -->
+      
+        <replace_livery_textures>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Car Body Paint"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Matt"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Shiny Metal"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Aerials"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Mud Flaps"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Carbon Fiber"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Plastic"/>
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Body Number Paint" />
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Body Number Carbon" />
+            <replace texture="_main." sampler="TDiffuseAlphaMap" material="Body Number Plastic" />
+        </replace_livery_textures>
+
+        <!-- List of replacement generic textures -->
+        <replace_body_generic_textures>
+            <replace texture="body_mud." sampler="TDustMap" material="Spare Wheel"/>
+            <replace texture="body_mud." sampler="TDustMap" material="Spare Tyre Wall"/>
+            <replace texture="body_mud." sampler="TDustMap" material="Car Body Paint" />
+            <replace texture="body_mud." sampler="TDustMap" material="Body Number Paint" />
+            <replace texture="body_mud." sampler="TDustMap" material="Body Number Carbon" />
+            <replace texture="body_mud." sampler="TDustMap" material="Body Number Plastic" />
+            <replace texture="body_mud." sampler="TDustMap" material="Matt" />
+            <replace texture="body_mud." sampler="TDustMap" material="Shiny Metal" />
+            <replace texture="body_mud." sampler="TDustMap" material="Carbon Fiber" />
+            <replace texture="body_mud." sampler="TDustMap" material="Plastic" />
+            <replace texture="body_mud." sampler="TDustMap" material="Lights Pod" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Lights Satin" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Lights Glass" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Grills" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Window Glass" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Window Netting" />
+            <replace texture="body_mud." sampler="TDustMap" material= "Mud Flaps" /> 
+            <replace texture="body_mud." sampler="TDustMap" material= "Suspension" /> 
+            <replace texture="cabin." sampler="TDiffuseAlphaMap" material="interior"/>
+            <replace texture="disc_on." sampler="TEmissiveMap" material="Discs"/>
+            <replace texture="grills." sampler="TDiffuseAlphaMap" material="Grills"/>
+            <replace texture="grills_nm." sampler="TNormalMap" material="Grills"/>
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Car Body Paint" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Paint" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Carbon" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Plastic" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Matt" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Shiny Metal" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Lights Glass" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Window Glass" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Window Netting" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Grills" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Tyre Wall" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Tyre Tread" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Wheel" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Mud Flaps" /> 
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Suspension" /> 
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Spare Tyre Wall" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Spare Tyre Tread" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Spare Wheel" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Carbon Fiber" />
+            <replace texture= "m2_nm_tile." sampler="TMudNormalTileMap" material="Plastic" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Car Body Paint" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Body Number Paint" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Body Number Carbon" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Body Number Plastic" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Matt" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Shiny Metal" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Carbon Fiber" />
+            <replace texture= "sc_mask." sampler="TScratchMap" material="Plastic" />
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Car Body Paint"/>
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Body Number Paint" />
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Body Number Carbon" />
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Body Number Plastic" />
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Matt"/>
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Shiny Metal"/>
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Carbon Fiber" />
+            <replace texture= "sc_tile." sampler="TScratchTileMap" material="Plastic"/>
+            <replace texture="suspension." sampler="TDiffuseAlphaMap" material="suspension"/>
+            <replace texture="suspension_nm." sampler="TNormalMap" material="suspension"/>
+            <replace texture="tread."     sampler="TDiffuseAlphaMap" material="Tyre Tread"/>
+            <replace texture="tread_nm."  sampler="TNormalMap"       material="Tyre Tread"/>
+            <replace texture="tread_dp."  sampler="THeightMap"       material="Tyre Tread"/>
+            <replace texture="tread_mud." sampler="TDustMap"         material="Tyre Tread"/>
+            <replace texture="tread."     sampler="TDiffuseAlphaMap" material="Spare Tyre Tread"/>
+            <replace texture="tread_nm."  sampler="TNormalMap"       material="Spare Tyre Tread"/>
+            <replace texture="tread_dp."  sampler="THeightMap"       material="Spare Tyre Tread"/>
+            <replace texture="body_mud." sampler="TDustMap"         material="Spare Tyre Tread"/>
+            <replace texture="wheel_mud." sampler="TDustMap"         material="Wheel"/>
+            <replace texture="wheel_mud." sampler="TDustMap"         material="Tyre Wall"/>
+            <replace texture="cracks_comp." sampler= "TDiffuseCrackMap" material= "Window Glass" />
+
+            <replace texture="body_snow." sampler="TDustMap" material="Spare Wheel"/>
+            <replace texture="body_snow." sampler="TDustMap" material="Spare Tyre Wall"/>
+            <replace texture="body_snow." sampler="TDustMap" material="Car Body Paint" />
+            <replace texture="body_snow." sampler="TDustMap" material="Body Number Paint" />
+            <replace texture="body_snow." sampler="TDustMap" material="Body Number Carbon" />
+            <replace texture="body_snow." sampler="TDustMap" material="Body Number Plastic" />
+            <replace texture="body_snow." sampler="TDustMap" material="Matt" />
+            <replace texture="body_snow." sampler="TDustMap" material="Shiny Metal" />
+            <replace texture="body_snow." sampler="TDustMap" material="Carbon Fiber" />
+            <replace texture="body_snow." sampler="TDustMap" material="Plastic" />
+            <replace texture="body_snow." sampler="TDustMap" material="Lights Pod" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Lights Satin" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Lights Glass" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Grills" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Window Glass" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Window Netting" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Mud Flaps" />
+            <replace texture="body_snow." sampler="TDustMap" material= "Suspension" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Car Body Paint" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Paint" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Carbon" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Body Number Plastic" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Matt" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Shiny Metal" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Lights Glass" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Window Glass" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Window Netting" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Grills" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Tyre Wall" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Tyre Tread" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Wheel" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Mud Flaps" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Suspension" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Spare Tyre Wall" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Spare Tyre Tread" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Spare Wheel" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Carbon Fiber" />
+            <replace texture= "s2_nm_tile." sampler="TMudNormalTileMap" material="Plastic" />
+            <replace texture= "body_snow."  sampler="TDustMap"          material="Spare Tyre Tread"/>
+            <replace texture= "wheel_snow." sampler="TDustMap"          material="Wheel"/>
+            <replace texture= "wheel_snow." sampler="TDustMap"          material="Tyre Wall"/>
+          
+            <replace texture="rain_mask." sampler="TRainMask"           material="Car Body Paint"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Body Number Paint" />
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Body Number Carbon" />
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Body Number Plastic" />
+            <replace texture="rain_mask." sampler="TRainMask"           material="Lights Glass"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Lights Glass"/>
+            <replace texture="rain_mask." sampler="TRainMask"           material="Window Glass"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Window Glass"/>
+            <replace texture="rain_mask." sampler="TRainMask"           material="Matt"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Matt"/>
+            <replace texture="rain_mask." sampler="TRainMask"           material="Shiny Metal"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Shiny Metal"/>
+            <replace texture="rain_mask." sampler="TRainMask"           material="Carbon Fiber"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Carbon Fiber"/>
+            <replace texture="rain_mask." sampler="TRainMask"           material="Plastic"/>
+            <replace texture="rain_nm."   sampler="TRainNormalTileMap"  material="Plastic"/>
+
+        </replace_body_generic_textures>
+      
+    </render_materials>
+</xml>

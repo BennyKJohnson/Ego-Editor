@@ -70,6 +70,9 @@ class CameraView: AttributesInspectorDataSource, SceneRenderable {
         self.name = name
     }
     
+    
+    
+
     func numberOfSectionsInAttributesInspector(attributesInspector: AttributesInspectorViewController) -> Int {
         return 1
     }
@@ -92,18 +95,25 @@ class CameraView: AttributesInspectorDataSource, SceneRenderable {
     
     func sceneNodeForObject() -> SCNNode {
         let width: CGFloat = 0.1
-        let height:CGFloat = 0.2
-        let length: CGFloat = 0.2
-        
+        let height:CGFloat = 0.1
+        let length: CGFloat = 0.15
+        let wireframeShader = SCNMaterial.wireframeShader()
+
         // Hacky way of dealing with hit test returning child nodes for camera
-        let boxGeometry = SCNBox(width: 0.1, height: 0.1, length: 0.15, chamferRadius: 0)
+        let boxGeometry = SCNBox(width: 0.1, height: height, length: length, chamferRadius: 0)
         let lensGeometry = SCNPyramid(width: width, height: 0.07, length: width)
+        
+        // Set wireframe shader
+        lensGeometry.program = wireframeShader;
+        boxGeometry.program = wireframeShader;
+        
         let lens = SCNNode(geometry: lensGeometry)
         let cameraNode = SCNNode()
         let boxNode = SCNNode(geometry: boxGeometry)
         boxNode.name = name
         lens.position.z += 0.15
         lens.rotation = SCNVector4Make(1,0 , 0, -CGFloat(M_PI/2))
+        
         cameraNode.addChildNode(lens)
         cameraNode.addChildNode(boxNode)
         cameraNode.name = name

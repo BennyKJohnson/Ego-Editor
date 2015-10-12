@@ -9,6 +9,42 @@
 import Cocoa
 import SceneKit
 
+enum TextureType {
+    case DiffuseAlphaMap
+    case NormalMap
+    case SurfaceMap
+    case OcclusionMap
+    case UnknownType
+    
+    static func textureTypeFromSampler(sampler: String) -> TextureType
+    {
+        switch(sampler) {
+        case "TDiffuseAlphaMap":
+            return TextureType.DiffuseAlphaMap
+        case "TNormalMap":
+            return TextureType.NormalMap
+        case "TOcclusionMap":
+            return TextureType.OcclusionMap
+        default:
+            return TextureType.UnknownType
+        }
+    }
+    static func fromFileComponent(component: String?) -> TextureType {
+        if let component = component {
+            switch(component) {
+            case "nm":
+                return TextureType.NormalMap
+            case "specocc", "spec":
+                return TextureType.OcclusionMap
+            default:
+                return TextureType.UnknownType
+            }
+        }
+        // Return standard diffuse
+        return TextureType.DiffuseAlphaMap
+    }
+}
+
 struct Model {
     let transform: SCNMatrix4
     let geometry: SCNGeometry
@@ -17,29 +53,33 @@ struct Model {
 struct TextureComponents {
     var modelName: String?
     let title: String
-    var type: String? = nil
+    var type: TextureType
     
     init?(textureFilename: String) {
         let components = textureFilename.componentsSeparatedByString("_")
+        type = TextureType.DiffuseAlphaMap
         if components.count == 1 {
             title = components.first!
+            
         } else if components.count > 1 {
             modelName = components.first!
             title = components[1]
             if components.count == 3 {
-                type = components.last!
+                type = TextureType.fromFileComponent(components.last!)
             }
         } else {
             return nil
         }
     }
+    
+    
 }
 
 protocol SceneEditorViewControllerDelegate {
     func sceneEditorViewController(didSelectObject object: AnyObject) -> Bool
 }
 
-class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
+class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNProgramDelegate {
     
     @IBOutlet weak var sceneView: SceneEditorView!
     var pssgFile: PSSGFile?
@@ -87,6 +127,12 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
                 
             }
             document?.scene = scene
+            
+            let translate = TranslateControl()
+            translate.render()
+            
+            scene.rootNode.addChildNode(translate)
+            
         }
         
         // Write Scene
@@ -113,6 +159,9 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
         cameraNode.position = SCNVector3Make(0, 0, 25)
         sceneView.scene?.rootNode.addChildNode(cameraNode)
     }
+    
+  
+    
     
     func sceneView(sceneView: SceneEditorView, didSelectNode node: SCNNode, geometryIndex: Int, event: NSEvent) {
         if let nodeName = node.name , selectedObject = selectableNodes[nodeName]  {
@@ -148,28 +197,67 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
         return NSDragOperation.None
     }
     
+    func program(program: SCNProgram, handleError error: NSError) {
+        print(error)
+    }
+    
+    func program(program: SCNProgram, bindValueForSymbol symbol: String, atLocation location: UInt32, programID: UInt32, renderer: SCNRenderer) -> Bool {
+        return true
+    }
+    
+    
     func loadImageAssetsWithURLs(imageAssetURLs: [NSURL]) {
         for ddsURL in imageAssetURLs {
-            // Get filename, confirm that it belongs to material
-            let textureFilename = ddsURL.lastPathComponent!.componentsSeparatedByString(".").first!
-            print(textureFilename)
             
+            // Get filename, confirm that it belongs to material
+            
+            let textureFilename = ddsURL.lastPathComponent!
+            
+            print(textureFilename)
+        
+            // Get texture definition
+            
+            let materialDefinition = MaterialDefinition(data: NSData(contentsOfURL: NSBundle.mainBundle().URLForResource("render_materials", withExtension: "xml")!)!)
+
             // Map to material
-            if let textureComponents = TextureComponents(textureFilename: textureFilename), materials = textureToMaterial[textureComponents.title] where textureComponents.type == nil {
+            
+            if let materials = materialDefinition.materialsForTextureFilename(textureFilename) {
                 
-                // Load DDS Image
-                if let dds = DDS(URL: ddsURL) {
-                    let imageRef = dds.CreateImage
+                // Add to each material
+                
+                for material in materials {
                     
-                    // Finally load into materials
-                    for material in materials {
-                        sharedMaterials[material]?.diffuse.contents = imageRef().takeUnretainedValue()
-                        //sharedMaterials[material]
+                    // Load DDS Image
+                    if let dds = DDS(URL: ddsURL) {
+                        let imageRef = dds.CreateImage
+                        
+                        // Finally load into materials
+
+                            let textureType = TextureType.textureTypeFromSampler(material.sampler)
+                            
+                            switch(textureType) {
+                            case .DiffuseAlphaMap:
+                                print("Added \(textureFilename) as diffuse map to material \(material)")
+                                sharedMaterials[material.materialName]?.diffuse.contents = imageRef().takeUnretainedValue()
+                                /*
+                            case .NormalMap:
+                                print("Added \(textureFilename) as normal map to material \(material)")
+                                sharedMaterials[material.materialName]?.normal.contents = imageRef().takeUnretainedValue()
+*/
+                            default:
+                                break
+                            }
+                        
                     }
+                    
+                    
+                    
                 }
                 
             }
+   
         }
+
     }
     
     func loadPSSG(url: NSURL) -> Bool {
@@ -215,6 +303,9 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate {
     
     func addRenderable(object: SceneRenderable) {
         let objectNode = object.sceneNodeForObject()
+        // Add wireframe program
+ 
+        
         self.sceneView.scene?.rootNode.addChildNode(objectNode)
     }
     

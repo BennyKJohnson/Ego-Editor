@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import SceneKit
 
 extension Array {
     
@@ -35,4 +36,31 @@ extension String {
             return (self as NSString).floatValue
         }
     
+}
+
+extension SCNMaterial {
+    class func wireframeShader() -> SCNProgram {
+        let wireframeShader = SCNProgram()
+        
+        // Get URL to wireframe shaders
+        let wireFrameFSHURL = NSBundle.mainBundle().URLForResource("C3D-wireframe", withExtension: "fsh")!
+        let wireFrameVSHURL = NSBundle.mainBundle().URLForResource("C3D-wireframe", withExtension: "vsh")!
+        
+        let wireFrameFSH = try! NSString(contentsOfURL: wireFrameFSHURL, encoding: NSUTF8StringEncoding)
+        let wireFrameVSH = try! NSString(contentsOfURL: wireFrameVSHURL, encoding: NSUTF8StringEncoding)
+        
+        // Load shader code into program
+        wireframeShader.fragmentShader = wireFrameFSH as String
+        wireframeShader.vertexShader = wireFrameVSH as String
+        
+        // Set variables vertex shader
+        wireframeShader.setSemantic(SCNGeometrySourceSemanticColor, forSymbol: "u_color", options: nil)
+        wireframeShader.setSemantic(SCNGeometrySourceSemanticVertex, forSymbol: "v_vertexCenter", options: nil)
+        
+        // Set variables fragment shader
+        wireframeShader.setSemantic(SCNProjectionTransform, forSymbol: "u_modelViewProjectionTransform", options: nil)
+         wireframeShader.setSemantic(SCNGeometrySourceSemanticVertex, forSymbol: "a_position", options: nil)
+        
+        return wireframeShader
+    }
 }
