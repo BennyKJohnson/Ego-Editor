@@ -77,6 +77,7 @@ struct TextureComponents {
 
 protocol SceneEditorViewControllerDelegate {
     func sceneEditorViewController(didSelectObject object: AnyObject) -> Bool
+    func sceneEditorViewController(didLoadScene scene:SCNScene)
 }
 
 class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNProgramDelegate {
@@ -127,6 +128,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                 
             }
             document?.scene = scene
+            self.delegate?.sceneEditorViewController(didLoadScene: scene)
             
             let translate = TranslateControl()
             translate.render()

@@ -18,22 +18,22 @@ protocol MainEditorDelegate {
     func mainEditor(didSelectObject object: AnyObject)
 }
 
-class MainEditorViewController: NSSplitViewController, NSToolbarDelegate, SceneEditorViewControllerDelegate {
+class MainEditorViewController: NSSplitViewController, NSToolbarDelegate {
     
 
     
     @IBOutlet var basicEditor: NSSplitViewItem!
     @IBOutlet var assistEditor: NSSplitViewItem!
     
-    var sceneEditorViewController: SceneEditorViewController!
+    var canvasViewController: CanvasViewController!
     var pssgDataViewController: PSSGDataViewController!
     var delegate: MainEditorDelegate?
     
     override func awakeFromNib() {
          basicEditor = splitViewItems.first!
          assistEditor = splitViewItems.last!
-        sceneEditorViewController = self.childViewControllers.first as! SceneEditorViewController
-        sceneEditorViewController.delegate = self
+        canvasViewController = self.childViewControllers.first as! CanvasViewController
+        //sceneEditorViewController.delegate = self
 
         pssgDataViewController = self.childViewControllers.last as! PSSGDataViewController
     }
@@ -43,7 +43,7 @@ class MainEditorViewController: NSSplitViewController, NSToolbarDelegate, SceneE
           //  if document == nil { return }
             
           
-            sceneEditorViewController.document = document
+            canvasViewController.document = document
             pssgDataViewController.document = document
             
             
