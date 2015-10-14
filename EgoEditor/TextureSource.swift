@@ -34,13 +34,10 @@ extension PSSGFile: MaterialPropertyDataSource {
     
     func shouldSaveTexturesToTemporaryDirectory() -> Bool {
         // Save the located texture files to temp directiory
-        let textureNodes = rootNode.nodesWithName("TEXTURE")
-        for textureNode in textureNodes {
-            
-            
-        }
+       // let textureNodes = rootNode.nodesWithName("TEXTURE")
         
-        return true
+        fatalError("Not implemented")
+        //return true
     }
 
     

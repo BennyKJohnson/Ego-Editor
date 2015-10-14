@@ -46,13 +46,15 @@ class PSSGFile {
             try self.init(pssgFile: file, schemaURL: schemaURL)
         case .CompressedBinary:
             // Create NSData for object
-            let compressedData = file.availableData
+            let compressedData = file.availableData // Get all available data
       
-            let uncompressData = try compressedData.gunzippedData()
+            let uncompressData = try compressedData.gunzippedData() // attempt to uncompress data
 
-            let dataPointer = UnsafeMutablePointer<UInt8>(uncompressData.bytes);
-            let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: uncompressData.length, freeOnDeinit: false)
-            let magic = dataBuffer.readString(4)
+            let dataPointer = UnsafeMutablePointer<UInt8>(uncompressData.bytes); // Get pointer to file bytes
+            let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: uncompressData.length, freeOnDeinit: false) // Create buffer that will be used to read data from data pointer
+            
+            dataBuffer.readString(4) // Read Magic, already used so don't store it
+            
             try self.init(pssgFile: dataBuffer, schemaURL: schemaURL)
 
         case .XML:

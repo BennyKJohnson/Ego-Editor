@@ -82,7 +82,7 @@ class TranslateControl: SCNNode {
     }
     
     func xHead() -> SCNNode {
-        let translation = SCNVector3((axisScale() * (1 - coneHeight)), 0, 0)
+       // let translation = SCNVector3((axisScale() * (1 - coneHeight)), 0, 0)
         let headGeometry = SCNCone(topRadius: 0, bottomRadius: axisScale() * coneDiameter, height: coneHeight * axisScale())
         let xHead = SCNNode(geometry: headGeometry)
         headGeometry.firstMaterial?.diffuse.contents = xAxisColor

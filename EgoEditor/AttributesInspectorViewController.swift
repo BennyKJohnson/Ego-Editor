@@ -113,17 +113,15 @@ class AttributesInspectorViewController: NSViewController, NSOutlineViewDataSour
         // Get number of disclosureViewControllers required
         numberOfSections = dataSource?.numberOfSectionsInAttributesInspector(self) ?? 0
         sections = []
-        var disclosureViews: [NSView] = []
         for(var i = 0; i < numberOfSections;i++) {
             
             // Create DisclosureViewController
-            let disclosureViewController = DisclosureViewController(nibName: "DisclosureViewController", bundle: NSBundle.mainBundle())!
+        //    let disclosureViewController = DisclosureViewController(nibName: "DisclosureViewController", bundle: NSBundle.mainBundle())!
             let sectionTitle = dataSource!.attributesInspector(self, titleForHeaderInSection: i)
-            disclosureViewController.title = sectionTitle
+          //  disclosureViewController.title = sectionTitle
             
-            
-            let attributesViewController = AttributesViewController(nibName: "AttributesViewController", bundle: NSBundle.mainBundle())!
-            disclosureViewController.disclosedView = attributesViewController.view
+       
+         //   disclosureViewController.disclosedView = attributesViewController.view
             
             
             // Get number of rows
@@ -142,7 +140,7 @@ class AttributesInspectorViewController: NSViewController, NSOutlineViewDataSour
 
 
             // Add DisclosureView to AttributeInspector
-            disclosureViews.append(disclosureViewController.view)
+          //  disclosureViews.append(disclosureViewController.view)
         //    disclosureViewControllers.append(disclosureViewController)
           //  attributesStackView.addView(disclosureViewController.view, inGravity: NSStackViewGravity.Bottom)
          

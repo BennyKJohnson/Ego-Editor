@@ -9,9 +9,9 @@
 import Foundation
 
 struct BinaryXMLElement {
-    let elementNameID: Int
-    let elementValueID: Int
-    let attributeCount: Int
+    let elementNameID: Int      // The id (index) of the stringValue for the element name
+    let elementValueID: Int     // The id (index) if the stringValue for the element data
+    let attributeCount: Int     // Number of attributes for node
     let attributeStartID: Int
     let childElementCount: Int
     let childElementStartID: Int
@@ -70,13 +70,15 @@ class XMLFile {
         
         // Check if fileHandle is
         fileHandle.readBytes(1);
-        fileHandle.readBytes(3); // Magic
+        fileHandle.readBytes(3); // Read Magic
         let size = fileHandle.readInt32()!;
+        assert(size > 0, "Read file size of 0, this is not expected. Is this a BXML or other file?")
         
         // Section 2
         fileHandle.readBytes(1)
         fileHandle.readBytes(3);
         let dataSize = fileHandle.readInt32()
+        assert(dataSize > 0, "Read main data size of 0, this is not expected. Is this a BXML or other file?")
         
         xmlStrings = readXMLString(fileHandle)
         
@@ -118,15 +120,16 @@ class XMLFile {
         let element = NSXMLElement(name: xmlStrings[binaryElement.elementNameID])
         element.attributes = []
         
+        // Get attributes for the binary XML element
         for(var i = binaryElement.attributeStartID; i < binaryElement.attributeEndID;i++) {
             let binaryAttribute = binaryXMLAttributes[i]
             element.addAttribute(attributeForBinaryXMLAttribute(binaryAttribute))
         }
-        
+        // Get child nodes for binary XML element
         for(var i = binaryElement.childElementStartID; i < binaryElement.childElementEndID; i++) {
             element.addChild(xmlElementForBinaryXMLElement(binaryXMLElements[i]))
         }
-        
+        // Get node data (String value) for binary xml element
         if(binaryElement.elementValueID > 0 && binaryElement.childElementCount == 0) {
             element.stringValue = xmlStrings[binaryElement.elementValueID]
         }
@@ -136,11 +139,16 @@ class XMLFile {
     }
     
     func readXMLString(fileHandle: FileHandle) -> [String] {
-        let unknown = fileHandle.readInt32()
+        let _ = fileHandle.readInt32()
         let length = fileHandle.readInt32()!
+        // Offset for where strings have finished being defined
         let endPosition = UInt64(length) + fileHandle.offsetInFile
+        
+        // Array to hold readed string values
         var stringValues: [String] = []
+        // Read Strings until endPosition is reached
         while(fileHandle.offsetInFile < endPosition) {
+            // Read null terminated string and append to string array
             let stringValue = fileHandle.readCString()!
             stringValues.append(stringValue)
         }

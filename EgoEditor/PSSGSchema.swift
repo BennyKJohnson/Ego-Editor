@@ -151,7 +151,7 @@ class PSSGSchema: NSObject, XMLSerialization {
             }
         }
         
-        let attributeInfoCount = pssgFile.readInt32()
+        pssgFile.readInt32() // Total number of attributes defined
         let noteInfoCount = pssgFile.readInt32()
         
         for(var i = 0;i < noteInfoCount;i++) {

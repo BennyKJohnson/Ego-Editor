@@ -26,9 +26,20 @@ class StructureNode {
 
 class EntryNode {
     var name: String
-    init(name: String) {
+    let entityType: EntityType
+    init(name: String, type: EntityType) {
         self.name = name
+        self.entityType = type
     }
+}
+
+enum EntityType {
+    case Animation
+    case Camera
+    case Geometry
+    case Light
+    case Material
+    case Textures
 }
 
 class SceneGraphViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
@@ -37,13 +48,27 @@ class SceneGraphViewController: NSViewController, NSOutlineViewDataSource, NSOut
     @IBOutlet var outlineView: NSOutlineView!
     
     let sections = [StructureNode(name: "Entities", imageName: "entities"),StructureNode(name: "Scene Graph", imageName: "sceneGraph")]
-    let entryNodes = [EntryNode(name: "Animations"), EntryNode(name: "Cameras"), EntryNode(name: "Geometries"), EntryNode(name: "Lights"), EntryNode(name: "Materials"), EntryNode(name: "Textures")]
+    let entryNodes = [EntryNode(name: "Animations", type: EntityType.Animation), EntryNode(name: "Cameras", type: EntityType.Camera), EntryNode(name: "Geometries", type: EntityType.Geometry), EntryNode(name: "Lights", type: EntityType.Light), EntryNode(name: "Materials", type: EntityType.Material), EntryNode(name: "Textures", type: EntityType.Textures)]
     var rootNode: SCNNode! {
         didSet {
             self.updateSceneGraph()
         }
     }
-
+    
+    func geometriesForScene() -> [String] {
+        var geometrySources: [String] = []
+        let flattenedScene = rootNode.flattenedClone()
+        
+        for node in flattenedScene.childNodes {
+            if let geometry = node.geometry {
+               geometrySources.append(geometry.name ?? "<untitled geometry>")
+            }
+        }
+        
+        return geometrySources
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +98,16 @@ class SceneGraphViewController: NSViewController, NSOutlineViewDataSource, NSOut
                return entryNodes[index]
             }
             
-        }
-        else {
+        } else if let node = item as? EntryNode {
+            switch(node.entityType) {
+            case .Geometry:
+                return geometriesForScene()[index]
+            default:
+                fatalError("Not supported")
+            }
+            
+            
+        } else {
             let node = item as! SCNNode
             return node.childNodes[index]
         }
@@ -114,10 +147,16 @@ class SceneGraphViewController: NSViewController, NSOutlineViewDataSource, NSOut
             if section.name == sections.first!.name {
                 return entryNodes.count
             } else {
-                return rootNode.childNodes.count
+                return rootNode?.childNodes.count ?? 0
             }
         } else if let entityNode = item as? EntryNode {
-            return 0
+            switch(entityNode.entityType) {
+            case .Geometry:
+                return 0
+            default:
+                return 0
+            }
+
         }
         else {
             return sections.count
@@ -127,14 +166,14 @@ class SceneGraphViewController: NSViewController, NSOutlineViewDataSource, NSOut
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
         if let structureNode = item as? StructureNode {
             // Dequeue Cell
-            let headerCell = outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as! NSTableCellView
+            let headerCell = outlineView.makeViewWithIdentifier("SectionCell", owner: self) as! NSTableCellView
             headerCell.imageView!.image = NSImage(named: structureNode.imageName)
             headerCell.textField!.stringValue = structureNode.name
             
             return headerCell
             
         } else if let entryNode = item as? EntryNode {
-            let headerCell = outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as! NSTableCellView
+            let headerCell = outlineView.makeViewWithIdentifier("SectionCell", owner: self) as! NSTableCellView
             headerCell.imageView!.image = NSImage(named: "NSFolder")
             headerCell.textField!.stringValue = entryNode.name
             

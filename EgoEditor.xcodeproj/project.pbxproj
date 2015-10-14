@@ -60,8 +60,6 @@
 		A3F127961BBF6A3B00105254 /* scene3.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3F127951BBF6A3B00105254 /* scene3.dae */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAAF1BC880DD002D44FE /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAAE1BC880DD002D44FE /* CameraView.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAB11BC899D3002D44FE /* AttributesInspectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAB01BC899D3002D44FE /* AttributesInspectorViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		A3F6FAC01BC89D7E002D44FE /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FABD1BC89D7E002D44FE /* DisclosureViewController.m */; settings = {ASSET_TAGS = (); }; };
-		A3F6FAC11BC89D7E002D44FE /* DisclosureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F6FABF1BC89D7E002D44FE /* DisclosureViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAC41BC8A3F8002D44FE /* AttributesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAC21BC8A3F8002D44FE /* AttributesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAC51BC8A3F8002D44FE /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F6FAC31BC8A3F8002D44FE /* AttributesViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAC81BC8AB27002D44FE /* EESplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAC71BC8AB27002D44FE /* EESplitViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -145,9 +143,6 @@
 		A3F127951BBF6A3B00105254 /* scene3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = scene3.dae; sourceTree = "<group>"; };
 		A3F6FAAE1BC880DD002D44FE /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		A3F6FAB01BC899D3002D44FE /* AttributesInspectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesInspectorViewController.swift; sourceTree = "<group>"; };
-		A3F6FABC1BC89D7E002D44FE /* DisclosureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisclosureViewController.h; path = ../../../Downloads/InfoBarStackView/InfoBarStackView/Common/DisclosureViewController.h; sourceTree = "<group>"; };
-		A3F6FABD1BC89D7E002D44FE /* DisclosureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisclosureViewController.m; path = ../../../Downloads/InfoBarStackView/InfoBarStackView/Common/DisclosureViewController.m; sourceTree = "<group>"; };
-		A3F6FABE1BC89D7E002D44FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DisclosureViewController.xib; sourceTree = "<group>"; };
 		A3F6FAC21BC8A3F8002D44FE /* AttributesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesViewController.swift; sourceTree = "<group>"; };
 		A3F6FAC31BC8A3F8002D44FE /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
 		A3F6FAC71BC8AB27002D44FE /* EESplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EESplitViewController.swift; sourceTree = "<group>"; };
@@ -344,9 +339,6 @@
 				A300DD871BC8E6D500B43558 /* SidebarTableCellView.h */,
 				A300DD881BC8E6D500B43558 /* SidebarTableCellView.m */,
 				A3F6FAB01BC899D3002D44FE /* AttributesInspectorViewController.swift */,
-				A3F6FABC1BC89D7E002D44FE /* DisclosureViewController.h */,
-				A3F6FABD1BC89D7E002D44FE /* DisclosureViewController.m */,
-				A3F6FABF1BC89D7E002D44FE /* DisclosureViewController.xib */,
 				A3F6FAC21BC8A3F8002D44FE /* AttributesViewController.swift */,
 				A3F6FAC31BC8A3F8002D44FE /* AttributesViewController.xib */,
 				A300DD811BC8C32400B43558 /* AttributeCell.swift */,
@@ -442,7 +434,6 @@
 				A3F6FAC51BC8A3F8002D44FE /* AttributesViewController.xib in Resources */,
 				A372CBAD1BCB634300B9E49E /* C3D-wireframe.vsh in Resources */,
 				A36962E31BBD19CB00F9F4EC /* Assets.xcassets in Resources */,
-				A3F6FAC11BC89D7E002D44FE /* DisclosureViewController.xib in Resources */,
 				A37BB2FF1BC741C800A81D98 /* pssg.xsd in Resources */,
 				A36979CA1BBE562400420595 /* Info_OSX.plist in Resources */,
 				A36979C91BBE562400420595 /* Info_iOS.plist in Resources */,
@@ -479,7 +470,6 @@
 				A3F6FAC41BC8A3F8002D44FE /* AttributesViewController.swift in Sources */,
 				A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */,
 				A3AB4C021BC3616A0080BD3F /* TextureSource.swift in Sources */,
-				A3F6FAC01BC89D7E002D44FE /* DisclosureViewController.m in Sources */,
 				A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */,
 				A36979C81BBE562400420595 /* ByteOrder.swift in Sources */,
 				A36979BF1BBE354000420595 /* PSSGFile+GeometrySource.swift in Sources */,
@@ -537,15 +527,6 @@
 				A36962E51BBD19CB00F9F4EC /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A3F6FABF1BC89D7E002D44FE /* DisclosureViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A3F6FABE1BC89D7E002D44FE /* Base */,
-			);
-			name = DisclosureViewController.xib;
-			path = ../../../Downloads/InfoBarStackView/InfoBarStackView;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -90,9 +90,9 @@ struct GeometryDataSource {
             let y = CGFloat(dataBuffer.readHalf()!)
             stCoordinates.append(STCoordinate(x: x, y: y))
             
-            // Not sure what these values are
-            let unknownX = dataBuffer.getInt16()
-            let unknownY = dataBuffer.getInt16()
+            // Not sure what these values are, x,y
+            let _ = dataBuffer.getInt16()
+            let _ = dataBuffer.getInt16()
             
             // Tangent - offset 8
             dataBuffer.getInt16()
@@ -238,7 +238,7 @@ extension PSSGFile {
                 let transform: SCNMatrix4 = SCNMatrix4.fromData(transformData)!
                 
                 var modelGeometryElements:[SCNGeometryElement] = []
-                var modelGeometrySources: [SCNGeometrySource] = []
+               // var modelGeometrySources: [SCNGeometrySource] = []
                 var modelMaterials: [SCNMaterial] = []
                 
                 var modelVertices: [SCNVector3] = []
@@ -269,9 +269,6 @@ extension PSSGFile {
                         modelMaterials.append(newMaterial)
                     }
                     
-                    if modelName  == "x0_spoiler_b" {
-                        print("Found \(modelName)")
-                    }
                     
                     if let renderDataSource = self.rootNode.nodeWithID(nodeID) {
                      //   print("Found node with ID \(renderInstanceID)")
@@ -369,17 +366,6 @@ extension PSSGFile {
     }
     
 }
-
-// TODO: Move this information to xml document
-let textureToMaterial: [String: [String]] = [
-    "glass": ["Lights Glass", "Window Glass"],
-    "main": ["Matt", "Car Body Paint", "Shiny Metal"],
-    "lights": ["Discs", "Lights Pod"],
-    "tread": ["Tarmac Tyre Tread"],
-    "grills": ["Grills"],
-    "cabin": ["Cabin"],
-    "wheel": ["Tarmac Wheel"]
-]
 
 extension SCNMatrix4 {
     static func fromData(data: NSData) -> SCNMatrix4? {

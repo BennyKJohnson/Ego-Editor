@@ -210,9 +210,6 @@ extension PSSGDataViewController: NSOutlineViewDataSource, NSOutlineViewDelegate
                 return selectedNode
 
             }
-            if selectedNode.isDataNode {
-                return selectedNode
-            }
             
         } else if let node = item as? PSSGNode {
             return node.childNodes[index]

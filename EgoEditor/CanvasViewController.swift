@@ -12,6 +12,7 @@ class CanvasViewController: NSSplitViewController, SceneEditorViewControllerDele
 
     var sceneGraphViewController: SceneGraphViewController!
     var sceneEditorViewController: SceneEditorViewController!
+    
     weak var scene: SCNScene? {
         didSet {
             sceneGraphViewController.rootNode = scene?.rootNode
