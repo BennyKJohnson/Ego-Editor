@@ -86,6 +86,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     var pssgFile: PSSGFile?
     var sharedMaterials: [String:SCNMaterial] = [:]
     var delegate: SceneEditorViewControllerDelegate?
+    var translateManipulator: TranslateControl!
     
     var selectableNodes:[String: AnyObject] = [:] // Not sure how you are meant to get the data model for a given model, more research needs to be done. Dictionary will work for now
     
@@ -130,10 +131,10 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
             document?.scene = scene
             self.delegate?.sceneEditorViewController(didLoadScene: scene)
             
-            let translate = TranslateControl()
-            translate.render()
+            translateManipulator = TranslateControl()
+            translateManipulator.render()
+            scene.rootNode.addChildNode(translateManipulator)
             
-            scene.rootNode.addChildNode(translate)
             
         }
         
@@ -166,10 +167,21 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     
     
     func sceneView(sceneView: SceneEditorView, didSelectNode node: SCNNode, geometryIndex: Int, event: NSEvent) {
-        if let nodeName = node.name , selectedObject = selectableNodes[nodeName]  {
-            print("Selected object \(node.name!)")
-            self.delegate?.sceneEditorViewController(didSelectObject: selectedObject)
+        print("Selected Node \(node.name)")
+        // Move translate Manipulator
+        
+        if let nodeName = node.name {
+            if nodeName.rangeOfString(TranslateControl.identifier) == nil {
+                translateManipulator.position = node.position
+                
+                print("Selected object \(node.name!)")
+//self.delegate?.sceneEditorViewController(didSelectObject: selectedObject)
+            } else {
+                print("Selected handle")
+            }
+
         }
+        
     }
     
     override func viewDidLoad() {
