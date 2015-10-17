@@ -81,6 +81,7 @@ class SceneEditorView: SCNView {
     
     override func mouseDragged(theEvent: NSEvent) {
         // Response to drag
+        super.mouseDragged(theEvent)
         
     }
  

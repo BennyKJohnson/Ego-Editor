@@ -39,6 +39,8 @@ protocol FileHandle {
     func readData(size:Int) -> NSData?
     
     var availableData: NSData { get }
+    
+    
 }
 
 extension FileHandle {

@@ -136,6 +136,12 @@ public class ByteBuffer {
         return Int16(bitPattern: getUInt16())
     }
     
+    public func getFloat16() -> Float {
+        var byteData = self.getUInt16()
+        return f16toFloat(&byteData)
+    }
+    
+    
     public func getInt32() -> Int32 {
         return Int32(bitPattern: getUInt32())
     }
@@ -234,6 +240,10 @@ public class ByteBuffer {
     
     public func getUInt64(count: Int) -> Array<UInt64> {
         return getArray(count, defaultValue: 0) { self.getUInt64() }
+    }
+    
+    public func getFloat16(count: Int) -> Array<Float32> {
+        return getArray(count, defaultValue: 0.0) { self.getFloat16() }
     }
     
     public func getFloat32(count: Int) -> Array<Float32> {

@@ -116,6 +116,113 @@ struct GeometryDataSource {
         return stCoordinates
     }
     
+    init(renderDataSource: PSSGNode, dataBlock: PSSGDataBlock, transform: SCNMatrix4, renderDataSourceInfo: RenderDataSourceInfo) {
+        //let size = dataBlock.attributesDictionary["size"]!.value as! Int
+        
+        let elementCount = renderDataSourceInfo.elementCountFromOffset
+        let streamOffset = renderDataSourceInfo.streamOffset
+        
+        // Get Vertex Data
+        let vertexStream = dataBlock.streamForRenderType(.Vertex)!
+        let verticeData = vertexStream.elements//[streamOffset...streamOffset + elementCount]
+        print("Vertex Count in \(dataBlock.id) \(elementCount) / \(dataBlock.elementCount)")
+        for(var i = streamOffset; i < streamOffset + elementCount;i++) {
+            let vertexData  = vertexStream.elements[i]
+            // Get position components
+            let x = vertexData[0] as! Float
+            let y = vertexData[1] as! Float
+            let z = vertexData[2] as! Float
+            
+            vertices.append(SCNVector3(x,y,z))
+            
+        }
+        
+        let normalStream = dataBlock.streamForRenderType(.Normal)!
+        let normalElements = normalStream.elements//[streamOffset...streamOffset + elementCount]
+        for(var i = streamOffset; i < streamOffset + elementCount;i++) {
+            let normalData  = normalElements[i]
+            // Get position components
+            let x = normalData[0] as! Float
+            let y = normalData[1] as! Float
+            let z = normalData[2] as! Float
+            
+            normals.append(SCNVector3(x,y,z))
+            
+        }
+        
+        /*
+        
+        let data = rawData.subdataWithRange(NSMakeRange(startOffset, length));
+        let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
+        
+        // Create a buffer that holds the bytes so we can read in big endian
+        let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: data.length, freeOnDeinit: false)
+        //dataBuffer.flip()
+        
+        // Convert Data
+        let validData = NSMutableData(capacity: size)!
+        
+        //  var normals: [F;pat]
+        for(var i = 0; i < renderDataSourceInfo.elementCountFromOffset;i++) {
+            
+            let x = dataBuffer.getFloat32()
+            let y = dataBuffer.getFloat32()
+            let z = dataBuffer.getFloat32()
+            
+            let vertex = [x,y ,z]
+            vertices.append(SCNVector3(x,y,z))
+            validData.appendData(NSData(bytes: vertex, length: 12))
+            
+            let color = [dataBuffer.getUInt8(),dataBuffer.getUInt8(), dataBuffer.getUInt8(), dataBuffer.getUInt8()]
+            validData.appendData(NSData(bytes: color, length: color.count * sizeof(UInt8)))
+            
+            let normal = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()) //[dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()]
+            normals.append(normal)
+            //    validData.appendData(NSData(bytes: normal, length: normal.count * sizeof(Float)))
+            
+        }
+        */
+        let verticeSource = SCNGeometrySource(vertices: &vertices, count: vertices.count)
+        geometrySources.append(verticeSource)
+        
+        let normalSource = SCNGeometrySource(normals: &normals, count: normals.count)
+        geometrySources.append(normalSource)
+        
+        
+        /*
+        for dataBlockStream in dataBlock.nodesWithName("DATABLOCKSTREAM") {
+        let renderType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
+        let stride = dataBlockStream.attributesDictionary["stride"]!.value as! Int
+        let offset = dataBlockStream.attributesDictionary["offset"]!.value as! Int
+        let dataType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
+        print("\(renderType) stride: \(stride) offset: \(offset)")
+        
+        // Create Geometry Source
+        let geometrySource = SCNGeometrySource(data: validData, renderType: renderType, vectorCount: elementCount, dataType: dataType, offset: offset, stride: stride)
+        
+        geometrySources.append(geometrySource)
+        
+        }
+        */
+        /*
+        for(var i = 0; i < size;i += stride) {
+        // Create vertex for x,y,z position
+        let vertice = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32())
+        vertices.append(vertice)
+        
+        // Get Colour of vertex
+        let color = dataBuffer.getInt32()
+        
+        // Get normal value for vertex
+        let normal = SCNVector3(dataBuffer.getFloat32(),dataBuffer.getFloat32(),dataBuffer.getFloat32())
+        normals.append(normal)
+        
+        }
+        */
+    }
+    
+    
+    
     
     init(renderDataSource: PSSGNode, dataBlock: PSSGNode, transform: SCNMatrix4, renderDataSourceInfo: RenderDataSourceInfo) {
         let size = dataBlock.attributesDictionary["size"]!.value as! Int
@@ -127,6 +234,7 @@ struct GeometryDataSource {
         let startOffset = renderDataSourceInfo.streamOffset * stride
         let length = 28 * renderDataSourceInfo.elementCountFromOffset
 
+        
         let data = rawData.subdataWithRange(NSMakeRange(startOffset, length));
         let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
 
@@ -220,8 +328,15 @@ extension PSSGFile {
         return rootNode.nodeWithName("MATRIXPALETTEBUNDLENODE") != nil
     }
     
+    
+    
+    
     func geometryForObject() -> [Model] {
+        // Test dataSource code 
+   
+        
         let mphnNodes = [rootNode.nodesWithName("MATRIXPALETTEBUNDLENODE").last!]
+        
         var models: [Model] = []
         var materials: [String:SCNMaterial] = [:]
         
@@ -310,8 +425,9 @@ extension PSSGFile {
                         
                         
                         let dataBlockID = vertexDataBlock.attributesDictionary["dataBlock"]!.value as! String
-                        
-                         if let dataBlock = self.rootNode.nodeWithID(String(dataBlockID.characters.dropFirst())) {
+                        let dataBlockIdentifier = String(dataBlockID.characters.dropFirst())
+                        // self.rootNode.nodeWithID(String(dataBlockID.characters.dropFirst()))
+                         if let dataBlock = self.renderInterfaceBound?.dataBlocks[dataBlockIdentifier] {
                            // print("Found data block \(dataBlock)")
  
                            let renderDataSource = GeometryDataSource(renderDataSource: renderDataSource, dataBlock: dataBlock, transform: transform, renderDataSourceInfo: renderDataSourceInfo)
@@ -322,6 +438,8 @@ extension PSSGFile {
 
                             
                           //  Create Multiple Geometry Elements
+                         } else {
+                            fatalError("DATABLOCK \(dataBlockIdentifier) not found")
                         }
                         
                         // Get ST Data
@@ -329,6 +447,7 @@ extension PSSGFile {
                             let stDataBlockID = (stRenderStream.attributesDictionary["dataBlock"]!.value as! String).stringByReplacingOccurrencesOfString("#", withString: "")
                             let stDataBlock = self.rootNode.nodeWithID(stDataBlockID)!
                             let stCoordinates = GeometryDataSource.getSTData(stDataBlock, renderDataSourceInfo: renderDataSourceInfo)
+                            
                             print(stCoordinates.count)
                             modelUVs += stCoordinates
                         }

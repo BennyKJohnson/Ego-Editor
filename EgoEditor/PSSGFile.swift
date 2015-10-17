@@ -32,9 +32,39 @@ enum PSSGType {
 }
 
 class PSSGFile {
+    
     var rootNode: PSSGNode!
+    
     var pssgType: PSSGType = PSSGType.Data
+    
     var schema: PSSGSchema!
+    
+    lazy var renderInterfaceBound: RenderInterfaceBound? = {
+        let dataBlockNodes = self.rootNode.nodesWithName("DATABLOCK")
+        var dataBlocks: [PSSGDataBlock] = []
+        for dataBlockNode in dataBlockNodes {
+            if let dataBlock = PSSGDataBlock(dataBlockNode: dataBlockNode) {
+                dataBlocks.append(dataBlock)
+            }
+        }
+        
+        return RenderInterfaceBound(dataBlockNodes: dataBlockNodes)
+        
+        }()
+    
+    lazy var renderDataSources: [String:PSSGRenderDataSource]? = {
+        let renderDataSourceNodes = self.rootNode.nodesWithName("RENDERDATASOURCE")
+        var dataSources: [PSSGRenderDataSource] = []
+        var renderDataSources: [String: PSSGRenderDataSource] = [:]
+        
+        for renderDataSourceNode in renderDataSourceNodes {
+            if let renderDataSource = PSSGRenderDataSource(renderDataSourceNode: renderDataSourceNode) {
+                renderDataSources[renderDataSource.id] = renderDataSource
+            }
+        }
+        
+        return renderDataSources
+    }()
     
     convenience init(file: FileHandle, schemaURL: NSURL) throws {
         guard let fileType = PSSGFile.PSSGFileTypeForFile(file) else {
@@ -139,6 +169,9 @@ class PSSGNode {
     var attributeSize: Int = 0
     var data: AnyObject?
     var dataType: PSSGValueType! = PSSGValueType.Unknown
+    
+
+    
     weak var parentNode: PSSGNode?
    // weak var parentNode:PSSGNode?
     
@@ -233,11 +266,7 @@ class PSSGNode {
         guard let nodeSchema = schema.nodeWithID(identifier) else  {
             throw PSSGReadError.InvalidNode(readError: PSSGNodeReadError.NoSchema)
         }
-        
-        if nodeSchema.name == "SHADERINPUT" {
-            print("Found shader input");
-        }
-        
+                
         id = identifier
         self.nodeSchema = nodeSchema
         self.size = file.readInt32()!

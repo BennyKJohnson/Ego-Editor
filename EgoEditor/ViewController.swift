@@ -159,24 +159,18 @@ class PSSGDataViewController: NSViewController, NSMenuDelegate {
 }
 
 extension PSSGDataViewController: NSOutlineViewDataSource, NSOutlineViewDelegate {
+
+    
+    
+    
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if let selectedNode = selectedPSSGNode where outlineView == dataOutlineView {
-            /*
-            if item == nil {
-            var rootCount: Int = 0
-            if selectedNode.attributes.count > 0 {
-            rootCount++
+            // Needs to be generalised some how to deal with these special cases
+            if selectedNode.name == "DATABLOCKDATA" {
+                return 1
             }
-            if selectedNode.isDataNode {
-            rootCount++
-            }
-            return rootCount
-            }
-            */
+            
             return selectedNode.attributes.count
-            
-            
-            
             
         } else if pssgFile != nil {
             if let node = item as? PSSGNode {
@@ -247,6 +241,7 @@ extension PSSGDataViewController: NSOutlineViewDataSource, NSOutlineViewDelegate
                 }
                 
             } else if let currentDataNode = item as? PSSGNode where outlineView == dataOutlineView {
+                
                 return "\(currentDataNode.data)"
             } else {
                 let node = item as! PSSGNode

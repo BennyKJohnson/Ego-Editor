@@ -12,6 +12,8 @@
 		A300DD861BC8CD0B00B43558 /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A300DD841BC8CD0B00B43558 /* TextFieldCell.xib */; settings = {ASSET_TAGS = (); }; };
 		A300DD891BC8E6D500B43558 /* SidebarTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A300DD881BC8E6D500B43558 /* SidebarTableCellView.m */; settings = {ASSET_TAGS = (); }; };
 		A30CD95D1BC47ABE002536EE /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A30CD95C1BC47ABE002536EE /* SceneKit.framework */; };
+		A31CC0C81BD1D245009BEE1E /* PSSGDataBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31CC0C71BD1D245009BEE1E /* PSSGDataBlock.swift */; settings = {ASSET_TAGS = (); }; };
+		A332F8E51BCF7E7E009F7062 /* RenderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A332F8E41BCF7E7E009F7062 /* RenderDataSource.swift */; settings = {ASSET_TAGS = (); }; };
 		A335C17D1BC2A13F009AB7A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A335C17C1BC2A13F009AB7A3 /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
 		A36962DD1BBD19CB00F9F4EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */; };
 		A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DE1BBD19CB00F9F4EC /* ViewController.swift */; };
@@ -82,6 +84,8 @@
 		A300DD871BC8E6D500B43558 /* SidebarTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarTableCellView.h; sourceTree = "<group>"; };
 		A300DD881BC8E6D500B43558 /* SidebarTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarTableCellView.m; sourceTree = "<group>"; };
 		A30CD95C1BC47ABE002536EE /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		A31CC0C71BD1D245009BEE1E /* PSSGDataBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSGDataBlock.swift; sourceTree = "<group>"; };
+		A332F8E41BCF7E7E009F7062 /* RenderDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderDataSource.swift; sourceTree = "<group>"; };
 		A335C17C1BC2A13F009AB7A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A33D70D21BC4754300B2A482 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
 		A33D70D31BC4754300B2A482 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 				A3CF7B8E1BCC8286008D9C1C /* SceneGraphViewController.swift */,
 				A3CF7B921BCC8E53008D9C1C /* CanvasViewController.swift */,
 				A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */,
+				A332F8E41BCF7E7E009F7062 /* RenderDataSource.swift */,
 			);
 			path = EgoEditor;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 				A388D4AD1BBD69B9005B5934 /* PSSGFile.swift */,
 				A388D4AF1BBD69C0005B5934 /* PSSGSchema.swift */,
 				A3C552ED1BC274FB00087340 /* ByteBuffer+FileHandle.swift */,
+				A31CC0C71BD1D245009BEE1E /* PSSGDataBlock.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -464,6 +470,7 @@
 				A300DD821BC8C32400B43558 /* AttributeCell.swift in Sources */,
 				A3CF7B931BCC8E53008D9C1C /* CanvasViewController.swift in Sources */,
 				A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */,
+				A31CC0C81BD1D245009BEE1E /* PSSGDataBlock.swift in Sources */,
 				A36979CB1BBE562400420595 /* IntegerString.swift in Sources */,
 				A391E4B11BC393AC00D3943F /* dds.m in Sources */,
 				A37BB3081BC7626600A81D98 /* TAAdaptiveSpaceItemView.m in Sources */,
@@ -472,6 +479,7 @@
 				A3AB4C021BC3616A0080BD3F /* TextureSource.swift in Sources */,
 				A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */,
 				A36979C81BBE562400420595 /* ByteOrder.swift in Sources */,
+				A332F8E51BCF7E7E009F7062 /* RenderDataSource.swift in Sources */,
 				A36979BF1BBE354000420595 /* PSSGFile+GeometrySource.swift in Sources */,
 				A36979BD1BBE2F2100420595 /* PSSGErrorTypes.swift in Sources */,
 				A36979B71BBE1B4200420595 /* NSData+Extensions.swift in Sources */,

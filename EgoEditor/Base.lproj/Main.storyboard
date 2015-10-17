@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
         <plugIn identifier="com.apple.SceneKitIBPlugin" version="8191"/>
@@ -440,13 +440,13 @@
                                 <toolbarItem implicitItemIdentifier="58EE06BD-6DD0-4985-9F02-2128ACB859A0" label="Toolbar Item" paletteLabel="Toolbar Item" tag="-1" id="0gn-X8-WRX" customClass="TAAdaptiveSpaceItem"/>
                                 <toolbarItem implicitItemIdentifier="D2A9BE09-365D-4C55-A7FC-BDDE9AC37A62" label="Custom View" paletteLabel="Custom View" id="8cf-m7-jFO">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="67" height="24"/>
+                                    <size key="minSize" width="67" height="22"/>
                                     <size key="maxSize" width="100" height="28"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="eHZ-rK-bjs">
-                                        <rect key="frame" x="3" y="14" width="71" height="28"/>
+                                        <rect key="frame" x="5" y="14" width="67" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <animations/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="faV-Bv-l1v">
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="faV-Bv-l1v">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment image="editorBasicTemplate" width="32"/>
@@ -463,7 +463,7 @@
                                     <size key="minSize" width="34" height="28"/>
                                     <size key="maxSize" width="100" height="28"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="q6L-zY-64Y">
-                                        <rect key="frame" x="21" y="14" width="34" height="28"/>
+                                        <rect key="frame" x="22" y="14" width="34" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <animations/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="d3m-NJ-bHB">
@@ -762,7 +762,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="h7Z-F5-kDv" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="VN4-Kv-SLq" id="JUN-6Z-TTD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="144" height="367"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="144" height="19"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <animations/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -829,7 +829,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="frH-YA-Lmy" indentationPerLevel="16" outlineTableColumn="Yzb-dx-2KX" id="TN0-hw-qWD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="314" height="367"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="314" height="19"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <animations/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
