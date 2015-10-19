@@ -150,27 +150,32 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
             if let instanceData = getInstanceData("ornaments.bin")  {
                 loadInstancesIntoScene(scene, instanceData: instanceData, geometries: pssgGeometries)
                 
-                /*
-                for instance in instanceData.instanceList.instances {
-                    // Find InstanceRef with ID
-                    guard let instanceRef = instanceData.instanceList.instanceReferenceWithID(instance.referenceID) else {
-                        break
+                // Load Track
+                do {
+                    let trackURL = pssgFile.pssgDirectory!.URLByAppendingPathComponent("tracksplit.pssg")
+                    let fileHandle = try NSFileHandle(forReadingFromURL: trackURL)
+                    let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
+                    let trackPSSG = try PSSGFile(file: fileHandle, schemaURL: schema)
+                    trackPSSG.url = trackURL
+                    let trackGeometries = trackPSSG.geometryForObject()
+                    for model in trackGeometries ?? [] {
+                        
+                        let geometryNode = SCNNode(geometry: model.geometry)
+                        geometryNode.name = model.geometry.name
+                        
+                        // Add materials for reference later
+                        appendMaterials(geometryNode.geometry?.materials ?? [])
+                        
+                        geometryNode.transform = model.transform
+                        scene.rootNode.addChildNode(geometryNode)
+                        
                     }
                     
-                    // Find Geometry for InstanceRef based on filename
-                    guard let geometryModel = pssgGeometries.find({$0.geometry.name == instanceRef.filename}) else {
-                        break
-                    }
+                } catch {
                     
-                    // Create SCNode for the instance
-                    let instanceNode = SCNNode(geometry: geometryModel.geometry)
-                    instanceNode.transform = instance.transform
-                    instanceNode.name = instanceRef.filename
-                    // Add it to the scene
-                    scene.rootNode.addChildNode(instanceNode)
-
                 }
-                */
+                
+                
                 // Load trees 
                 do {
                     let treesURL = pssgFile.pssgDirectory!.URLByAppendingPathComponent("trees.pssg")
@@ -186,7 +191,8 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                 } catch {
                     
                 }
-       
+                
+              
 
                 
                 

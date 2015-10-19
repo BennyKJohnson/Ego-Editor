@@ -458,6 +458,7 @@ extension PSSGFile {
         case MatrixPattleBundle
         case SkinNode
         case RenderNode
+        case TrackSplit
         
         var bundleNode: String? {
             switch(self) {
@@ -467,6 +468,8 @@ extension PSSGFile {
                 return nil
             case .RenderNode:
                 return "ROOTNODE"
+            case .TrackSplit:
+                return "NODE"
             }
         }
         
@@ -478,6 +481,8 @@ extension PSSGFile {
                 return "SKINNODE"
             case .RenderNode:
                 return "LODVISIBLERENDERNODE"
+            case .TrackSplit:
+                return "RENDERNODE"
             }
  
         }
@@ -490,6 +495,8 @@ extension PSSGFile {
                 return nil
             case .RenderNode:
                 return "RENDERNODE"
+            case .TrackSplit:
+                return nil
             }
         }
         
@@ -501,6 +508,9 @@ extension PSSGFile {
                 return "MODIFIERNETWORKINSTANCE"
             case .RenderNode:
                 return "RENDERSTREAMINSTANCE"
+            case .TrackSplit:
+                return "RENDERSTREAMINSTANCE"
+
             }
         }
     }
@@ -568,6 +578,23 @@ extension PSSGFile {
         
     }
     
+    func nodesForLevelOfDetails(renderNodes: [PSSGNode]) -> [PSSGNode] {
+        
+        let highLODNodes = renderNodes.filter({ (node) -> Bool in
+            let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
+            return nickname.hasPrefix("HIGH")
+        })
+        
+        if highLODNodes.count > 0 {
+           return renderNodes.filter({ (node) -> Bool in
+                let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
+                return !nickname.hasPrefix("LOW")
+            })
+        }
+        
+        
+        return renderNodes
+    }
     
     func geometryForObject() -> [Model] {
         // Get rootNode
@@ -585,8 +612,18 @@ extension PSSGFile {
             rootNodes = sceneRootNodes
    
         } else  {
-            geometryInfo = PSSGGeometryInfo.SkinNode
-            rootNodes = sceneRootNodes
+            // Check if Nodes
+            let nodes = sceneRootNodes[0].childNodesWithName("NODE", recursively: false)
+            if nodes.count == 2 {
+                // TrackSplit Hopefully
+                geometryInfo = PSSGGeometryInfo.TrackSplit
+                rootNodes = nodes.last!.childNodesWithName("NODE", recursively: false)
+                
+            } else {
+                geometryInfo = PSSGGeometryInfo.SkinNode
+                rootNodes = sceneRootNodes
+            }
+
         }
         
        
@@ -601,6 +638,9 @@ extension PSSGFile {
             
             if geometryInfo == .RenderNode {
                 modelName = id.stringByReplacingOccurrencesOfString(" Root", withString: "")
+            } else if geometryInfo == .TrackSplit {
+                modelName = id
+
             }
             
             
@@ -609,10 +649,13 @@ extension PSSGFile {
                 // Try alternative node name
                 jointNodes = mpbNode.nodesWithName(altJointName) // SKINNODE
             }
+            if geometryInfo == .TrackSplit {
+                jointNodes = nodesForLevelOfDetails(jointNodes)
+            }
             
             // For each Geometry Object
             for jointNode in jointNodes {
-                if geometryInfo != .RenderNode {
+                if geometryInfo != .RenderNode && geometryInfo != .TrackSplit {
                     modelName = jointNode.attributesDictionary["nickname"]?.value as! String
                 }
                 print(modelName)
