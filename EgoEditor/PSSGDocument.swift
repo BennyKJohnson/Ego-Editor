@@ -120,7 +120,7 @@ class PSSGDocument: NSDocument {
             let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
             
             pssgFile = try PSSGFile(file: fileHandle,schemaURL: schema)
-            
+            pssgFile.url = url
             
         } catch {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)

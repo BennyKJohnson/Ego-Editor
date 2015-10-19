@@ -39,6 +39,18 @@ extension String {
     
 }
 
+extension Array {
+    func objectAtIndex(index:Int) -> Element? {
+        return indices ~= index ? self[index] : nil
+    }
+}
+
+extension CollectionType {
+    func find(@noescape predicate: (Self.Generator.Element) throws -> Bool) rethrows -> Self.Generator.Element? {
+        return try indexOf(predicate).map({self[$0]})
+    }
+}
+
 extension SCNMaterial {
     class func wireframeShader() -> SCNProgram {
         let wireframeShader = SCNProgram()

@@ -24,7 +24,7 @@ extension SCNGeometrySource {
         switch(renderType) {
         case "Vertex":
             semantic =  SCNGeometrySourceSemanticVertex
-        
+            
         case "Color":
             semantic =  SCNGeometrySourceSemanticColor
             componentsPerVector = 4
@@ -32,7 +32,7 @@ extension SCNGeometrySource {
             bytesPerComponent = sizeof(UInt8)
             
             // Modify the data
-
+            
         case "Normal":
             semantic =  SCNGeometrySourceSemanticNormal
         default:
@@ -111,12 +111,12 @@ struct GeometryDataSource {
                 dataBuffer.getInt16()
                 dataBuffer.getInt16()
             }
-
+            
         }
         return stCoordinates
     }
     
-    init(renderDataSource: PSSGNode, dataBlock: PSSGDataBlock, transform: SCNMatrix4, renderDataSourceInfo: RenderDataSourceInfo) {
+    init(dataBlock: PSSGDataBlock, transform: SCNMatrix4, renderDataSourceInfo: RenderDataSourceInfo) {
         //let size = dataBlock.attributesDictionary["size"]!.value as! Int
         
         let elementCount = renderDataSourceInfo.elementCountFromOffset
@@ -164,22 +164,22 @@ struct GeometryDataSource {
         
         //  var normals: [F;pat]
         for(var i = 0; i < renderDataSourceInfo.elementCountFromOffset;i++) {
-            
-            let x = dataBuffer.getFloat32()
-            let y = dataBuffer.getFloat32()
-            let z = dataBuffer.getFloat32()
-            
-            let vertex = [x,y ,z]
-            vertices.append(SCNVector3(x,y,z))
-            validData.appendData(NSData(bytes: vertex, length: 12))
-            
-            let color = [dataBuffer.getUInt8(),dataBuffer.getUInt8(), dataBuffer.getUInt8(), dataBuffer.getUInt8()]
-            validData.appendData(NSData(bytes: color, length: color.count * sizeof(UInt8)))
-            
-            let normal = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()) //[dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()]
-            normals.append(normal)
-            //    validData.appendData(NSData(bytes: normal, length: normal.count * sizeof(Float)))
-            
+        
+        let x = dataBuffer.getFloat32()
+        let y = dataBuffer.getFloat32()
+        let z = dataBuffer.getFloat32()
+        
+        let vertex = [x,y ,z]
+        vertices.append(SCNVector3(x,y,z))
+        validData.appendData(NSData(bytes: vertex, length: 12))
+        
+        let color = [dataBuffer.getUInt8(),dataBuffer.getUInt8(), dataBuffer.getUInt8(), dataBuffer.getUInt8()]
+        validData.appendData(NSData(bytes: color, length: color.count * sizeof(UInt8)))
+        
+        let normal = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()) //[dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()]
+        normals.append(normal)
+        //    validData.appendData(NSData(bytes: normal, length: normal.count * sizeof(Float)))
+        
         }
         */
         let verticeSource = SCNGeometrySource(vertices: &vertices, count: vertices.count)
@@ -226,26 +226,26 @@ struct GeometryDataSource {
     
     init(renderDataSource: PSSGNode, dataBlock: PSSGNode, transform: SCNMatrix4, renderDataSourceInfo: RenderDataSourceInfo) {
         let size = dataBlock.attributesDictionary["size"]!.value as! Int
-
+        
         let elementCount = dataBlock.attributesDictionary["elementCount"]?.value as! Int
         // Finally we get to the actual vertex data
         let rawData = dataBlock.nodeWithName("DATABLOCKDATA")!.data as! NSData
         let stride = 28
         let startOffset = renderDataSourceInfo.streamOffset * stride
         let length = 28 * renderDataSourceInfo.elementCountFromOffset
-
+        
         
         let data = rawData.subdataWithRange(NSMakeRange(startOffset, length));
         let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
-
+        
         // Create a buffer that holds the bytes so we can read in big endian
         let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: data.length, freeOnDeinit: false)
         //dataBuffer.flip()
         
         // Convert Data
         let validData = NSMutableData(capacity: size)!
-  
-      //  var normals: [F;pat]
+        
+        //  var normals: [F;pat]
         for(var i = 0; i < renderDataSourceInfo.elementCountFromOffset;i++) {
             
             let x = dataBuffer.getFloat32()
@@ -261,8 +261,8 @@ struct GeometryDataSource {
             
             let normal = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()) //[dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32()]
             normals.append(normal)
-        //    validData.appendData(NSData(bytes: normal, length: normal.count * sizeof(Float)))
-
+            //    validData.appendData(NSData(bytes: normal, length: normal.count * sizeof(Float)))
+            
         }
         
         let verticeSource = SCNGeometrySource(vertices: &vertices, count: vertices.count)
@@ -274,36 +274,38 @@ struct GeometryDataSource {
         
         /*
         for dataBlockStream in dataBlock.nodesWithName("DATABLOCKSTREAM") {
-            let renderType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
-            let stride = dataBlockStream.attributesDictionary["stride"]!.value as! Int
-            let offset = dataBlockStream.attributesDictionary["offset"]!.value as! Int
-            let dataType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
-            print("\(renderType) stride: \(stride) offset: \(offset)")
-            
-            // Create Geometry Source
-            let geometrySource = SCNGeometrySource(data: validData, renderType: renderType, vectorCount: elementCount, dataType: dataType, offset: offset, stride: stride)
-            
-            geometrySources.append(geometrySource)
-            
+        let renderType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
+        let stride = dataBlockStream.attributesDictionary["stride"]!.value as! Int
+        let offset = dataBlockStream.attributesDictionary["offset"]!.value as! Int
+        let dataType = dataBlockStream.attributesDictionary["renderType"]?.value as! String
+        print("\(renderType) stride: \(stride) offset: \(offset)")
+        
+        // Create Geometry Source
+        let geometrySource = SCNGeometrySource(data: validData, renderType: renderType, vectorCount: elementCount, dataType: dataType, offset: offset, stride: stride)
+        
+        geometrySources.append(geometrySource)
+        
         }
         */
         /*
         for(var i = 0; i < size;i += stride) {
-            // Create vertex for x,y,z position
-            let vertice = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32())
-            vertices.append(vertice)
-            
-            // Get Colour of vertex
-            let color = dataBuffer.getInt32()
-            
-            // Get normal value for vertex
-            let normal = SCNVector3(dataBuffer.getFloat32(),dataBuffer.getFloat32(),dataBuffer.getFloat32())
-            normals.append(normal)
-            
+        // Create vertex for x,y,z position
+        let vertice = SCNVector3(dataBuffer.getFloat32(), dataBuffer.getFloat32(), dataBuffer.getFloat32())
+        vertices.append(vertice)
+        
+        // Get Colour of vertex
+        let color = dataBuffer.getInt32()
+        
+        // Get normal value for vertex
+        let normal = SCNVector3(dataBuffer.getFloat32(),dataBuffer.getFloat32(),dataBuffer.getFloat32())
+        normals.append(normal)
+        
         }
         */
     }
 }
+
+
 
 struct RenderDataSourceInfo {
     let streamOffset: Int
@@ -312,162 +314,374 @@ struct RenderDataSourceInfo {
     let indicesCountFromOffset:Int
     
     
-    init(jointRenderInstanceNode:PSSGNode) {
-        streamOffset = jointRenderInstanceNode.attributesDictionary["streamOffset"]?.value as! Int
-        elementCountFromOffset = jointRenderInstanceNode.attributesDictionary["elementCountFromOffset"]?.value as! Int
-        indexOffset = jointRenderInstanceNode.attributesDictionary["indexOffset"]?.value as! Int
-        indicesCountFromOffset = jointRenderInstanceNode.attributesDictionary["indicesCountFromOffset"]?.value as! Int
-
+    init?(jointRenderInstanceNode:PSSGNode) {
+        guard let streamOffset = jointRenderInstanceNode.attributesDictionary["streamOffset"]?.value as? Int,
+         elementCountFromOffset = jointRenderInstanceNode.attributesDictionary["elementCountFromOffset"]?.value as? Int,
+        indexOffset = jointRenderInstanceNode.attributesDictionary["indexOffset"]?.value as? Int,
+            indicesCountFromOffset = jointRenderInstanceNode.attributesDictionary["indicesCountFromOffset"]?.value as? Int else {
+                return nil
+        }
+        
+        self.streamOffset = streamOffset
+        self.elementCountFromOffset = elementCountFromOffset
+        self.indexOffset = indexOffset
+        self.indicesCountFromOffset = indicesCountFromOffset
     }
 }
 
-// YUCK CLEAN THIS SHIT UP!
 extension PSSGFile {
     func isGeometrySourceProvider() -> Bool {
+        // Seems to be the common indicator among
+        let libraryNodes = rootNode.nodesWithName("LIBRARY")
+        for libraryNode in libraryNodes {
+            if let type = libraryNode.attributesDictionary["type"]?.formattedValue as? String {
+                if type == "RENDERINTERFACEBOUND" {
+                    return true
+                }
+            }
+        }
         
-        return rootNode.nodeWithName("MATRIXPALETTEBUNDLENODE") != nil
+        
+        return false
     }
     
     
+
+    
+    struct GeometryElementSource {
+        var modelVertices: [SCNVector3] = []
+        var modelNormals: [SCNVector3] = []
+        var modelUVs: [STCoordinate] = []
+        var indices: [UInt32] = []
+        var geometryElement: [SCNGeometryElement] = []
+        
+        init(renderDataSource: PSSGRenderDataSource,renderDataSourceInfo: RenderDataSourceInfo?, renderInterfaceBound: RenderInterfaceBound?, indiceOffset: Int) {
+            
+            
+            
+            // Get Indices
+            
+            let renderIndexSource = renderDataSource.renderIndexSource // .nodeWithName("RENDERINDEXSOURCE")!
+            
+            let indices = getIndices(renderIndexSource, renderDataSourceInfo: renderDataSourceInfo, indiceOffset: indiceOffset)
+            
+            let indexData = NSData(bytes: indices, length: indices.count * sizeof(UInt32))
+            
+            // Create Geometry Element
+            geometryElement = [SCNGeometryElement(data: indexData, primitiveType: SCNGeometryPrimitiveType.Triangles, primitiveCount: indices.count
+                / 3, bytesPerIndex: sizeof(UInt32))]
+            
+            
+            var hasUVSource = false
+            // Get Geometry Sources
+            for renderStream in renderDataSource.renderStreams {
+                let dataBlockID = renderStream.dataBlockID
+                let subStream = renderStream.subStream
+                guard let dataBlock = renderInterfaceBound?.dataBlocks[dataBlockID] else  {
+                    break
+                }
+                
+                let streamOffset = renderDataSourceInfo?.streamOffset ?? 0
+                let elementCountFromOffset = renderDataSourceInfo?.elementCountFromOffset ?? dataBlock.elementCount
+                
+               let dataBlockStream = dataBlock.streams[subStream]
+                    guard let geometrySourceSematic = dataBlockStream.renderType.geometrySourceSemantic else {
+                        // Can't parse into SceneKit
+                        break
+                    }
+                    
+
+                    switch(geometrySourceSematic) {
+                    case .Vertex:
+                        let vertices = dataBlockStream.vectorDataFromStreamOffset(streamOffset, count: elementCountFromOffset)!
+                        modelVertices += vertices
+                        
+                    case .Normal:
+                        if  let normals = dataBlockStream.vectorDataFromStreamOffset(streamOffset, count: elementCountFromOffset) {
+                            modelNormals += normals
+                        } 
+                    case .TexCoord:
+                        if !hasUVSource {
+                            let stCoordinates = dataBlockStream.coordinateDataFromStreamOffset(streamOffset, count: elementCountFromOffset)!
+                            modelUVs += stCoordinates
+                            
+                            hasUVSource = true
+                        }
+                        
+                    default:
+                        break
+                    }
+                    
+                
+            }
+            
+            
+            
+        }
+        
+        func getIndices(renderIndexSource: PSSGNode,renderDataSourceInfo: RenderDataSourceInfo?,  indiceOffset: Int) -> [UInt32] {
+            let format = renderIndexSource.attributesDictionary["format"]?.value as? String
+            
+            let indexCount = renderIndexSource.attributesDictionary["count"]?.value as! Int
+            let indexOffset = renderDataSourceInfo?.indexOffset ?? 0
+            let streamOffset = renderDataSourceInfo?.streamOffset ?? 0
+            let indicesCountFromOffset = renderDataSourceInfo?.indicesCountFromOffset ?? indexCount
+            
+            
+            let rawIndexSourceData = renderIndexSource.nodeWithName("INDEXSOURCEDATA")?.data as! NSData
+            let indexSourceData = rawIndexSourceData// rawIndexSourceData.subdataWithRange(NSMakeRange(renderDataSourceInfo.indexOffset, sizeof(UInt16) * renderDataSourceInfo.indicesCountFromOffset));
+            let indexSourceDataPointer = UnsafeMutablePointer<UInt8>(indexSourceData.bytes);
+            
+            // Load into buffer
+            let dataBuffer = ByteBuffer(order: BigEndian(), data: indexSourceDataPointer, capacity: indexSourceData.length, freeOnDeinit: false)
+            let originalIndices: [UInt32]
+            if let formatType = format where formatType == "uint" {
+                originalIndices = Array(dataBuffer.getUInt32((rawIndexSourceData.length / sizeof(UInt32)))[indexOffset...indexOffset + indicesCountFromOffset-1])
+            } else {
+                originalIndices = Array(dataBuffer.getUInt16((rawIndexSourceData.length / sizeof(UInt16)))[indexOffset...indexOffset + indicesCountFromOffset-1]).map({ (indice) -> UInt32 in
+                    return UInt32(indice)
+                })
+            }
+            
+            
+            // Normalise indices based on stream (vector) offset.
+            let indices = originalIndices.map({ (indice) -> UInt32 in
+                indice - UInt32(streamOffset) + UInt32(indiceOffset)
+            })
+            
+            return indices
+        }
+    }
+    
+    
+    enum PSSGGeometryInfo {
+        case MatrixPattleBundle
+        case SkinNode
+        case RenderNode
+        
+        var bundleNode: String? {
+            switch(self) {
+            case .MatrixPattleBundle:
+                return "MATRIXPALETTEBUNDLENODE"
+            case .SkinNode:
+                return nil
+            case .RenderNode:
+                return "ROOTNODE"
+            }
+        }
+        
+        var jointNode: String {
+            switch(self) {
+            case .MatrixPattleBundle:
+                return "MATRIXPALETTEJOINTNODE"
+            case .SkinNode:
+                return "SKINNODE"
+            case .RenderNode:
+                return "LODVISIBLERENDERNODE"
+            }
+ 
+        }
+        
+        var altJointNode:String? {
+            switch(self) {
+            case .MatrixPattleBundle:
+                return nil
+            case .SkinNode:
+                return nil
+            case .RenderNode:
+                return "RENDERNODE"
+            }
+        }
+        
+        var renderInstanceNode: String {
+            switch(self) {
+            case .MatrixPattleBundle:
+                return "MATRIXPALETTEJOINTRENDERINSTANCE"
+            case .SkinNode:
+                return "MODIFIERNETWORKINSTANCE"
+            case .RenderNode:
+                return "RENDERSTREAMINSTANCE"
+            }
+        }
+    }
+    
+    func getMaterials() -> [String: SCNMaterial] {
+        
+        var materials: [String: SCNMaterial] = [:]
+        
+        let shaderGroupNodes = rootNode.nodesWithName("SHADERGROUP")
+        var shaderGroups: [String:PSSGShaderGroup] = [:]
+        
+        for shaderGroupNode in shaderGroupNodes {
+            if let shaderGroup = PSSGShaderGroup(shaderGroupNode: shaderGroupNode) {
+                shaderGroups[shaderGroup.id] = shaderGroup
+            }
+        }
+        
+        let shaderInstanceNodes = rootNode.nodesWithName("SHADERINSTANCE")
+        for shaderInstanceNode in shaderInstanceNodes {
+            if let shaderInstance = PSSGShaderInstance(shaderInstanceNode: shaderInstanceNode) {
+                
+                // Create Material
+                let material = SCNMaterial()
+                material.name = shaderInstance.id
+                
+                for shaderInput in shaderInstance.shaderInputs {
+                    if let textureID = shaderInput.textureID {
+                        
+                        // Get corresponding parameter in shader group
+                        let shaderInputDefinition = shaderGroups[shaderInstance.shaderGroup.identifier]!.shaderInputDefinations[shaderInput.parameterID]
+                        
+                        switch(shaderInputDefinition.name) {
+                        case "TDiffuseAlphaMap":
+                           
+                            
+                            if let textureFilename = textureID.externalReference, pssgDirectory = url?.URLByDeletingLastPathComponent where  textureManager.textures[textureID.identifier] == nil && !textureManager.loadedFiles.contains(textureFilename) {
+                                // Attempt to load texture
+                                let textureURL = pssgDirectory.URLByAppendingPathComponent(textureFilename)
+                                textureManager.loadTexturesFromURL(textureURL)
+                            }
+                            
+                            // Get texture if exists
+                            if let texture = textureManager.textures[textureID.identifier] {
+                                // Load texture into material
+                                // material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
+                                
+                            }
+                            
+                        default:
+                            break
+                        }
+                        
+                        
+                    }
+                }
+                
+                // Append Material
+                materials[material.name!] = material
+                
+            }
+        }
+        
+        
+        return materials
+        
+    }
     
     
     func geometryForObject() -> [Model] {
-        // Test dataSource code 
-   
+        // Get rootNode
         
-        let mphnNodes = [rootNode.nodesWithName("MATRIXPALETTEBUNDLENODE").last!]
+        let sceneRootNodes = rootNode.nodesWithName("ROOTNODE") 
         
-        var models: [Model] = []
-        var materials: [String:SCNMaterial] = [:]
-        
-        for mpbNode in mphnNodes {
-            let lod = mpbNode.attributesDictionary["id"]?.value as! String
-            print("LOD: \(lod)")
+        let geometryInfo: PSSGGeometryInfo
+        let rootNodes: [PSSGNode]
+        if let mphnNode = rootNode.nodesWithName("MATRIXPALETTEBUNDLENODE").last {
+            geometryInfo = PSSGGeometryInfo.MatrixPattleBundle
+            rootNodes = [mphnNode]
+        } else if sceneRootNodes.count > 1 {
+            geometryInfo = PSSGGeometryInfo.RenderNode
             
-            let jointNodes = mpbNode.nodesWithName("MATRIXPALETTEJOINTNODE")
+            rootNodes = sceneRootNodes
+   
+        } else  {
+            geometryInfo = PSSGGeometryInfo.SkinNode
+            rootNodes = sceneRootNodes
+        }
+        
+       
+        var models: [Model] = []
+        var materials: [String:SCNMaterial] = getMaterials()
+        
+        for mpbNode in rootNodes {
+            var modelName = "<unknown>"
+
+            let id = mpbNode.attributesDictionary["id"]?.value as! String
+            print("ID: \(id)")
+            
+            if geometryInfo == .RenderNode {
+                modelName = id.stringByReplacingOccurrencesOfString(" Root", withString: "")
+            }
+            
+            
+            var jointNodes = mpbNode.nodesWithName(geometryInfo.jointNode) // SKINNODE
+            if let altJointName = geometryInfo.altJointNode where jointNodes.count == 0 {
+                // Try alternative node name
+                jointNodes = mpbNode.nodesWithName(altJointName) // SKINNODE
+            }
+            
             // For each Geometry Object
             for jointNode in jointNodes {
-                let modelName = jointNode.attributesDictionary["nickname"]?.value as! String
+                if geometryInfo != .RenderNode {
+                    modelName = jointNode.attributesDictionary["nickname"]?.value as! String
+                }
                 print(modelName)
                 let transformData = jointNode.nodeWithName("TRANSFORM")?.data! as! NSData
                 let transform: SCNMatrix4 = SCNMatrix4.fromData(transformData)!
                 
                 var modelGeometryElements:[SCNGeometryElement] = []
-               // var modelGeometrySources: [SCNGeometrySource] = []
+                // var modelGeometrySources: [SCNGeometrySource] = []
                 var modelMaterials: [SCNMaterial] = []
                 
                 var modelVertices: [SCNVector3] = []
                 var modelNormals: [SCNVector3] = []
                 var modelUVs: [STCoordinate] = []
+                
                 // For each sub geometry object. Sections with materials
-                for jointRenderInstanceNode in jointNode.nodesWithName("MATRIXPALETTEJOINTRENDERINSTANCE") {
+                let renderInstanceNodes = jointNode.childNodesWithName(geometryInfo.renderInstanceNode, recursively: false)
+                for jointRenderInstanceNode in renderInstanceNodes { // MODIFIERNETWORKINSTANCE
                     let renderInstanceID = jointRenderInstanceNode.attributesDictionary["indices"]!.value as! String
                     let nodeID = renderInstanceID.stringByReplacingOccurrencesOfString("#", withString: "")
                     let materialReferenceID = jointRenderInstanceNode.attributesDictionary["shader"]!.value as! String
-                    let materialName = materialReferenceID.stringByReplacingOccurrencesOfString("#", withString: "")
+                    let materialName = String(materialReferenceID.characters.dropFirst())// stringByReplacingOccurrencesOfString("#", withString: "")
+                
                     
                     let renderDataSourceInfo = RenderDataSourceInfo(jointRenderInstanceNode: jointRenderInstanceNode)
-                    
+                
                     // Get Material
                     if let existingMaterial = materials[materialName] {
                         modelMaterials.append(existingMaterial)
                     } else {
+                        print("Material Not found \(materialName)")
                         let newMaterial = SCNMaterial()
                         newMaterial.name = materialName
-                     
-                        
-                        print("Material: " + materialName)
                         materials[materialName] = newMaterial
-                        
-                        
-                        
                         modelMaterials.append(newMaterial)
                     }
                     
+                    if let renderDataSource = self.renderDataSources?[nodeID] {
+                        let geometrySource = GeometryElementSource(renderDataSource: renderDataSource, renderDataSourceInfo: renderDataSourceInfo, renderInterfaceBound: renderInterfaceBound, indiceOffset: modelVertices.count)
+                        
+                        // Append data
+                        modelVertices += geometrySource.modelVertices
+                        modelNormals += geometrySource.modelNormals
+                        modelUVs += geometrySource.modelUVs
+                        modelGeometryElements += geometrySource.geometryElement
                     
-                    if let renderDataSource = self.rootNode.nodeWithID(nodeID) {
-                     //   print("Found node with ID \(renderInstanceID)")
-                        let vertexDataBlock = renderDataSource.nodeWithName("RENDERSTREAM")!
-                        
-                        let renderIndexSource = renderDataSource.nodeWithName("RENDERINDEXSOURCE")!
-                        let format = renderIndexSource.attributesDictionary["format"]?.value as? String
-                        
-                        let indexCount = renderIndexSource.attributesDictionary["count"]?.value as! Int
-                        
-                        let rawIndexSourceData = renderDataSource.nodeWithName("INDEXSOURCEDATA")?.data as! NSData
-                        let indexSourceData = rawIndexSourceData// rawIndexSourceData.subdataWithRange(NSMakeRange(renderDataSourceInfo.indexOffset, sizeof(UInt16) * renderDataSourceInfo.indicesCountFromOffset));
-                        let indexSourceDataPointer = UnsafeMutablePointer<UInt8>(indexSourceData.bytes);
-                        
-                        // Load into buffer
-                        let dataBuffer = ByteBuffer(order: BigEndian(), data: indexSourceDataPointer, capacity: indexSourceData.length, freeOnDeinit: false)
-                        let originalIndices: [UInt32]
-                        if let formatType = format where formatType == "uint" {
-                            originalIndices = Array(dataBuffer.getUInt32((rawIndexSourceData.length / sizeof(UInt32)))[renderDataSourceInfo.indexOffset...renderDataSourceInfo.indexOffset + renderDataSourceInfo.indicesCountFromOffset-1])
-                        } else {
-                            originalIndices = Array(dataBuffer.getUInt16((rawIndexSourceData.length / sizeof(UInt16)))[renderDataSourceInfo.indexOffset...renderDataSourceInfo.indexOffset + renderDataSourceInfo.indicesCountFromOffset-1]).map({ (indice) -> UInt32 in
-                                return UInt32(indice)
-                            })
-                        }
-                     
-                        
-                        // Normalise indices based on stream (vector) offset.
-                        let indices = originalIndices.map({ (indice) -> UInt32 in
-                            indice - UInt32(renderDataSourceInfo.streamOffset) + UInt32(modelVertices.count)
-                        })
-
-                        
-                        
-                        let indexData = NSData(bytes: indices, length: indices.count * sizeof(UInt32) )
-                        // Create Geometry Element
-                        let geometryElement = SCNGeometryElement(data: indexData, primitiveType: SCNGeometryPrimitiveType.Triangles, primitiveCount: indices.count
-                            / 3, bytesPerIndex: sizeof(UInt32))
-                        modelGeometryElements.append(geometryElement)
-                        
-                        
-                        let dataBlockID = vertexDataBlock.attributesDictionary["dataBlock"]!.value as! String
-                        let dataBlockIdentifier = String(dataBlockID.characters.dropFirst())
-                        // self.rootNode.nodeWithID(String(dataBlockID.characters.dropFirst()))
-                         if let dataBlock = self.renderInterfaceBound?.dataBlocks[dataBlockIdentifier] {
-                           // print("Found data block \(dataBlock)")
- 
-                           let renderDataSource = GeometryDataSource(renderDataSource: renderDataSource, dataBlock: dataBlock, transform: transform, renderDataSourceInfo: renderDataSourceInfo)
-                           // modelGeometrySources += renderDataSource.geometrySources
-                            modelVertices += renderDataSource.vertices
-                            modelNormals += renderDataSource.normals
-              
-
-                            
-                          //  Create Multiple Geometry Elements
-                         } else {
-                            fatalError("DATABLOCK \(dataBlockIdentifier) not found")
-                        }
-                        
-                        // Get ST Data
-                        if let stRenderStream = renderDataSource.nodesWithName("RENDERSTREAM").get(3) {
-                            let stDataBlockID = (stRenderStream.attributesDictionary["dataBlock"]!.value as! String).stringByReplacingOccurrencesOfString("#", withString: "")
-                            let stDataBlock = self.rootNode.nodeWithID(stDataBlockID)!
-                            let stCoordinates = GeometryDataSource.getSTData(stDataBlock, renderDataSourceInfo: renderDataSourceInfo)
-                            
-                            print(stCoordinates.count)
-                            modelUVs += stCoordinates
-                        }
-
-                        
                     }
-                    
-                    
-                    
-                    
                 }
+                
                 // Create Gemetry Sources
-                let vertexSource = SCNGeometrySource(vertices: &modelVertices, count: modelVertices.count)
-                let normalSource = SCNGeometrySource(normals: &modelNormals, count: modelNormals.count)
+                var geometrySources: [SCNGeometrySource] = []
+                
+                if modelVertices.count > 0 {
+                    let vertexSource = SCNGeometrySource(vertices: &modelVertices, count: modelVertices.count)
+                    geometrySources.append(vertexSource)
+                }
+                
+                if modelNormals.count > 0 {
+                    let normalSource = SCNGeometrySource(normals: &modelNormals, count: modelNormals.count)
+                    geometrySources.append(normalSource)
+                }
                 
                 // Create UVs source
-                let uvSource = SCNGeometrySource(textureCoordinates: &modelUVs, count: modelUVs.count)
+                if modelUVs.count > 0 {
+                    let uvSource = SCNGeometrySource(textureCoordinates: &modelUVs, count: modelUVs.count)
+                    geometrySources.append(uvSource)
+                }
                 
                 // Save Model
-                let geometryObject = SCNGeometry(sources: [vertexSource, normalSource,uvSource], elements: modelGeometryElements)
+                let geometryObject = SCNGeometry(sources: geometrySources, elements: modelGeometryElements)
                 geometryObject.name = modelName
                 print(geometryObject.name!)
                 
@@ -475,15 +689,14 @@ extension PSSGFile {
                 geometryObject.materials = modelMaterials
                 
                 models.append(Model(transform: transform, geometry: geometryObject))
-
-               // print(jointNode)
+                
+                
             }
         }
         
         return models
         
     }
-    
 }
 
 extension SCNMatrix4 {

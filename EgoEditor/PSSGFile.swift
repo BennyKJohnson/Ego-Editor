@@ -39,6 +39,11 @@ class PSSGFile {
     
     var schema: PSSGSchema!
     
+    var url: NSURL?
+
+    let textureManager = TextureManager()
+
+    
     lazy var renderInterfaceBound: RenderInterfaceBound? = {
         let dataBlockNodes = self.rootNode.nodesWithName("DATABLOCK")
         var dataBlocks: [PSSGDataBlock] = []
@@ -66,6 +71,7 @@ class PSSGFile {
         return renderDataSources
     }()
     
+
     convenience init(file: FileHandle, schemaURL: NSURL) throws {
         guard let fileType = PSSGFile.PSSGFileTypeForFile(file) else {
             throw PSSGReadError.InvalidFile(reason: "Could not recognise file type")
@@ -170,6 +176,7 @@ class PSSGNode {
     var data: AnyObject?
     var dataType: PSSGValueType! = PSSGValueType.Unknown
     
+    
 
     
     weak var parentNode: PSSGNode?
@@ -221,10 +228,14 @@ class PSSGNode {
         
        return nil
     }
+    // - (nullable SCNNode *)childNodeWithName:(NSString *)name recursively:(BOOL)recursively;
     
-    func nodesWithAttribute(attributeName: String, value: String?) {
-
-
+    func childNodesWithName(name: String, recursively: Bool) -> [PSSGNode] {
+        if recursively {
+            return nodesWithName(name)
+        } else {
+            return childNodes.filter({ (node) -> Bool in  node.name == name })
+        }
     }
     
     // Search for node with name
@@ -377,7 +388,11 @@ extension PSSGNode: XMLSerialization {
 
 }
 
-
+extension PSSGFile {
+    var pssgDirectory: NSURL? {
+       return url?.URLByDeletingLastPathComponent
+    }
+}
 extension PSSGNode {
     // Not really sure if passing the schema around like this is a good idea.
  

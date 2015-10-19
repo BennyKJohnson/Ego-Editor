@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SceneKit
 
 // Scalar value to make data uniform. In a perfect world I would just be able to read stream directly into SceneKit. Thanks Codemasters for using Big Endian and Half Floats.
 protocol Scalar {
@@ -51,6 +52,39 @@ struct RenderDataType {
     
 }
 
+enum GeometrySourceSemantic {
+    case Vertex
+    case Normal
+    case Color
+    case TexCoord
+    case VertexCrease
+    case EdgeCrease
+    case BoneWeights
+    case BoneIndices
+    
+    var scnGeometrySourceSemantic: String? {
+        switch(self) {
+        case .Vertex:
+            return SCNGeometrySourceSemanticVertex
+        case .Normal:
+            return SCNGeometrySourceSemanticNormal
+        case .TexCoord:
+            return SCNGeometrySourceSemanticTexcoord
+        case .VertexCrease:
+            return SCNGeometrySourceSemanticVertexCrease
+        case .EdgeCrease:
+            return SCNGeometrySourceSemanticEdgeCrease
+        case .BoneWeights:
+            return SCNGeometrySourceSemanticBoneWeights
+        case .BoneIndices:
+            return SCNGeometrySourceSemanticBoneIndices
+        default:
+            return nil
+        }
+    }
+}
+
+
 // A bit ridged considering there maybe values I miss however this will improve performance
 enum PSSGRenderType {
     case Vertex             // Vertices that define the shape of the 3D model
@@ -78,10 +112,30 @@ enum PSSGRenderType {
             self = .Binormal
         case "Vertex":
             self = .Vertex
+        case "SkinnableVertex":
+            self = .SkinnableVertex
+        case "SkinnableNormal":
+            self = .SkinnableNormal
         case "Color":
             self = .Color
         default:
             self = .Unknown//(typeString)
+        }
+    }
+    
+    var geometrySourceSemantic: GeometrySourceSemantic? {
+        switch(self) {
+        case .Vertex, .SkinnableVertex:
+            return .Vertex
+        case .Normal, .SkinnableNormal:
+            return .Normal
+        case .Color:
+            return .Color
+        case .ST:
+            return .TexCoord
+            
+        default:
+            return nil
         }
     }
 }
@@ -103,6 +157,50 @@ class PSSGDataBlockStream {
     
 }
 
+extension PSSGDataBlockStream {
+    
+    func vectorDataFromStreamOffset(streamOffset:Int, count: Int) -> [SCNVector3]? {
+        // Verify number of components
+        guard dataType.componentCount > 2 else {
+            // Incorrect component count, expecting 3 -> x,y,z
+            return nil
+        }
+        
+        var vertices: [SCNVector3] = []
+        for(var i = streamOffset; i < streamOffset + count;i++) {
+            let vertexData  = elements[i]
+            // Get position components
+            let x = vertexData[0] as! Float
+            let y = vertexData[1] as! Float
+            let z = vertexData[2] as! Float
+            
+            vertices.append(SCNVector3(x,y,z))
+            
+        }
+        
+        return vertices
+    }
+    
+    func coordinateDataFromStreamOffset(streamOffset:Int, count: Int) -> [STCoordinate]? {
+        
+        guard dataType.componentCount > 1 else {
+            return nil
+        }
+        var coordinates: [STCoordinate] = []
+        for(var i = streamOffset; i < streamOffset + count;i++) {
+            let coordinateData  = elements[i]
+            // Get position components
+            let x = coordinateData[0] as! Float
+            let y = coordinateData[1] as! Float
+            
+            let coordinate = CGPoint(x: CGFloat(x), y: CGFloat(y))
+            coordinates.append(coordinate)
+            
+        }
+        
+        return coordinates
+    }
+}
 
 struct PSSGRenderStream {
     
@@ -121,7 +219,7 @@ struct PSSGRenderStream {
         }
         
         // Set properties
-        self.dataBlockID = dataBlockID
+        self.dataBlockID =  dataBlockID.stringByReplacingOccurrencesOfString("#", withString: "")
         self.subStream = subStream
         self.id = id
         
@@ -141,7 +239,7 @@ struct PSSGRenderDataSource {
     
     init?(renderDataSourceNode: PSSGNode) {
         guard let streamCount = renderDataSourceNode.attributesDictionary["streamCount"]?.value as? Int,
-            id = renderDataSourceNode.attributesDictionary["streamCount"]?.value as? String,
+            id = renderDataSourceNode.attributesDictionary["id"]?.value as? String,
             renderIndexSourceNode = renderDataSourceNode.nodeWithName("RENDERINDEXSOURCE") else {
                 // Not a RenderDataSource Node
                 return nil

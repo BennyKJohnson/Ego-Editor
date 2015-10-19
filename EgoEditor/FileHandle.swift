@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SceneKit
 
 // This is a generic protocol for reading binary files. At the moment only NSFileHandler conforms to it.
 // However this could be any other file handling class such as System.IO.Stream for Windows (Once Swift is supported)
@@ -79,6 +79,14 @@ extension FileHandle {
             return s
         }
         return nil
+    }
+    
+    func readVector() -> SCNVector3 {
+        let x = readFloat()!
+        let y = readFloat()!
+        let z = readFloat()!
+        
+        return SCNVector3(x,y,z)
     }
     
     

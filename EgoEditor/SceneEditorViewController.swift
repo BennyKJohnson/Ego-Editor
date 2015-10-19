@@ -107,33 +107,124 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
         }
     }
     
+    func getInstanceData(filename: String) -> InstanceData? {
+        // Attemp to load instance data
+        if let ornamentsFileURL = pssgFile?.pssgDirectory?.URLByAppendingPathComponent("route_0/" + filename) where pssgFile?.url!.lastPathComponent == "objects.pssg" {
+            if let instanceData = NSData(contentsOfURL: ornamentsFileURL) {
+                let instanceData = InstanceData(data: instanceData)
+                return instanceData
+            }
+            
+        }
+        return nil
+        
+    }
+    
+    func loadInstancesIntoScene(scene:SCNScene, instanceData: InstanceData,geometries: [Model]) {
+        for instance in instanceData.instanceList.instances {
+            // Find InstanceRef with ID
+            guard let instanceRef = instanceData.instanceList.instanceReferenceWithID(instance.referenceID) else {
+                break
+            }
+            
+            // Find Geometry for InstanceRef based on filename
+            guard let geometryModel = geometries.find({$0.geometry.name == instanceRef.filename}) else {
+                break
+            }
+            
+            // Create SCNode for the instance
+            let instanceNode = SCNNode(geometry: geometryModel.geometry)
+            instanceNode.transform = instance.transform
+            instanceNode.name = instanceRef.filename
+            // Add it to the scene
+            scene.rootNode.addChildNode(instanceNode)
+            
+        }
+    }
+    
     func loadScene() {
         if let pssgFile = pssgFile where pssgFile.isGeometrySourceProvider() {
-            let pssgGeometries = pssgFile.geometryForObject()
             let scene = sceneView.scene!
-            //    SCNMaterialProperty
-            for model in pssgGeometries ?? [] {
+            let pssgGeometries = pssgFile.geometryForObject()
+    
+            if let instanceData = getInstanceData("ornaments.bin")  {
+                loadInstancesIntoScene(scene, instanceData: instanceData, geometries: pssgGeometries)
                 
-                let geometryNode = SCNNode(geometry: model.geometry)
-                geometryNode.name = model.geometry.name
+                /*
+                for instance in instanceData.instanceList.instances {
+                    // Find InstanceRef with ID
+                    guard let instanceRef = instanceData.instanceList.instanceReferenceWithID(instance.referenceID) else {
+                        break
+                    }
+                    
+                    // Find Geometry for InstanceRef based on filename
+                    guard let geometryModel = pssgGeometries.find({$0.geometry.name == instanceRef.filename}) else {
+                        break
+                    }
+                    
+                    // Create SCNode for the instance
+                    let instanceNode = SCNNode(geometry: geometryModel.geometry)
+                    instanceNode.transform = instance.transform
+                    instanceNode.name = instanceRef.filename
+                    // Add it to the scene
+                    scene.rootNode.addChildNode(instanceNode)
+
+                }
+                */
+                // Load trees 
+                do {
+                    let treesURL = pssgFile.pssgDirectory!.URLByAppendingPathComponent("trees.pssg")
+                    let fileHandle = try NSFileHandle(forReadingFromURL: treesURL)
+                    let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
+                    let treesPSSG = try PSSGFile(file: fileHandle, schemaURL: schema)
+                    treesPSSG.url = treesURL
+                    let treeGeometries = treesPSSG.geometryForObject()
+                    if let treeInstances = getInstanceData("trees.bin") {
+                        loadInstancesIntoScene(scene, instanceData: treeInstances, geometries: treeGeometries)
+                    }
+                    
+                } catch {
+                    
+                }
+       
+
                 
-                // Add materials for reference later
-                appendMaterials(geometryNode.geometry?.materials ?? [])
                 
-                //    geometryNode.
-                //   geometryNode.
-                print(model.transform)
-                // geometryNode.transform += model.transform
-                geometryNode.transform = model.transform
-                scene.rootNode.addChildNode(geometryNode)
                 
+                
+                
+                
+            } else {
+                //    SCNMaterialProperty
+                for model in pssgGeometries ?? [] {
+                    
+                    let geometryNode = SCNNode(geometry: model.geometry)
+                    geometryNode.name = model.geometry.name
+                    
+                    // Add materials for reference later
+                    appendMaterials(geometryNode.geometry?.materials ?? [])
+                    
+                    geometryNode.transform = model.transform
+                    scene.rootNode.addChildNode(geometryNode)
+                    
+                }
             }
+            
+            
+        
+            
+            
+            
+       
+   
             document?.scene = scene
             self.delegate?.sceneEditorViewController(didLoadScene: scene)
             
             translateManipulator = TranslateControl()
             translateManipulator.render()
             scene.rootNode.addChildNode(translateManipulator)
+            
+            // Configure Camera
             
             
         }
@@ -203,7 +294,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     
     func dragOperationForURL(url: NSURL) -> NSDragOperation {
         if let pathExtension = url.pathExtension  {
-            if( pathExtension == "pssg" || pathExtension == "xml") {
+            if( pathExtension == "pssg" || pathExtension == "xml" || pathExtension == "bin") {
                 return NSDragOperation.Copy
 
             }
@@ -347,6 +438,15 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
         return true
     }
     
+    func loadBin(url: NSURL) -> Bool {
+        let data = NSData(contentsOfURL: url)!
+        let instanceData = InstanceData(data: data)
+        
+        return true
+        
+        
+    }
+    
     func performDragOperationForURL(url: NSURL) -> Bool {
         print("Dragged file \(url.absoluteString)")
         if let pathExtension = url.pathExtension  {
@@ -355,6 +455,8 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                     return loadPSSG(url)
                 case "xml":
                     return loadXML(url)
+                case "bin":
+                    return loadBin(url)
             default:
                 return false
             }
