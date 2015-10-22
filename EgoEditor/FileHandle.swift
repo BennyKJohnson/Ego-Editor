@@ -89,6 +89,13 @@ extension FileHandle {
         return SCNVector3(x,y,z)
     }
     
+    func readVectors(count: Int) -> [SCNVector3] {
+        var vectors: [SCNVector3] = []
+        for(var i = 0;i < count;i++) {
+            vectors.append(readVector())
+        }
+        return vectors
+    }
     
     func readString() -> String? {
         if let length = readInt32() {
@@ -97,6 +104,8 @@ extension FileHandle {
             return nil
         }
     }
+    
+    
     
 }
 

@@ -41,7 +41,7 @@ enum PSSGValueType: String {
 
 
 
-class PSSGAttributeSchema: Equatable, XMLSerialization {
+final class PSSGAttributeSchema: Equatable, XMLSerialization {
     var id: Int?
     
     var name: String
@@ -79,7 +79,7 @@ extension NSXMLElement {
 }
 
 
-class PSSGNodeSchema: XMLSerialization {
+final class PSSGNodeSchema: XMLSerialization {
     var referenceID: Int? // Identifier used to reference this node in the file
     
     var name: String
@@ -133,7 +133,7 @@ enum PSSGSchemaReadError: ErrorType {
     case FileNotFound
 }
 
-class PSSGSchema: NSObject, XMLSerialization {
+final class PSSGSchema: NSObject, XMLSerialization {
     var entries: [String: PSSGNodeSchema] = [:]
     
     init(pssgFile: FileHandle, schemaURL: NSURL?) {
@@ -304,8 +304,6 @@ class PSSGSchemaParser: NSObject, NSXMLParserDelegate {
             guard let attributeName = attributeDict["name"], dataType = attributeDict["type"]?.componentsSeparatedByString("::").last! else {
                 return
             }
-            
-            print(dataType)
             
             let pssgValueType = PSSGValueType(rawValue: dataType)!
             currentNode?.addAttribute(attributeName, dataType: pssgValueType)

@@ -515,6 +515,7 @@ extension PSSGFile {
         }
     }
     
+    
     func getMaterials() -> [String: SCNMaterial] {
         
         var materials: [String: SCNMaterial] = [:]
@@ -542,20 +543,51 @@ extension PSSGFile {
                         // Get corresponding parameter in shader group
                         let shaderInputDefinition = shaderGroups[shaderInstance.shaderGroup.identifier]!.shaderInputDefinations[shaderInput.parameterID]
                         
+                   
+                        
                         switch(shaderInputDefinition.name) {
-                        case "TDiffuseAlphaMap":
-                           
+                        case "TDiffuseAlphaMap", "TColourMap":
                             
-                            if let textureFilename = textureID.externalReference, pssgDirectory = url?.URLByDeletingLastPathComponent where  textureManager.textures[textureID.identifier] == nil && !textureManager.loadedFiles.contains(textureFilename) {
+                            // Get texture if exists
+                            if let texture = textureManager.textures[textureID.identifier]  {
+                                
+                                
+                                // Load texture into material
+                                material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
+                                break
+                            }
+
+                            
+                         
+                            guard let pssgDirectory = url?.URLByDeletingLastPathComponent where  textureManager.textures[textureID.identifier] == nil  else  {
+                                break
+                            }
+                            /*
+                            if shaderInputDefinition.name == "TColourMap" {
+                                print("ColourMap")
+                                break
+                            }
+                            */
+                            
+                            if let textureFilename = textureID.externalReference where !textureFilename.isEmpty {
+                                
+                                // Actual Textures seem to be stored in patchup_ot.pssg rather than objectstextures.pssg
+                                let modifiedTextureFilename = textureFilename.stringByReplacingOccurrencesOfString("objectstextures", withString: "patchup_ot")
+                                
                                 // Attempt to load texture
-                                let textureURL = pssgDirectory.URLByAppendingPathComponent(textureFilename)
+                                let textureURL = pssgDirectory.URLByAppendingPathComponent(modifiedTextureFilename)
                                 textureManager.loadTexturesFromURL(textureURL)
+                            } else if let textureFilename = url?.lastPathComponent where !textureManager.loadedFiles.contains(textureFilename) {
+                                
+                                textureManager.loadTexturesFromPSSG(self)
                             }
                             
                             // Get texture if exists
-                            if let texture = textureManager.textures[textureID.identifier] {
+                            if let texture = textureManager.textures[textureID.identifier]  {
+                            
+                                
                                 // Load texture into material
-                                // material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
+                                 material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
                                 
                             }
                             

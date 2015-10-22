@@ -11,13 +11,19 @@ import Foundation
 class TextureManager {
     var textures: [String: DDS] = [:]
     var loadedFiles: [String] = []
-    init() {
+    var imageAssetDirectoryURL: NSURL
+    
+    static let sharedManager = TextureManager()
+
+    
+    private init() {
         
         // Get URL to temporary directory
         let temporaryDirectory = NSURL.fileURLWithPath(NSTemporaryDirectory())
         
         // Create Folder for image assets
-        let imageAssetDirectoryURL = temporaryDirectory.URLByAppendingPathComponent("EgoEditor")
+        imageAssetDirectoryURL = temporaryDirectory.URLByAppendingPathComponent("EgoEditor")
+        
         // Remove existing folder
         do {
             try NSFileManager.defaultManager().removeItemAtURL(imageAssetDirectoryURL)
@@ -58,6 +64,29 @@ class TextureManager {
         }
     }
     
+    func loadTexturesFromPSSG(pssgFile: PSSGFile) -> Bool {
+        
+        if let filename = pssgFile.url?.lastPathComponent {
+            loadedFiles.append(filename)
+        }
+        
+        
+       
+        // Export Textures into temporary directory for loading
+        pssgFile.writeImageAssetsToURL(imageAssetDirectoryURL)
+        
+        do {
+            
+            // Load DDS Files
+            let ddsURLs = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(imageAssetDirectoryURL, includingPropertiesForKeys: nil, options: [])
+            loadImageAssetsWithURLs(ddsURLs)
+            return true
+            
+        } catch {
+            return false
+        }
+    }
+    
     func loadPSSG(url: NSURL) -> Bool {
         // Load PSSGFile
         do {
@@ -79,15 +108,7 @@ class TextureManager {
           
             
             
-            // Export Textures into temporary directory for loading
-            draggedPSSGFile.writeImageAssetsToURL(imageAssetDirectoryURL)
-            
-       
-            
-            // Load DDS Files
-            let ddsURLs = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(imageAssetDirectoryURL, includingPropertiesForKeys: nil, options: [])
-            loadImageAssetsWithURLs(ddsURLs)
-            return true
+            return loadTexturesFromPSSG(draggedPSSGFile)
             
         } catch {
             print("Error occured loading file \(error)")

@@ -41,7 +41,7 @@ class PSSGFile {
     
     var url: NSURL?
 
-    let textureManager = TextureManager()
+    let textureManager = TextureManager.sharedManager
 
     
     lazy var renderInterfaceBound: RenderInterfaceBound? = {
@@ -85,7 +85,7 @@ class PSSGFile {
             let compressedData = file.availableData // Get all available data
       
             let uncompressData = try compressedData.gunzippedData() // attempt to uncompress data
-
+        
             let dataPointer = UnsafeMutablePointer<UInt8>(uncompressData.bytes); // Get pointer to file bytes
             let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: uncompressData.length, freeOnDeinit: false) // Create buffer that will be used to read data from data pointer
             
@@ -164,7 +164,7 @@ class PSSGFile {
     
 }
 
-class PSSGNode {
+final class PSSGNode {
     var id: Int!
     var attributes: [PSSGAttribute] = []
     var attributesDictionary: [String: PSSGAttribute] = [:]
@@ -450,7 +450,7 @@ extension PSSGNode {
 }
 
 
-class PSSGAttribute {
+final class PSSGAttribute {
     var key: String!
     var value: AnyObject?
     var valueType: PSSGValueType!

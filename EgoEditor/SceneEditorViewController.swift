@@ -192,7 +192,31 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                     
                 }
                 
-              
+                // Hacky Solution to load Sky
+                do {
+                    let skyURL = pssgFile.pssgDirectory!.URLByAppendingPathComponent("route_0/sky_day.pssg")
+                    let fileHandle = try NSFileHandle(forReadingFromURL: skyURL)
+                    let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
+                    let skyPSSG = try PSSGFile(file: fileHandle, schemaURL: schema)
+                    skyPSSG.url = skyURL
+                    
+                    // Get Sky Material Instance
+                    TextureManager.sharedManager.loadTexturesFromPSSG(skyPSSG)
+                    
+                    let shaderInput = skyPSSG.rootNode.nodeWithName("SHADERINPUT")
+                    if let skyTextureReference = shaderInput?.attributesDictionary["texture"]?.formattedValue as? String {
+                        let name = skyTextureReference.stringByReplacingOccurrencesOfString("#", withString: "")
+                        if let skyTexture = TextureManager.sharedManager.textures[name] {
+                            scene.background.contents = skyTexture.CreateImage().takeUnretainedValue()
+                        }
+                    }
+                 
+                    
+                } catch {
+                    
+                }
+                
+                
 
                 
                 
@@ -231,7 +255,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
             scene.rootNode.addChildNode(translateManipulator)
             
             // Configure Camera
-            
+            scene.rootNode.camera?.zNear = 0
             
         }
         
@@ -300,7 +324,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     
     func dragOperationForURL(url: NSURL) -> NSDragOperation {
         if let pathExtension = url.pathExtension  {
-            if( pathExtension == "pssg" || pathExtension == "xml" || pathExtension == "bin") {
+            if( pathExtension == "pssg" || pathExtension == "xml" || pathExtension == "bin" ||  pathExtension == "grs") {
                 return NSDragOperation.Copy
 
             }
@@ -349,7 +373,10 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                             switch(textureType) {
                             case .DiffuseAlphaMap:
                                 print("Added \(textureFilename) as diffuse map to material \(material)")
-                                sharedMaterials[material.materialName]?.diffuse.contents = imageRef().takeUnretainedValue()
+                                if let material = sharedMaterials[material.materialName] {
+                                    material.diffuse.contents = imageRef().takeUnretainedValue()
+
+                                }
                                 /*
                             case .NormalMap:
                                 print("Added \(textureFilename) as normal map to material \(material)")
@@ -453,6 +480,12 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
         
     }
     
+    func loadGrassMap(url:NSURL) -> Bool {
+        let data = NSData(contentsOfURL: url)!
+        let grassMap = GrassMap(data: data)
+        return true
+    }
+    
     func performDragOperationForURL(url: NSURL) -> Bool {
         print("Dragged file \(url.absoluteString)")
         if let pathExtension = url.pathExtension  {
@@ -463,6 +496,9 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
                     return loadXML(url)
                 case "bin":
                     return loadBin(url)
+                case "grs":
+                    return loadGrassMap(url)
+                
             default:
                 return false
             }

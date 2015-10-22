@@ -79,9 +79,6 @@ struct PSSGDataBlock {
                 dataBlockStream.elements.append(values)
             }
         }
-        print("\(streams[0].elements.count)")
-        
-        
     }
     
     

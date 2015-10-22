@@ -62,6 +62,7 @@
 		A3CF7B961BCCBE51008D9C1C /* SCNNode-EgoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF7B951BCCBE51008D9C1C /* SCNNode-EgoEditor.swift */; settings = {ASSET_TAGS = (); }; };
 		A3CF7B981BCCC279008D9C1C /* SceneDocumentStructureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */; settings = {ASSET_TAGS = (); }; };
+		A3D4C1D41BD5EC6F00AD7D94 /* GrassMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D4C1D31BD5EC6F00AD7D94 /* GrassMap.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F127961BBF6A3B00105254 /* scene3.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3F127951BBF6A3B00105254 /* scene3.dae */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAAF1BC880DD002D44FE /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAAE1BC880DD002D44FE /* CameraView.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F6FAB11BC899D3002D44FE /* AttributesInspectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6FAB01BC899D3002D44FE /* AttributesInspectorViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -150,6 +151,7 @@
 		A3CF7B951BCCBE51008D9C1C /* SCNNode-EgoEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode-EgoEditor.swift"; sourceTree = "<group>"; };
 		A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDocumentStructureViewController.swift; sourceTree = "<group>"; };
 		A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PSSGFile+ImageAssetSource.swift"; sourceTree = "<group>"; };
+		A3D4C1D31BD5EC6F00AD7D94 /* GrassMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrassMap.swift; sourceTree = "<group>"; };
 		A3F127951BBF6A3B00105254 /* scene3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = scene3.dae; sourceTree = "<group>"; };
 		A3F6FAAE1BC880DD002D44FE /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		A3F6FAB01BC899D3002D44FE /* AttributesInspectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesInspectorViewController.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				A31CC0C91BD271CD009BEE1E /* PSSGShader.swift */,
 				A3B25D4A1BD2D8AE00C6A4CE /* TextureManager.swift */,
 				A36F1F6D1BD44BE800320E8F /* InstanceFile.swift */,
+				A3D4C1D31BD5EC6F00AD7D94 /* GrassMap.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				A36979BF1BBE354000420595 /* PSSGFile+GeometrySource.swift in Sources */,
 				A36979BD1BBE2F2100420595 /* PSSGErrorTypes.swift in Sources */,
 				A36979B71BBE1B4200420595 /* NSData+Extensions.swift in Sources */,
+				A3D4C1D41BD5EC6F00AD7D94 /* GrassMap.swift in Sources */,
 				A3CF7B981BCCC279008D9C1C /* SceneDocumentStructureViewController.swift in Sources */,
 				A36F1F6E1BD44BE800320E8F /* InstanceFile.swift in Sources */,
 				A36962DD1BBD19CB00F9F4EC /* AppDelegate.swift in Sources */,
