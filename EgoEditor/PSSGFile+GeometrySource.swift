@@ -352,6 +352,7 @@ extension PSSGFile {
         var modelVertices: [SCNVector3] = []
         var modelNormals: [SCNVector3] = []
         var modelUVs: [STCoordinate] = []
+        var textureCoordinates: [[STCoordinate]] = []
         var indices: [UInt32] = []
         var geometryElement: [SCNGeometryElement] = []
         
@@ -373,11 +374,14 @@ extension PSSGFile {
             
             
             var hasUVSource = false
+            var currentUVIndex = 0
+
             // Get Geometry Sources
             for renderStream in renderDataSource.renderStreams {
                 let dataBlockID = renderStream.dataBlockID
                 let subStream = renderStream.subStream
-                guard let dataBlock = renderInterfaceBound?.dataBlocks[dataBlockID] else  {
+
+                guard let dataBlock = renderInterfaceBound?.dataBlockForID(dataBlockID) else  {
                     break
                 }
                 
@@ -401,12 +405,23 @@ extension PSSGFile {
                             modelNormals += normals
                         } 
                     case .TexCoord:
+                        let stCoordinates = dataBlockStream.coordinateDataFromStreamOffset(streamOffset, count: elementCountFromOffset)!
+
                         if !hasUVSource {
-                            let stCoordinates = dataBlockStream.coordinateDataFromStreamOffset(streamOffset, count: elementCountFromOffset)!
-                            modelUVs += stCoordinates
                             
+                            modelUVs += stCoordinates
                             hasUVSource = true
+
                         }
+                        
+                            if currentUVIndex < textureCoordinates.count {
+                                textureCoordinates[currentUVIndex] += stCoordinates
+                            } else {
+                                textureCoordinates.append(stCoordinates)
+                            }
+                            currentUVIndex++
+                            
+                        
                         
                     default:
                         break
@@ -515,6 +530,18 @@ extension PSSGFile {
         }
     }
     
+    func setMaterialProperty(materialProperty: SCNMaterialProperty, texture: PSSGTexture) {
+        // Load texture into material
+        materialProperty.contents  = texture.ddsFile?.CreateImage().takeUnretainedValue()
+        if texture.wrapS > 0 {
+            materialProperty.wrapS = SCNWrapMode.Repeat
+        }
+        if texture.wrapT > 0 {
+            materialProperty.wrapT = SCNWrapMode.Repeat
+        }
+        
+    }
+    
     
     func getMaterials() -> [String: SCNMaterial] {
         
@@ -536,24 +563,23 @@ extension PSSGFile {
                 // Create Material
                 let material = SCNMaterial()
                 material.name = shaderInstance.id
+                var transform: SCNMatrix4? = nil
                 
                 for shaderInput in shaderInstance.shaderInputs {
+                    // Get corresponding parameter in shader group
+                    let shaderInputDefinition = shaderGroups[shaderInstance.shaderGroup.identifier]!.shaderInputDefinations[shaderInput.parameterID]
+                    
                     if let textureID = shaderInput.textureID {
-                        
-                        // Get corresponding parameter in shader group
-                        let shaderInputDefinition = shaderGroups[shaderInstance.shaderGroup.identifier]!.shaderInputDefinations[shaderInput.parameterID]
-                        
-                   
-                        
+              
                         switch(shaderInputDefinition.name) {
-                        case "TDiffuseAlphaMap", "TColourMap":
+                    
+                        case "TDiffuseAlphaMap", "TColourMap","TlargeColourMap":
                             
                             // Get texture if exists
                             if let texture = textureManager.textures[textureID.identifier]  {
                                 
-                                
-                                // Load texture into material
-                                material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
+                                setMaterialProperty(material.diffuse, texture: texture)
+                            
                                 break
                             }
 
@@ -587,7 +613,8 @@ extension PSSGFile {
                             
                                 
                                 // Load texture into material
-                                 material.diffuse.contents  = texture.CreateImage().takeUnretainedValue()
+                                setMaterialProperty(material.diffuse, texture: texture)
+
                                 
                             }
                             
@@ -596,8 +623,44 @@ extension PSSGFile {
                         }
                         
                         
+                    } else if let format = shaderInput.format {
+                        switch(shaderInputDefinition.name) {
+                        case "ColourMapScale":
+                            if let scale = shaderInput.inputData?.first as? Float {
+                                // Set Transform
+                                transform = SCNMatrix4MakeScale(CGFloat(scale), CGFloat(scale), CGFloat(scale))
+                                
+                            }
+                        case "Map1UVScaleAndOffset":
+                            if let offsetScale = shaderInput.inputData where offsetScale.count == 4 {
+                                
+                                let xScale = CGFloat(offsetScale[0] as! Float)
+                                let yScale = CGFloat(offsetScale[1] as! Float)
+                                let xOffset = CGFloat(offsetScale[2] as! Float)
+                                let yOffset = CGFloat(offsetScale[3] as! Float)
+                                
+                                let scaleTransform =  SCNMatrix4MakeScale(xScale, yScale, 1.0)
+                                let newTransform = SCNMatrix4Translate(scaleTransform, xOffset, yOffset, 0)
+                                
+                                
+                                print(offsetScale)
+                                
+                                
+                            }
+                            //shaderInput.
+                        default:
+                            break
+                        }
                     }
                 }
+                
+                if let transform = transform {
+                    material.diffuse.contentsTransform = transform
+                   
+                }
+                // Automatically repeat, Needs fixing to read in texture node
+               // material.diffuse.wrapS = SCNWrapMode.Repeat
+               // material.diffuse.wrapT = SCNWrapMode.Repeat
                 
                 // Append Material
                 materials[material.name!] = material
@@ -611,18 +674,24 @@ extension PSSGFile {
     }
     
     func nodesForLevelOfDetails(renderNodes: [PSSGNode]) -> [PSSGNode] {
+        let nodes = renderNodes.filter({ (node) -> Bool in
+            let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
+            return !nickname.hasPrefix("SHADOWCASTING") && !nickname.hasPrefix("DECAL") && !nickname.containsString("BATCH")
+        })
+
         
-        let highLODNodes = renderNodes.filter({ (node) -> Bool in
+        let highLODNodes = nodes.filter({ (node) -> Bool in
             let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
             return nickname.hasPrefix("HIGH")
         })
         
         if highLODNodes.count > 0 {
-           return renderNodes.filter({ (node) -> Bool in
+           return nodes.filter({ (node) -> Bool in
                 let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
                 return !nickname.hasPrefix("LOW")
             })
         }
+        
         
         
         return renderNodes
@@ -632,6 +701,10 @@ extension PSSGFile {
         // Get rootNode
         
         let sceneRootNodes = rootNode.nodesWithName("ROOTNODE") 
+        if sceneRootNodes.count == 0 {
+            return []
+        }
+        
         
         let geometryInfo: PSSGGeometryInfo
         let rootNodes: [PSSGNode]
@@ -646,7 +719,7 @@ extension PSSGFile {
         } else  {
             // Check if Nodes
             let nodes = sceneRootNodes[0].childNodesWithName("NODE", recursively: false)
-            if nodes.count == 2 {
+            if nodes.count > 0 {
                 // TrackSplit Hopefully
                 geometryInfo = PSSGGeometryInfo.TrackSplit
                 rootNodes = nodes.last!.childNodesWithName("NODE", recursively: false)
@@ -731,6 +804,9 @@ extension PSSGFile {
                         modelVertices += geometrySource.modelVertices
                         modelNormals += geometrySource.modelNormals
                         modelUVs += geometrySource.modelUVs
+                        if geometrySource.textureCoordinates.count > 1 {
+                            print("Got multiple UVs")
+                        }
                         modelGeometryElements += geometrySource.geometryElement
                     
                     }

@@ -60,19 +60,25 @@ struct PSSGDataBlock {
             
             for  dataBlockStream in streams {
                 // Each stream can be made up of multiple values, vertex has 3 floats, UV has 2 floats
-                var values: [Scalar] = []
-                
+                var values: [Scalar!] = [Scalar!](count: dataBlockStream.dataType.componentCount, repeatedValue: nil)
+
                 for(var v = 0;v < dataBlockStream.dataType.componentCount;v++) {
                     switch(dataBlockStream.dataType.valueType) {
                     case .Float:
-                        values.append(dataBuffer.getFloat32())
+                        values[v] = dataBuffer.getFloat32()
+                       // values = dataBuffer.getFloat32(dataBlockStream.dataType.componentCount).map { return $0 as Scalar }
                     case .UChar:
-                        values.append(Int32(dataBuffer.getUInt8()))
+                       //  values = dataBuffer.getUInt8(dataBlockStream.dataType.componentCount).map { return  Int32($0) as Scalar }
+                     //   values = dataBuffer.getUInt8()
+                        values[v] = Int32(dataBuffer.getUInt8())
                     case .Half:
-                        values.append(dataBuffer.readHalf()!)
+                      //  values = dataBuffer.getHalfs(dataBlockStream.dataType.componentCount).map { return  $0 as Scalar }
+
+                        values[v] = dataBuffer.readHalf()!
                     case .UInt:
                         let value = dataBuffer.getUInt32()
-                        values.append(Int32(value))
+                        values[v] = Int32(value)
+                        //values = dataBuffer.getUInt32(dataBlockStream.dataType.componentCount).map { return  Int32($0) as Scalar }
                     }
                 }
                 

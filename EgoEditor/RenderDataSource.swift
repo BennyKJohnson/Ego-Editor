@@ -9,7 +9,7 @@
 import Foundation
 import SceneKit
 
-// Scalar value to make data uniform. In a perfect world I would just be able to read stream directly into SceneKit. Thanks Codemasters for using Big Endian and Half Floats.
+// Scalar value to make data uniform. In a perfect world I would just be able to read stream directly into SceneKit. Thanks Codemasters for using Big Endian.
 protocol Scalar {
     init (_ value: Int32)
     init (_ value: Float)
@@ -49,6 +49,32 @@ struct RenderDataType {
             self.valueType = RenderValueType(rawValue: valueTypeString.lowercaseString)!
         }
     }
+    
+    func parseData(data: NSData) -> [Scalar] {
+        let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
+        let dataBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: data.length, freeOnDeinit: false)
+        
+        
+        var values: [Scalar] = []
+        
+        for(var v = 0;v < componentCount;v++) {
+            switch(valueType) {
+            case .Float:
+                values.append(dataBuffer.getFloat32())
+            case .UChar:
+                values.append(Int32(dataBuffer.getUInt8()))
+            case .Half:
+                values.append(dataBuffer.readHalf()!)
+            case .UInt:
+                let value = dataBuffer.getUInt32()
+                values.append(Int32(value))
+            }
+        }
+        
+        return values
+    }
+    
+    
     
 }
 
@@ -143,7 +169,7 @@ enum PSSGRenderType {
 class PSSGDataBlockStream {
     var renderType: PSSGRenderType!
     var dataType: RenderDataType!
-    var elements: [[Scalar]] = []
+    var elements: [[Scalar!]] = []
     
     init?(dataBlockStreamNode: PSSGNode) {
         guard let type = dataBlockStreamNode.attributesDictionary["renderType"]?.formattedValue as? String, dataTypeString = dataBlockStreamNode.attributesDictionary["dataType"]?.formattedValue as? String  else {
@@ -269,18 +295,38 @@ struct PSSGRenderDataSource {
 
 
 // Manages the DataBlocks in a PSSG File
-struct RenderInterfaceBound {
+class RenderInterfaceBound {
+    var dataBlockNodes: [String: PSSGNode] = [:]
     var dataBlocks: [String: PSSGDataBlock] = [:]
     
-    init(dataBlockNodes: [PSSGNode]) {
-        for dataBlockNode in dataBlockNodes {
+    // Lazy load data blocks when required
+    func dataBlockForID(ID: String) -> PSSGDataBlock? {
+        
+        if let loadedDataBlock = dataBlocks[ID] {
+            return loadedDataBlock
+        } else if let dataBlockNode = dataBlockNodes[ID] {
+            // Create processed DataBlock
             if let dataBlock = PSSGDataBlock(dataBlockNode: dataBlockNode) {
-                
                 // Add to dictionary
                 dataBlocks[dataBlock.id] = dataBlock
+                return dataBlock
             }
-          
         }
+        
+        return nil
+    }
+    
+    init(nodes: [PSSGNode]) {
+        for dataBlockNode in nodes {
+            guard let id = dataBlockNode.attributesDictionary["id"]?.formattedValue as? String else {
+                // Doesn't have ID, not  valid
+                break
+            }
+            
+            dataBlockNodes[id] = dataBlockNode
+
+        }
+    
     }
     
 

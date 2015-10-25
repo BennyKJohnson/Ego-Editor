@@ -127,6 +127,18 @@ final class PSSGNodeSchema: XMLSerialization {
         
         return nodeElement
     }
+    
+    func attributeithID(id: Int) -> PSSGAttributeSchema? {
+        return attributes[id]
+        
+            for attribute in attributes {
+                if attribute.id == id {
+                    return attribute
+                }
+            }
+        
+        return nil
+    }
 }
 
 enum PSSGSchemaReadError: ErrorType {
@@ -134,7 +146,10 @@ enum PSSGSchemaReadError: ErrorType {
 }
 
 final class PSSGSchema: NSObject, XMLSerialization {
+    
     var entries: [String: PSSGNodeSchema] = [:]
+    
+    var attributes: [Int:PSSGAttributeSchema] = [:]
     
     init(pssgFile: FileHandle, schemaURL: NSURL?) {
         
@@ -173,12 +188,16 @@ final class PSSGSchema: NSObject, XMLSerialization {
                 
                 let attribute = PSSGAttributeSchema(name: attributeName)
                 attribute.id = attributeID
+                
                 if let attr = findAttribute(node.name, attributeName: attribute.name) {
                     attr.id = attribute.id
+                    attributes[attributeID] = attr
                 } else {
                     // Check if attribute doesn't already exist
                     if node.attributes.filter({ $0.name == attribute.name }).first == nil {
+                        //attributes.append(attribute)
                         node.attributes.append(attribute)
+                        attributes[attributeID] = attribute
                     }
                 }
                 
@@ -209,6 +228,8 @@ final class PSSGSchema: NSObject, XMLSerialization {
     }
     
     func attributeithID(id: Int) -> PSSGAttributeSchema? {
+        return attributes[id]
+        
         for (_,node) in entries {
             for attribute in node.attributes {
                 if attribute.id == id {

@@ -39,6 +39,7 @@ extension String {
     
 }
 
+
 extension Array {
     func objectAtIndex(index:Int) -> Element? {
         return indices ~= index ? self[index] : nil

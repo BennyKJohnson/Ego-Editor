@@ -53,7 +53,7 @@ class PSSGFile {
             }
         }
         
-        return RenderInterfaceBound(dataBlockNodes: dataBlockNodes)
+        return RenderInterfaceBound(nodes: dataBlockNodes)
         
         }()
     
@@ -291,7 +291,7 @@ final class PSSGNode {
         
         while(Int(file.offsetInFile) < attributeEnd) {
             do {
-                let attribute = try PSSGAttribute(file: file, schema: schema)
+                let attribute = try PSSGAttribute(file: file, nodeSchema: schema)
                 attribute.node = self
                 attributes.append(attribute)
                 attributesDictionary[attribute.key] = attribute
@@ -489,12 +489,12 @@ final class PSSGAttribute {
         return value
     }
     
-    init(file: FileHandle, schema: PSSGSchema) throws {
+    init(file: FileHandle, nodeSchema: PSSGSchema) throws {
         guard let id = file.readInt32() else {
             throw PSSGAttributeReadError.NoKey
         }
         
-        guard let attributeSchema = schema.attributeithID(id) else {
+        guard let attributeSchema = nodeSchema.attributeithID(id) else {
             throw PSSGAttributeReadError.NoSchema
         }
         

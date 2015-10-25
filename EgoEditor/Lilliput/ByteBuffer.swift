@@ -214,8 +214,11 @@ public class ByteBuffer {
         return getArray(count, defaultValue: 0) { self.getInt8() }
     }
     
-    public func getHalfs(count: Int) -> Array<Int8> {
-        return getArray(count, defaultValue: 0) { self.getInt8() }
+    public func getHalfs(count: Int) -> Array<Float> {
+        return getArray(count, defaultValue: 0) {
+            var val = self.getUInt16()
+            return f16toFloat(&val)
+        }
     }
     
     public func getInt16(count: Int) -> Array<Int16> {

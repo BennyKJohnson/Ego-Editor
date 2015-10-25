@@ -114,9 +114,11 @@ struct PSSGShaderInput {
     
     let type: String
     
-    let format: String?
+    let format: RenderDataType?
     
     let textureID: PSSGReferenceID?
+    
+    let inputData: [Scalar]?
     
     init?(shaderInputNode: PSSGNode) {
         guard let parameterID = shaderInputNode.attributesDictionary["parameterID"]?.formattedValue as? Int,
@@ -128,7 +130,22 @@ struct PSSGShaderInput {
         
         self.type = type
         
-        self.format = shaderInputNode.attributesDictionary["format"]?.formattedValue as? String
+        if let formatString = shaderInputNode.attributesDictionary["format"]?.formattedValue as? String {
+            format = RenderDataType(typeString: formatString)
+            
+            // Parse data for format
+            if let nodeData = shaderInputNode.data as? NSData {
+                inputData = format?.parseData(nodeData)
+            } else {
+                inputData = nil
+            }
+            
+        } else {
+            format = nil
+            inputData = nil
+        }
+        
+      
         
         if let textureString = shaderInputNode.attributesDictionary["texture"]?.formattedValue as? String {
             textureID = PSSGReferenceID(referenceID: textureString)

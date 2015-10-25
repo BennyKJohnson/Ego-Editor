@@ -8,10 +8,32 @@
 
 import Foundation
 
+
+struct PSSGTexture {
+    var ddsFile: DDS?
+    
+    let wrapS: Int
+    
+    let wrapT: Int
+
+    let wrapR: Int // Not Used
+    
+    init(node: PSSGNode) {
+        // Parse node
+        wrapS = node.attributesDictionary["wrapS"]?.formattedValue as! Int
+        wrapT = node.attributesDictionary["wrapT"]?.formattedValue as! Int
+        wrapR = node.attributesDictionary["wrapR"]?.formattedValue as! Int
+       
+    }
+    
+    
+}
+
 class TextureManager {
-    var textures: [String: DDS] = [:]
+    var textures: [String: PSSGTexture] = [:]
     var loadedFiles: [String] = []
     var imageAssetDirectoryURL: NSURL
+
     
     static let sharedManager = TextureManager()
 
@@ -58,7 +80,7 @@ class TextureManager {
             
             if let dds = DDS(URL: ddsURL) {
                 
-                textures[textureFilename] = dds
+                textures[textureFilename]?.ddsFile = dds
                 
             }
         }
@@ -70,10 +92,28 @@ class TextureManager {
             loadedFiles.append(filename)
         }
         
-        
+        // Get Texture Nodes 
+        let textureNodes = pssgFile.rootNode.nodesWithName("TEXTURE")
+        for textureNode in textureNodes {
+            // Create DDS File
+            // Get filepath
+            let textureName = textureNode.attributesDictionary["id"]?.value as! String
+            let filename = textureName + ".dds"
+            let filepath = imageAssetDirectoryURL.URLByAppendingPathComponent(filename)
+
+            // Create PSSG Texture
+            let pssgTexture = PSSGTexture(node: textureNode)
+            textures[textureName] = pssgTexture
+            
+            if let ddsFile = DDSFile(node: textureNode) {
+                // Write DDS File
+                let ddsFileData = ddsFile.dataForFile()
+                ddsFileData.writeToURL(filepath, atomically: false)
+            }
+        }
        
         // Export Textures into temporary directory for loading
-        pssgFile.writeImageAssetsToURL(imageAssetDirectoryURL)
+       // pssgFile.writeImageAssetsToURL(imageAssetDirectoryURL)
         
         do {
             
