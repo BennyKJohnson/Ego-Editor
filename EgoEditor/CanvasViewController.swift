@@ -8,10 +8,13 @@
 
 import Cocoa
 import SceneKit
+
 class CanvasViewController: NSSplitViewController, SceneEditorViewControllerDelegate {
 
     var sceneGraphViewController: SceneGraphViewController!
     var sceneEditorViewController: SceneEditorViewController!
+    
+
     
     weak var scene: SCNScene? {
         didSet {
@@ -49,6 +52,11 @@ class CanvasViewController: NSSplitViewController, SceneEditorViewControllerDele
     func sceneEditorViewController(didLoadScene scene:SCNScene) {
         print("Loaded Scene")
         self.scene = scene
+    }
+    
+    func sceneEditorViewController(didLoadObjetLibrary objects: [Model]) {
+        // Tell parent about it
+        
     }
     
 }

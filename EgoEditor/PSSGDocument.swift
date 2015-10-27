@@ -15,6 +15,59 @@ enum PSSGSupportedExportTypes: String {
     case XSD = "public.xsd"
 }
 
+
+
+class EgoProjectDocument: NSDocument {
+    var pssgFile: PSSGFile!
+    var scene: SCNScene?
+    var newDocument = true
+    var windowController: EEWindowController!
+    
+    override func windowControllerDidLoadNib(aController: NSWindowController) {
+        super.windowControllerDidLoadNib(aController)
+        // Add any code here that needs to be executed once the windowController has loaded the document's window.
+      
+
+        
+    }
+    
+    override class func autosavesInPlace() -> Bool {
+        return true
+    }
+    
+    override func makeWindowControllers() {
+        // Returns the Storyboard that contains your Document window.
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! EEWindowController
+        self.addWindowController(windowController)
+    }
+    
+   
+    override func readFromURL(url: NSURL, ofType typeName: String) throws {
+        // Get Binary Reader
+        
+        do {
+            let fileHandle = try NSFileHandle(forReadingFromURL: url)
+            let schema = NSBundle.mainBundle().URLForResource("pssg", withExtension: ".xsd")!
+            
+            pssgFile = try PSSGFile(file: fileHandle,schemaURL: schema)
+            pssgFile.url = url
+            
+        } catch {
+            throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+            
+        }
+        
+        
+        // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
+        // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
+        // If you override either of these, you should also override -isEntireFileLoaded to return false if the contents are lazily loaded.
+
+    }
+    
+    
+}
+
 class PSSGDocument: NSDocument {
     
     var pssgFile: PSSGFile!

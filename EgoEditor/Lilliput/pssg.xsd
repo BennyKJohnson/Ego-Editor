@@ -223,6 +223,13 @@
     <xs:element name="MODIFIERNETWORKMULTIINSTANCE">
         <xs:attribute name="instanceCount" type="xs::anyType"/>
     </xs:element>
+    
+    <xs:element name="PNTEXTURESCALING">
+        <xs:attribute name="scale" type="xs::anyType"/>
+        <xs:attribute name="min" type="xs::anyType"/>
+        <xs:attribute name="id" type="xs::string"/>
+    </xs:element>
+    
     <xs:element name="MODIFIERNETWORKINSTANCECOMPILE">
         <xs:attribute name="uniqueInputCount" type="xs::anyType"/>
         <xs:attribute name="packetCount" type="xs::anyType"/>
@@ -278,6 +285,8 @@
     <xs:element name="SHADERPROGRAM">
         <xs:attribute name="codeCount" type="xs::anyType"/>
     </xs:element>
+    
+    
     <xs:element name="DX11STATE">
         <xs:attribute name="blendEnabled" type="xs::anyType"/>
         <xs:attribute name="blendSource" type="xs::anyType"/>
@@ -495,10 +504,7 @@
     <xs:element name="USERDATA">
         <xs:attribute name="object" type="xs::anyType"/>
     </xs:element>
-    <xs:element name="PNTEXTURESCALING">
-        <xs:attribute name="scale" type="xs::anyType"/>
-        <xs:attribute name="min" type="xs::anyType"/>
-    </xs:element>
+
     <xs:element name="CGSTREAM">
         <xs:attribute name="cgStreamName" type="xs::anyType"/>
         <xs:attribute name="cgStreamDataType" type="xs::anyType"/>

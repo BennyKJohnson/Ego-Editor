@@ -78,6 +78,7 @@ struct TextureComponents {
 protocol SceneEditorViewControllerDelegate {
     func sceneEditorViewController(didSelectObject object: AnyObject) -> Bool
     func sceneEditorViewController(didLoadScene scene:SCNScene)
+    func sceneEditorViewController(didLoadObjetLibrary objects: [Model])
 }
 
 class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNProgramDelegate {
@@ -89,7 +90,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     var translateManipulator: TranslateControl!
     
     var selectableNodes:[String: AnyObject] = [:] // Not sure how you are meant to get the data model for a given model, more research needs to be done. Dictionary will work for now
-    
+    var objectLibrary: [Model] = []
     
     weak var document: PSSGDocument? {
         didSet {
@@ -109,7 +110,7 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
     
     func getInstanceData(filename: String) -> InstanceData? {
         // Attemp to load instance data
-        if let ornamentsFileURL = pssgFile?.pssgDirectory?.URLByAppendingPathComponent("route_0/" + filename) where pssgFile?.url!.lastPathComponent == "objectss.pssg" {
+        if let ornamentsFileURL = pssgFile?.pssgDirectory?.URLByAppendingPathComponent("route_0/" + filename) where pssgFile?.url!.lastPathComponent == "objects.pssg" {
             if let instanceData = NSData(contentsOfURL: ornamentsFileURL) {
                 let instanceData = InstanceData(data: instanceData)
                 return instanceData
@@ -120,7 +121,14 @@ class SceneEditorViewController: NSViewController, SceneEditorViewDelegate, SCNP
         
     }
     
+    
+    
+    
     func loadInstancesIntoScene(scene:SCNScene, instanceData: InstanceData,geometries: [Model]) {
+        // Set object library
+        objectLibrary = geometries
+        
+        
         for instance in instanceData.instanceList.instances {
             // Find InstanceRef with ID
             guard let instanceRef = instanceData.instanceList.instanceReferenceWithID(instance.referenceID) else {

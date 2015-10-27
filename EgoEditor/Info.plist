@@ -9,6 +9,22 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>egoproj</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Ego Project</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.benjamin.egoeditor.egoproj</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>EgoEditor.EgoProjectDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>pssg</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -65,6 +81,23 @@
 	<string>NSApplication</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Ego Project</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.benjamin.egoeditor.egoproj</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>egoproj</string>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>

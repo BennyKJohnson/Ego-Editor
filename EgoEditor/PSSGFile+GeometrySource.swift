@@ -540,6 +540,21 @@ extension PSSGFile {
             materialProperty.wrapT = SCNWrapMode.Repeat
         }
         
+        // Get ScalingObject if has id
+        if let scalingObjectID = texture.scalingID{
+            if let scalingNode = rootNode.childNodes.last!.nodeWithID(scalingObjectID)  {
+                let scale = scalingNode.attributesDictionary["scale"]!.readDataAsFloat(4)
+                let min = scalingNode.attributesDictionary["min"]!.readDataAsFloat(4)
+                var transform = SCNMatrix4MakeScale(CGFloat(scale[0]), CGFloat(scale[1]), CGFloat(scale[2]))
+                transform = SCNMatrix4Translate(transform, CGFloat(min[0]), CGFloat(min[1]), CGFloat(min[2]))
+                
+                materialProperty.contentsTransform = transform
+                print("\(texture.ID) Scale: \(scale), min: \(min)")
+            }
+    
+            
+        }
+        
     }
     
     
@@ -564,6 +579,7 @@ extension PSSGFile {
                 let material = SCNMaterial()
                 material.name = shaderInstance.id
                 var transform: SCNMatrix4? = nil
+                var multiplyColour: NSColor?
                 
                 for shaderInput in shaderInstance.shaderInputs {
                     // Get corresponding parameter in shader group
@@ -572,8 +588,10 @@ extension PSSGFile {
                     if let textureID = shaderInput.textureID {
               
                         switch(shaderInputDefinition.name) {
-                    
-                        case "TDiffuseAlphaMap", "TColourMap","TlargeColourMap":
+                            
+                            
+                            
+                        case  "TColourMap","TlargeColourMap","TDiffuseAlphaMap":
                             
                             // Get texture if exists
                             if let texture = textureManager.textures[textureID.identifier]  {
@@ -611,7 +629,7 @@ extension PSSGFile {
                             // Get texture if exists
                             if let texture = textureManager.textures[textureID.identifier]  {
                             
-                                
+                        
                                 // Load texture into material
                                 setMaterialProperty(material.diffuse, texture: texture)
 
@@ -628,9 +646,20 @@ extension PSSGFile {
                         case "ColourMapScale":
                             if let scale = shaderInput.inputData?.first as? Float {
                                 // Set Transform
-                                transform = SCNMatrix4MakeScale(CGFloat(scale), CGFloat(scale), CGFloat(scale))
+                                //transform = SCNMatrix4MakeScale(CGFloat(scale), CGFloat(scale), CGFloat(scale))
                                 
                             }
+                        case "PhongColour":
+                            if let rgbValues = shaderInput.inputData where rgbValues.count > 2 {
+                                let r = rgbValues[0] as! Float
+                                let g = rgbValues[1] as! Float
+                                let b = rgbValues[2] as! Float
+                                
+                                print("PhongColour: r \(r) g \(g) b \(b)")
+                            }
+                           
+                            
+                            
                         case "Map1UVScaleAndOffset":
                             if let offsetScale = shaderInput.inputData where offsetScale.count == 4 {
                                 
@@ -655,14 +684,13 @@ extension PSSGFile {
                 }
                 
                 if let transform = transform {
-                    material.diffuse.contentsTransform = transform
+                   // material.diffuse.contentsTransform = transform
                    
                 }
-                // Automatically repeat, Needs fixing to read in texture node
-               // material.diffuse.wrapS = SCNWrapMode.Repeat
-               // material.diffuse.wrapT = SCNWrapMode.Repeat
+
                 
                 // Append Material
+                //material.diffuse.mappingChannel = 1
                 materials[material.name!] = material
                 
             }
@@ -676,7 +704,7 @@ extension PSSGFile {
     func nodesForLevelOfDetails(renderNodes: [PSSGNode]) -> [PSSGNode] {
         let nodes = renderNodes.filter({ (node) -> Bool in
             let nickname = node.attributesDictionary["nickname"]!.formattedValue as! String
-            return !nickname.hasPrefix("SHADOWCASTING") && !nickname.hasPrefix("DECAL") && !nickname.containsString("BATCH")
+            return !nickname.hasPrefix("SHADOWCASTING") && !nickname.hasPrefix("DECAL")// && !nickname.containsString("BATCH")
         })
 
         
@@ -773,7 +801,7 @@ extension PSSGFile {
                 
                 var modelVertices: [SCNVector3] = []
                 var modelNormals: [SCNVector3] = []
-                var modelUVs: [STCoordinate] = []
+                var modelUVs: [[STCoordinate]] = []
                 
                 // For each sub geometry object. Sections with materials
                 let renderInstanceNodes = jointNode.childNodesWithName(geometryInfo.renderInstanceNode, recursively: false)
@@ -803,9 +831,20 @@ extension PSSGFile {
                         // Append data
                         modelVertices += geometrySource.modelVertices
                         modelNormals += geometrySource.modelNormals
-                        modelUVs += geometrySource.modelUVs
+                        //modelUVs += geometrySource.modelUVs
+                        if geometrySource.textureCoordinates.count > modelUVs.count {
+                            modelUVs = geometrySource.textureCoordinates
+                        } else {
+                            // Append Info
+                            for (index,STMap) in geometrySource.textureCoordinates.enumerate() {
+                                modelUVs[index] += STMap
+                            }
+                        }
+                        
+                        
+                        
                         if geometrySource.textureCoordinates.count > 1 {
-                            print("Got multiple UVs")
+                            print("Got multiple UVs \(geometrySource.textureCoordinates.count)")
                         }
                         modelGeometryElements += geometrySource.geometryElement
                     
@@ -817,6 +856,7 @@ extension PSSGFile {
                 
                 if modelVertices.count > 0 {
                     let vertexSource = SCNGeometrySource(vertices: &modelVertices, count: modelVertices.count)
+                    
                     geometrySources.append(vertexSource)
                 }
                 
@@ -827,8 +867,15 @@ extension PSSGFile {
                 
                 // Create UVs source
                 if modelUVs.count > 0 {
-                    let uvSource = SCNGeometrySource(textureCoordinates: &modelUVs, count: modelUVs.count)
-                    geometrySources.append(uvSource)
+                    if modelName == "oil_lamp_a" {
+                        print("Break")
+                    }
+                    for STMap in modelUVs {
+                        var uvMap = STMap
+                        let uvSource = SCNGeometrySource(textureCoordinates: &uvMap, count: STMap.count)
+                        geometrySources.append(uvSource)
+                    }
+                    
                 }
                 
                 // Save Model

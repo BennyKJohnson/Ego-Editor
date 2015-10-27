@@ -160,7 +160,10 @@ class PSSGFile {
     }
     
 
-    
+    func nodesReferencingID(ID: String) -> [PSSGNode] {
+        let referenceID = "#" + ID
+        return rootNode.childNodesWithAttributeValue(referenceID)
+    }
     
 }
 
@@ -207,6 +210,10 @@ final class PSSGNode {
     }
     
     func nodeWithID(nodeID: String) -> PSSGNode? {
+        if name == "PNTEXTURESCALING" {
+            print("Found Scale Node")
+        }
+        
         if let attributeValue = self.attributesDictionary["id"]?.value as? String {
             if attributeValue == nodeID {
                 return self
@@ -215,15 +222,11 @@ final class PSSGNode {
         
         for childNode in self.childNodes {
            
-            
-            if(childNode.childNodes.count > 0) {
-                let found = childNode.nodeWithID(nodeID)
-                if found != nil {
-                    return found
-                }
+            let found = childNode.nodeWithID(nodeID)
+            if found != nil {
+                return found
             }
             
-
         }
         
        return nil
@@ -236,6 +239,23 @@ final class PSSGNode {
         } else {
             return childNodes.filter({ (node) -> Bool in  node.name == name })
         }
+    }
+    
+    func childNodesWithAttributeValue(value: String) -> [PSSGNode] {
+        var results: [PSSGNode] = []
+        for attribute in attributes {
+            if let attributeValue = attribute.formattedValue as? String  where value == attributeValue {
+                results.append(self)
+
+            }
+        }
+      
+        for childNode in childNodes {
+            results += childNode.childNodesWithAttributeValue(value)
+        }
+        
+        return results
+
     }
     
     // Search for node with name
@@ -505,6 +525,20 @@ final class PSSGAttribute {
         
         value = PSSGAttribute.valueForAttributeType(valueType, size: size, file: file)
     }
+    
+    func readDataAsFloat(count: Int) -> [Float] {
+        if let data = self.value as? NSData {
+            let dataPointer = UnsafeMutablePointer<UInt8>(data.bytes);
+            let byteBuffer = ByteBuffer(order: BigEndian(), data: dataPointer, capacity: data.length, freeOnDeinit: false)
+            
+            return byteBuffer.getFloat32(count)
+            
+        } else {
+            return []
+        }
+        
+    }
+    
     
 }
 

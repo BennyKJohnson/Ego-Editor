@@ -64,6 +64,26 @@ class PSSGDataViewController: NSViewController, NSMenuDelegate {
        
     }
     
+    @IBAction func nodesReferencingNode(sender: AnyObject) {
+        print("Go to node")
+        let clickedRow = dataOutlineView.clickedRow
+        if let selectedAttribute = dataOutlineView.itemAtRow(clickedRow) as? PSSGAttribute {
+            let referenceID = selectedAttribute.value as! String
+            
+            if let nodeForID = pssgFile?.nodesReferencingID(referenceID).first {
+                // Get index path
+                for ancestor in nodeForID.ancestorNodes {
+                    outlineView.expandItem(ancestor)
+                }
+                outlineView.selectItem(nodeForID)
+                outlineView.scrollRowToVisible(outlineView.rowForItem(nodeForID))
+                //   scrollRowToVisible
+                // outlineView.selectRowIndexes(NSIndexSet(index: rowIndex), byExtendingSelection: true)
+            }
+        }
+    }
+    
+    
     @IBAction func exportTextures(sender: AnyObject) {
         
         let clickedRow = outlineView.clickedRow
@@ -114,7 +134,7 @@ class PSSGDataViewController: NSViewController, NSMenuDelegate {
         print("Go to node")
          let clickedRow = dataOutlineView.clickedRow
         if let selectedAttribute = dataOutlineView.itemAtRow(clickedRow) as? PSSGAttribute {
-            let referenceID = selectedAttribute.value as! String
+            let referenceID = selectedAttribute.formattedValue as! String
             let nodeID = String(referenceID.characters.dropFirst())
             if let nodeForID = pssgFile?.rootNode.nodeWithID(nodeID) {
                 // Get index path

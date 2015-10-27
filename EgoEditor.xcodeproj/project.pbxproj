@@ -16,6 +16,7 @@
 		A31CC0CA1BD271CD009BEE1E /* PSSGShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31CC0C91BD271CD009BEE1E /* PSSGShader.swift */; settings = {ASSET_TAGS = (); }; };
 		A332F8E51BCF7E7E009F7062 /* RenderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A332F8E41BCF7E7E009F7062 /* RenderDataSource.swift */; settings = {ASSET_TAGS = (); }; };
 		A335C17D1BC2A13F009AB7A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A335C17C1BC2A13F009AB7A3 /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		A368DD1E1BDF7DC100301165 /* EditorDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A368DD1D1BDF7DC100301165 /* EditorDocumentController.swift */; settings = {ASSET_TAGS = (); }; };
 		A36962DD1BBD19CB00F9F4EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */; };
 		A36962DF1BBD19CB00F9F4EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962DE1BBD19CB00F9F4EC /* ViewController.swift */; };
 		A36962E11BBD19CB00F9F4EC /* PSSGDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36962E01BBD19CB00F9F4EC /* PSSGDocument.swift */; };
@@ -61,6 +62,8 @@
 		A3CF7B931BCC8E53008D9C1C /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF7B921BCC8E53008D9C1C /* CanvasViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A3CF7B961BCCBE51008D9C1C /* SCNNode-EgoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF7B951BCCBE51008D9C1C /* SCNNode-EgoEditor.swift */; settings = {ASSET_TAGS = (); }; };
 		A3CF7B981BCCC279008D9C1C /* SceneDocumentStructureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		A3D07E721BDEDC9E0037C2AE /* ObjectLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D07E711BDEDC9E0037C2AE /* ObjectLibraryViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		A3D07E7A1BDF3D5C0037C2AE /* NewDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D07E791BDF3D5C0037C2AE /* NewDocumentViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A3D119661BC6203D0035767A /* PSSGFile+ImageAssetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */; settings = {ASSET_TAGS = (); }; };
 		A3D4C1D41BD5EC6F00AD7D94 /* GrassMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D4C1D31BD5EC6F00AD7D94 /* GrassMap.swift */; settings = {ASSET_TAGS = (); }; };
 		A3F127961BBF6A3B00105254 /* scene3.dae in Resources */ = {isa = PBXBuildFile; fileRef = A3F127951BBF6A3B00105254 /* scene3.dae */; settings = {ASSET_TAGS = (); }; };
@@ -94,6 +97,7 @@
 		A335C17C1BC2A13F009AB7A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A33D70D21BC4754300B2A482 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
 		A33D70D31BC4754300B2A482 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		A368DD1D1BDF7DC100301165 /* EditorDocumentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorDocumentController.swift; sourceTree = "<group>"; };
 		A36962D91BBD19CB00F9F4EC /* EgoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EgoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36962DC1BBD19CB00F9F4EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A36962DE1BBD19CB00F9F4EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 		A3CF7B921BCC8E53008D9C1C /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		A3CF7B951BCCBE51008D9C1C /* SCNNode-EgoEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode-EgoEditor.swift"; sourceTree = "<group>"; };
 		A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDocumentStructureViewController.swift; sourceTree = "<group>"; };
+		A3D07E711BDEDC9E0037C2AE /* ObjectLibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectLibraryViewController.swift; sourceTree = "<group>"; };
+		A3D07E791BDF3D5C0037C2AE /* NewDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDocumentViewController.swift; sourceTree = "<group>"; };
 		A3D119651BC6203D0035767A /* PSSGFile+ImageAssetSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PSSGFile+ImageAssetSource.swift"; sourceTree = "<group>"; };
 		A3D4C1D31BD5EC6F00AD7D94 /* GrassMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrassMap.swift; sourceTree = "<group>"; };
 		A3F127951BBF6A3B00105254 /* scene3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = scene3.dae; sourceTree = "<group>"; };
@@ -249,6 +255,9 @@
 				A3CF7B921BCC8E53008D9C1C /* CanvasViewController.swift */,
 				A3CF7B971BCCC279008D9C1C /* SceneDocumentStructureViewController.swift */,
 				A332F8E41BCF7E7E009F7062 /* RenderDataSource.swift */,
+				A3D07E711BDEDC9E0037C2AE /* ObjectLibraryViewController.swift */,
+				A3D07E791BDF3D5C0037C2AE /* NewDocumentViewController.swift */,
+				A368DD1D1BDF7DC100301165 /* EditorDocumentController.swift */,
 			);
 			path = EgoEditor;
 			sourceTree = "<group>";
@@ -478,6 +487,7 @@
 			files = (
 				A36979BB1BBE2DF600420595 /* SceneEditorView.swift in Sources */,
 				A3F6FAC81BC8AB27002D44FE /* EESplitViewController.swift in Sources */,
+				A3D07E7A1BDF3D5C0037C2AE /* NewDocumentViewController.swift in Sources */,
 				A300DD851BC8CD0B00B43558 /* TextFieldCell.swift in Sources */,
 				A300DD821BC8C32400B43558 /* AttributeCell.swift in Sources */,
 				A3CF7B931BCC8E53008D9C1C /* CanvasViewController.swift in Sources */,
@@ -492,6 +502,7 @@
 				A3C552EA1BC26D9900087340 /* NSData+GZIP.swift in Sources */,
 				A36979C81BBE562400420595 /* ByteOrder.swift in Sources */,
 				A332F8E51BCF7E7E009F7062 /* RenderDataSource.swift in Sources */,
+				A368DD1E1BDF7DC100301165 /* EditorDocumentController.swift in Sources */,
 				A36979BF1BBE354000420595 /* PSSGFile+GeometrySource.swift in Sources */,
 				A36979BD1BBE2F2100420595 /* PSSGErrorTypes.swift in Sources */,
 				A36979B71BBE1B4200420595 /* NSData+Extensions.swift in Sources */,
@@ -508,6 +519,7 @@
 				A3B25D4B1BD2D8AE00C6A4CE /* TextureManager.swift in Sources */,
 				A36979C71BBE562400420595 /* ByteBuffer.swift in Sources */,
 				A36979B91BBE253F00420595 /* SceneEditorViewController.swift in Sources */,
+				A3D07E721BDEDC9E0037C2AE /* ObjectLibraryViewController.swift in Sources */,
 				A335C17D1BC2A13F009AB7A3 /* Extensions.swift in Sources */,
 				A3F6FAB11BC899D3002D44FE /* AttributesInspectorViewController.swift in Sources */,
 				A376879C1BC7CE93000F2A97 /* BinaryXMLDocument.swift in Sources */,

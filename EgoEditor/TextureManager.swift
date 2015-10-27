@@ -8,6 +8,9 @@
 
 import Foundation
 
+struct PNTextureScaling {
+    
+}
 
 struct PSSGTexture {
     var ddsFile: DDS?
@@ -18,12 +21,25 @@ struct PSSGTexture {
 
     let wrapR: Int // Not Used
     
+    let scalingID: String?
+    
+    let ID: String
+    
     init(node: PSSGNode) {
         // Parse node
         wrapS = node.attributesDictionary["wrapS"]?.formattedValue as! Int
         wrapT = node.attributesDictionary["wrapT"]?.formattedValue as! Int
         wrapR = node.attributesDictionary["wrapR"]?.formattedValue as! Int
+        
+        ID = node.attributesDictionary["id"]?.formattedValue as! String
        
+        if let userDataNode = node.nodeWithName("USERDATA"), referenceID = userDataNode.attributesDictionary["object"]?.formattedValue as? String {
+            // Get node with ID
+            scalingID = String(referenceID.characters.dropFirst())
+        } else {
+            scalingID = nil
+        }
+        
     }
     
     

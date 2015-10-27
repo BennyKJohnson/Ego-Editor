@@ -21,12 +21,27 @@ class EEWindowController: NSWindowController, NSToolbarDelegate {
        // self.windowToolbar.delegate = self
     }
     
+    
+
+    
     // MARK: Overrides
     override func windowDidLoad() {
         super.windowDidLoad()
         
 
         self.window?.titleVisibility = NSWindowTitleVisibility.Hidden; // or .Hidden in Swift
+        
+        //if let projectDoc = document as? EgoProjectDocument {
+          //  projectDoc.newDocument = false
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
+            let newDocumentWindow = storyboard.instantiateControllerWithIdentifier("NewDocumentWindowController") as! NSWindowController
+            // windowController.window.p
+            window?.beginSheet(newDocumentWindow.window!, completionHandler: { (response) -> Void in
+                
+            })
+
+            
+        //}
     }
     
   

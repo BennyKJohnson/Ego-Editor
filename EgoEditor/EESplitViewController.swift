@@ -8,26 +8,35 @@
 
 import Cocoa
 
-class EESplitViewController: NSSplitViewController, MainEditorDelegate {
-
-    var rightViewController: AttributesInspectorViewController!
-    var mainViewController: MainEditorViewController!
+class RightPropertiesSplitViewController: NSSplitViewController, MainEditorDelegate  {
+    var topViewController: AttributesInspectorViewController!
+    var bottomViewController: ObjectLibraryViewController!
     
     func mainEditor(didSelectObject object: AnyObject) {
         if let attributeDataSource = object as? AttributesInspectorDataSource {
-            rightViewController?.dataSource = attributeDataSource
-            rightViewController?.reloadData()
+            topViewController?.dataSource = attributeDataSource
+            topViewController?.reloadData()
             
         }
     }
+    
+}
+
+
+class EESplitViewController: NSSplitViewController {
+
+    var rightViewController: RightPropertiesSplitViewController!
+    var mainViewController: MainEditorViewController!
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mainViewController = childViewControllers.first! as! MainEditorViewController
-        mainViewController.delegate = self
-        rightViewController = childViewControllers.last! as! AttributesInspectorViewController
+        mainViewController.delegate = rightViewController
+        
+        rightViewController = childViewControllers.last! as! RightPropertiesSplitViewController
         
     }
     
